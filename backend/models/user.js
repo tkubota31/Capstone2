@@ -32,5 +32,42 @@ class User{
     }
 
 
-    static async
+    static async register({username,password,firstName,lastName,email}){
+        const dupCheck = await db.query(
+            `SELECT username
+            FROM users
+            WHERE username = $1`,
+            [username],
+        );
+
+        if(dupCheck.rows[0]){
+            throw new ExpressError("Username already taken", 401)
+        }
+
+        const hashedPassword = await bcrypt.hash(password,BCRYPT_WORK_FACTOR);
+
+        const result = await db.query(
+            `INSERT INTO users
+                (username,
+                password,
+                first_name,
+                last_name,
+                email)
+            VALUES ($1,$2,$3,$4,$5)
+            RETURNING username, first_name, last_name, email`,
+            [
+                username,
+                hashedPassword,
+                firstName,
+                lastName,
+                email,
+            ],
+        );
+
+        const user = result.rows[0]
+
+        return user;
+    }
+
+
 }
