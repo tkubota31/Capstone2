@@ -1,67 +1,25 @@
 const express = require('express');
 const ExpressError = require("./expressError")
-const {loginTest} = require("./middleware/auth")
-
+const Pet = require("./models/pet")
 const app = express();
+const {authenticateJWT} = require("./middleware/auth")
 
-const userRoutes= require("./routes/user")
-
-
-//Router routes
-app.use("/users", userRoutes)
-
+// app.use(authenticateJWT)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-const dogs =[
-    {name:"Lucky", age: 15},
-    {name: "Kaia", age:7}
-]
+const APITOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6IjcwM2VjODY5ZGRlOWM4Nzk1MGU2NDNjODMzNDQ5ZjExZjIzMThkYjcxMmI3NzlmZDE2NTRhNzUxYTJhZTVlNDc1NDRmNmNlMzhjNmQyZWRmIiwiaWF0IjoxNjY1NDM1NDU0LCJuYmYiOjE2NjU0MzU0NTQsImV4cCI6MTY2NTQzOTA1NCwic3ViIjoiIiwic2NvcGVzIjpbXX0.AMmKtxYBea_o5ow7txo8jm4dL2zqQyT9Yyn3b27IeDG33dwa-LtlaeFtXmNh7vmyM3XXziBBA-pj3KdXFZIR7uMNbSjWuGpcfI3vLCdGBDt-F7vVmapl8c54iL50G87-B9V4ZYnD_8COF4NQZWfBiOYGjTT9XOR_69Y6Iyd6d81X7wSUmQCZXwQZsCHP_eYrZYAR1cGwvdYMUDi3ZqqC2YdYtDD04muK9usTSNTxKEqbtKmECX1AHhyY2y2DAcUj0lndFDvoR3r30x1I_y2tNt7TbcyYmquoYjf3LzZTwJx34d-zOsm3lcBj8_6XRylcnSc73568vQUMXW9oYeFnnA"
+//Router routes
+const petRoutes = require("./routes/pets")
+const userRoutes= require("./routes/user")
+const authRoutes = require("./routes/auth")
+app.use("/users", userRoutes)
+app.use("/pets", petRoutes)
+app.use("/auth", authRoutes)
 
-app.get('/dogs',loginTest, (req,res,next) =>{
-    try{
-    res.send("LIST OF DOGS o yea")
-    } catch(e){
-        next(e)
-    }
-})
 
-//query prac
-app.get("/search", (req,res,next) =>{
-   try{
-    if(req.query.location !== "osaka"){
-        throw new ExpressError("WRONG PASS", 403)
-    }
-        const {location, breed} = req.query;
-    res.send(`location: ${location} breed : ${breed}`)
-} catch(e){
-    next(e)
-}
-})
 
-//header prac
-app.get("/headers", (req,res)=>{
-    const lang = req.headers['accept-language']
-    res.send(`Youre language preference is ${lang}`)
-})
-
-//body prac
-app.post("/register", (req,res) =>{
-    res.send(`Welcome ${req.body.username}`);
-})
-
-//responding with json
-app.get("/alldogs", (req,res)=>{
-    res.json(dogs);
-})
-
-//make new dog
-app.post("/alldogs", (req,res) =>{
-    dogs.push(req.body);
-    //configure status code returned
-    res.status(201).json(dogs)
-})
 
 //generic error handler, not classified as error handler. hits only if no matches before this.
 app.use((req,res,next) =>{
@@ -79,8 +37,5 @@ app.use((error,req,res,next) =>{
         error: {message, status}
     });
 });
-
-
-
 
 module.exports = app;
