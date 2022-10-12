@@ -17,6 +17,7 @@ class Pet{
     // }
 
     static async create(data){
+        console.log("SCHEMA PROBLEM")
         const result = await db.query(`INSERT INTO pets(pet_id,
                                                         type,
                                                         breed,
@@ -43,19 +44,20 @@ class Pet{
                                         data.image_url,
                                         data.organization_id
                                     ]);
+        console.log("SCHEMA END")
     return result.rows[0]
     }
 
-    // static async delete(id){
-    //     const result = await db.query(`
-    //     DELETE FROM pets
-    //     WHERE id = $1
-    //     RETURNING id`,
-    //     [id])
-    //     if(result.rows.length ===0){
-    //         throw new ExpressError("Pet not found", 404)
-    //     }
-    // }
+    static async delete(id){
+        const result = await db.query(`
+        DELETE FROM pets
+        WHERE id = $1
+        RETURNING id`,
+        [id])
+        if(result.rows.length ===0){
+            throw new ExpressError("Pet not found", 404)
+        }
+    }
 
     // static async update(id,newName,newAge){
     //     const result = await db.query(`

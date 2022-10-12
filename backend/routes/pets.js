@@ -3,7 +3,7 @@ const router = new express.Router()
 const axios = require("axios")
 const Pet = require("../models/pets")
 
-let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6IjYyMjk2OWJiMmJhYzVjZDhhZTU3MWU0NWY1YzQ1OTUwYzZkZGMwMDk0OTAwOTQ3YTczNzk1ZjliODAwOWUwYjk4MDVjYWZjMGJiMTYyZWFiIiwiaWF0IjoxNjY1NTgzNDg3LCJuYmYiOjE2NjU1ODM0ODcsImV4cCI6MTY2NTU4NzA4Nywic3ViIjoiIiwic2NvcGVzIjpbXX0.KSa2QUh1XV9Vsrx46iUkOwrQ9WBh0eXLp4t_lIQj-N162IqjfxxlRTXhw3dviMIkBz10Skc7MnikOp1khxvTXTOJ72E-3I1TMak3q96lJS2XXidvchChQL8kCP_c-RAJ-hh0db_0pDu9IkClQsyHCqINKZGGo0FbJF-DtwpMJ-OW9W9XdeINkUp3J7prAHP9HVPFaAsvycA71H5xB7HIV3FHzkEFbPThcrIRvV2QrgcZrDaqK6KFQfJBltpuWxJNvVHkPGbgDbQyyo9ujlLUMa6cPFgJcZtmgWNnaCwseN1vNV5BwaysAZUipyFWnPcxwa2eQgP2NDi91mLE5t9dMA"
+let accessToken = "eeyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6IjU1NTE0MzdmN2U3ZjljZGQ0NmFjNjM4NTMzNTkzZjI0NTFmNjNkNDY2NmZhNDJkNTZlZjU0MzBlYWViZmU1MDcyODA2ZDM2ZDBjZjNhNjQxIiwiaWF0IjoxNjY1NjAxMjM2LCJuYmYiOjE2NjU2MDEyMzYsImV4cCI6MTY2NTYwNDgzNiwic3ViIjoiIiwic2NvcGVzIjpbXX0.RfhmxvCjM0IlG_ThrklSPIvhJ2GaM1pkyVBl9AN9HoiOs3kT-xEvTk0ZrKBbSYUoBizcL_YGFth6rcYDc2_wBiV9k-sjxxW_BcSp0hlxweGQv7CZ3Rw-2mOAsMHHX0tGpKJ5Y1tR2Wf_WEaURo-9m3YnuhsaWhcLIODbZjShfOFdZ6XDTzeuNgN302Un9UoTsJR0TZJFiT2Zbj1_DAnWXrkTfP63qIltg7ZcK6VrJWochppSf6e0lc-2GAaf9iL9T0HHEvhHXnfwu4OsjcPLaGuOaDy5y9Xe7aWxSLn-bwOUE782DDdj12ZSTVDLdjkX3LmED7BEUWF1zXopmtH70Q"
 // axios.defaults.headers.common["Authorization"] = 'Bearer ' + accessToken **didn't work!
 const apiURL = "https://api.petfinder.com/v2"
 const config ={
@@ -16,14 +16,16 @@ const config ={
 //This route gives the user all of the pets of the pet type of their choice
 router.get('/', async (req,res,next) =>{
     try{
+        console.log("In the Route")
         const {type} = req.query;
         // hardcoded type for now. Figure out how to get user to decide query params
-        await axios.get(`${apiURL}/animals/?type=Dog`,config)
-        .then(result => {
+        await axios.get(`${apiURL}/animals?type=${type}`,config)
+        .then((result) => {
             let findDogs = result.data
             res.json(findDogs)
         })
     } catch(e){
+        console.log("error section")
         next(e)
     }
 })
@@ -56,13 +58,43 @@ router.post("/:id", async(req,res,next) =>{
                 color: favPet.colors.primary,
                 description: favPet.description,
                 location: favPet.contact.address.state,
-                image_url: favPet.primary_photo_cropped.full
+                image_url: favPet.primary_photo_cropped.full,
+                organization_id: favPet.organization_id
             }
             const newPet = Pet.create(data)
+            //relation pets doesn't exists error
+            console.log("*******")
             return res.status(201).json({newPet})
+        })
+
+    }catch(e){
+        next(e)
+    }
+})
+
+
+//get pet from filters
+router.get("/search", async (req,res,next) =>{
+    try{
+        console.log("IN THE ROUTE")
+        const {breed, size, gender, age} = req.query;
+        console.log(breed)
+        await axios.get(`${apiURL}/animals?breed=${breed}&size=${size}&gender=${gender}$age=${age}`,config)
+        .then((result)=>{
+            res.json(result)
         })
     }catch(e){
         next(e)
+    }
+})
+
+//delete dog based on id
+router.delete("/:id", async (req,res,next) =>{
+    try{
+        await Pet.delete(req.params.id)
+        return res.json({msg: "Deleted"})
+    } catch(e){
+        return next(e)
     }
 })
 
@@ -90,28 +122,9 @@ router.post("/:id", async(req,res,next) =>{
 //     res.send(`Welcome ${req.body.username}`);
 // })
 
-// //responding with json
-// router.get("/alldogs", (req,res)=>{
-//     res.json(dogs);
-// })
-
-// //make new dog
-// router.post("/alldogs", (req,res) =>{
-//     dogs.push(req.body);
-//     //configure status code returned
-//     res.status(201).json(dogs)
-// })
 
 
-// //delete dog
-// router.delete("/:id", async (req,res,next) =>{
-//     try{
-//         await Pet.delete(req.params.id)
-//         return res.json({msg: "Deleted"})
-//     } catch(e){
-//         return next(e)
-//     }
-// })
+
 
 // //update dog
 // router.put("/:id", async (req,res,next) =>{

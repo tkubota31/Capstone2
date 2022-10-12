@@ -1,6 +1,5 @@
 const express = require('express');
 const ExpressError = require("./expressError")
-const Pet = require("./models/pet")
 const app = express();
 const {authenticateJWT} = require("./middleware/auth")
 
