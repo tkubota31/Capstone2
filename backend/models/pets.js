@@ -3,18 +3,6 @@ const ExpressError = require("../expressError")
 
 //example class and methods
 class Pet{
-    // static async getAll(){
-    //     let result = await db.query("SELECT * FROM pets");
-    //     return result.rows
-    // }
-
-    // static async getById(id){
-    //     let result = await db.query(`SELECT id, name, age FROM pets WHERE id =$1`, [id]);
-    //     if(result.rows.length === 0){
-    //         throw new ExpressError("Not found", 404)
-    //     }
-    //     return result.rows[0];
-    // }
 
     static async create(data){
         console.log("SCHEMA PROBLEM")
@@ -46,6 +34,31 @@ class Pet{
                                     ]);
         console.log("SCHEMA END")
     return result.rows[0]
+    }
+
+    static async getPet(id){
+        const result = await db.query(
+            `SELECT (pet_id,
+                    type,
+                    breed,
+                    gender,
+                    age,
+                    spayed_neutered,
+                    color,
+                    description,
+                    location,
+                    image_url,
+                    organization_id)
+            FROM pets
+            WHERE pet_id = $1`,
+            [id]
+        );
+
+        if(!result.rows.length ===0){
+            throw new ExpressError("Pet not found", 404)
+        }
+
+        return result.rows[0];
     }
 
     static async delete(id){

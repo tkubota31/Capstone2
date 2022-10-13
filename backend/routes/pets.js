@@ -28,7 +28,7 @@ router.get('/', async (req,res,next) =>{
     }
 })
 
-//get a specific pet with their ID
+//get a specific pet from API with their ID
 router.get('/:id', async (req,res,next) =>{
     try{
         const id = req.params.id;
@@ -60,8 +60,6 @@ router.post("/:id", async(req,res,next) =>{
                 organization_id: favPet.organization_id
             }
             Pet.create(data)
-            //relation pets doesn't exists error
-            console.log("*******")
             return res.status(201).json({data})
         })
 
@@ -87,7 +85,7 @@ router.get("/search", async (req,res,next) =>{
 })
 
 //delete dog based on id
-router.delete("/:id", async (req,res,next) =>{
+router.delete("/favorite/:id", async (req,res,next) =>{
     try{
         await Pet.delete(req.params.id)
         return res.json({msg: "Deleted"})
@@ -96,18 +94,6 @@ router.delete("/:id", async (req,res,next) =>{
     }
 })
 
-
-// router.get("/search", (req,res,next) =>{
-//    try{
-//     if(req.query.location !== "osaka"){
-//         throw new ExpressError("WRONG PASS", 403)
-//     }
-//         const {location, breed} = req.query;
-//     res.send(`location: ${location} breed : ${breed}`)
-// } catch(e){
-//     next(e)
-// }
-// })
 
 // //header prac
 // router.get("/headers", (req,res)=>{

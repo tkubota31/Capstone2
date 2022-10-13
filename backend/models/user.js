@@ -69,5 +69,40 @@ class User{
         return user;
     }
 
+    static async getUser(username){
+        const userRes = await db.query(
+            `SELECT (username,
+                    password,
+                    first_name,
+                    last_name,
+                    email)
+            FROM users
+            WHERE username = $1`,
+            [username],
+        );
 
+        const user = userRes.rows[0];
+
+        if(!user){
+            throw new ExpressError("User not found", 404)
+        }
+
+        return user;
+    }
+
+    static async deleteUser(username){
+        const userRes = await db.query(
+            `DELETE
+            FROM users
+            WHERE username = $1
+            RETURNING username`,
+            [username],
+        );
+
+        const user = userRes.rows[0];
+
+        if(!user){
+            throw new ExpressError("User not found", 404)
+        }
+    }
 }
