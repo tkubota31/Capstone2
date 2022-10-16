@@ -1,12 +1,15 @@
 const express = require("express");
 const router = new express.Router()
 const ExpressError = require("../expressError")
-const db = ("../db")
+const db = require("../db")
 const bcrypt = require("bcrypt")
 const {BCRYPT_WORK_FACTOR, SECRET_KEY} = require("../config")
 const jwt = require("jsonwebtoken")
 const {ensureLoggedIn} = require("../middleware/auth")
 
+const User = require("../models/user")
+
+//Same as user register route.
 // router.post("/register", async (req,res,next) =>{
 //     try{
 //         const {username, password} = req.body;
@@ -26,40 +29,33 @@ const {ensureLoggedIn} = require("../middleware/auth")
 //     }
 // })
 
-// router.post("/login", async (req,res,next) =>{
-//     try{
-//         const {username, password} = req.body;
-//         if(!username || !password){
-//             throw new ExpressError("Username and password required", 400);
-//         }
-//         const results = await db.query(`
-//             SELECT username, password
-//             FROM users
-//             WHERE username = $1`,
-//             [username]);
+router.post("/login", async (req,res,next) =>{
+    try{
+        const {username, password} = req.body;
+        if(!username || !password){
+            throw new ExpressError("Username and password required", 400);
+        }
+        const user = await User.authenticate(username,password)
+        if(user){
+                const token = jwt.sign({username}, SECRET_KEY)
+                return res.json({message: "Logged In", token})
+            }
 
-//         const user = results.rows[0];
-//         if(user){
-//             //use bcrypt to check hashed pass and jwt to create token
-//             if(await bcrypt.compare(password, user.password)){
-//                 const token = jwt.sign({username}, SECRET_KEY)
-//                 return res.json({message: "Logged In", token})
-//             }
-//         }
-//         throw new ExpressError("Username not found", 400)
-//     }catch(e){
-//         return next(e);
-//     }
-// })
+    }catch(e){
+        return next(e);
+    }
+})
 
-// router.get("/topsecret", ensureLoggedIn, async (req,res,next)=>{
-//     try{
-//         const token = req.body._token;
-//         const data= jwt.verify(token, SECRET_KEY)
-//         return res.json({msg: "Signed In"})
-//     }catch(e){
-//         return next(e)
-//     }
-// })
+
+//test route for checking token
+router.get("/topsecret", ensureLoggedIn, async (req,res,next)=>{
+    try{
+        const token = req.body._token;
+        const data= jwt.verify(token, SECRET_KEY)
+        return res.json({msg: "Signed In"})
+    }catch(e){
+        return next(e)
+    }
+})
 
 module.exports = router;

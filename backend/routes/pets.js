@@ -2,8 +2,9 @@ const express = require("express")
 const router = new express.Router()
 const axios = require("axios")
 const Pet = require("../models/pets")
+const {ensureLoggedIn} = require("../middleware/auth")
 
-let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6IjU5ZmU0YzdmYjU1ZDhmMzVhMTA1ZDFhNzYxMWI5Y2ZkNzA4YzRlMDI5ZWUwYTY2ZjlkMTE3MmU3MzZjNjJiODI4M2NiZjQ5YWFmNWE2MjRmIiwiaWF0IjoxNjY1NjEzODg3LCJuYmYiOjE2NjU2MTM4ODcsImV4cCI6MTY2NTYxNzQ4Nywic3ViIjoiIiwic2NvcGVzIjpbXX0.GffCdR6cYJ-CoO2zrJk0vyBDIti171ZKh8FDid30jH_jXVcN2pesL0UmAdk81yoyZiPuKNKW8qZ50x_a12RXF3uNQ8I-RnGpN9b1KqJRzOqSxBZBU59iOZUQd47efdVjcr8AqCTIHY5DnFm25NCtKaoARziWBbAKp-k-uodqdyFO-jNNFeWBVShTYNyAbwMu6ebnMaXb_c1xlaKm9roPHKO0kngoImEEi9iBW_AVgsvqkDn_s4OY6cZpGD_zY6bhpTyQ5NBcr-JHMELg7RsoQJ7ybxv0n2Ib3X9Cxo15uzmLQa7REmx1reufuJj83jZ3Jro2JyemCreJPeDIz4VGPA"
+let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6IjE3YjAzMjEzODZlNDQxOGY1NmRkZTgyNTEzMmNiMjQ4ZTViMzYyZTM4OTgwZGQ5MTQyNWY5MzM5ZmYwMjU2NjM3NjI1YmM2M2RhMzhiOWM4IiwiaWF0IjoxNjY1OTQ4MDMzLCJuYmYiOjE2NjU5NDgwMzMsImV4cCI6MTY2NTk1MTYzMywic3ViIjoiIiwic2NvcGVzIjpbXX0.PYbdGG3WNPHm2rZtjtHgUEQxBPRedi5nhmePo3flTJQBrOGcRDv22X5VORmYfEf30L7QcTRSsHtR1u16hWOIHsPhqUyOzn2kyTiY-3Wvx1jGCkS3ZubTSxdBp2-HJaOrFCerbxuKYM5UhoSp4itp4bAnFtIXr_ALABpAIlLnX6Hv8oz-kEHGNqCtMHKb_jQzhqUnbeiVv_XujKT86Hw7YZkqsIIPIOATc4WWwg3c0R6DozB0FQMFHoCu1ZZdiXpZiwgz87i-nXW89fcfW5btczOy6i_fzgOAUlnjZBYDKGjx2hSubk5GwnGYYkRMsKHxshS1RJMzxtG8RLVuGg-sYw"
 // axios.defaults.headers.common["Authorization"] = 'Bearer ' + accessToken **didn't work!
 const apiURL = "https://api.petfinder.com/v2"
 const config ={
@@ -12,6 +13,27 @@ const config ={
     }
 }
 
+// makes ensureLoggedIn method run for every route that has /pets
+router.get("/*", ensureLoggedIn, async(req,res,next)=>{
+    next();
+})
+
+
+//filter out pet output
+router.get("/search", async (req,res,next) =>{
+    console.log("searchhh")
+    try{
+        console.log("IN THE ROUTE")
+        const {breed, size, gender, age} = req.query;
+        console.log(breed)
+        await axios.get(`${apiURL}/animals?breed=${breed}&size=${size}&gender=${gender}$age=${age}`,config)
+        .then((result)=>{
+            res.json(result)
+        })
+    }catch(e){
+        next(e)
+    }
+})
 
 //This route gives the user all of the pets of the pet type of their choice
 router.get('/', async (req,res,next) =>{
@@ -28,6 +50,8 @@ router.get('/', async (req,res,next) =>{
     }
 })
 
+
+
 //get a specific pet from API with their ID
 router.get('/:id', async (req,res,next) =>{
     try{
@@ -38,6 +62,7 @@ router.get('/:id', async (req,res,next) =>{
         next(e)
     }
 })
+
 
 //Create favorite for the user and put in database
 router.post("/:id", async(req,res,next) =>{
@@ -69,20 +94,6 @@ router.post("/:id", async(req,res,next) =>{
 })
 
 
-//get pet from filters
-router.get("/search", async (req,res,next) =>{
-    try{
-        console.log("IN THE ROUTE")
-        const {breed, size, gender, age} = req.query;
-        console.log(breed)
-        await axios.get(`${apiURL}/animals?breed=${breed}&size=${size}&gender=${gender}$age=${age}`,config)
-        .then((result)=>{
-            res.json(result)
-        })
-    }catch(e){
-        next(e)
-    }
-})
 
 //delete dog based on id
 router.delete("/favorite/:id", async (req,res,next) =>{

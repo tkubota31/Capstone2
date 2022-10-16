@@ -1,19 +1,12 @@
 const express = require("express")
 const router = new express.Router()
-
+const {ensureLoggedIn} = require("../middleware/auth")
 const User= require("../models/user");
 
 
-let USERS ={
-    "unch": "shiko",
-    "Luckly": "Kaia"
-}
-
 //create a new user
-router.post("/", async (req,res,next) =>{
+router.post("/register", async (req,res,next) =>{
     try{
-        console.log("START")
-        console.log(req.body);
         const user = await User.register(req.body);
         console.log(user)
         return res.json({user})
@@ -30,6 +23,17 @@ router.get("/:username", async (req,res,next) =>{
         return res.json({user});
     } catch(e){
         return next(e);
+    }
+})
+
+//delete user
+router.get("/:username/delete", ensureLoggedIn, async (req,res,next) =>{
+    try{
+        let username = req.params.username;
+        await User.deleteUser(username);
+        return res.json({deleted: username})
+    } catch(e){
+        next(e);
     }
 })
 

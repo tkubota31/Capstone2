@@ -9,7 +9,7 @@ function authenticateJWT(req,res,next){
     req.user = payload;
     return next();
     } catch(e){
-        return next(e)
+        return next()
     }
 }
 

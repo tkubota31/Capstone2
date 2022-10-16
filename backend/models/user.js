@@ -10,24 +10,19 @@ class User{
     static async authenticate(username, password){
         const result = await db.query(
             `SELECT username,
-                    password,
-                    first_name,
-                    last_name,
-                    email
+                    password
             FROM users
             WHERE username = $1`,
             [username],
         );
-
         const user = result.rows[0];
-
         if(user){
             const isValid = await bcrypt.compare(password,user.password);
-
             if(isValid ===true){
                 return user;
             }
         }
+
         throw new ExpressError("Invalid username/password", 401)
     }
 
@@ -40,6 +35,7 @@ class User{
             [username],
         );
 
+        console.log("duplicat", dupCheck)
         if(dupCheck.rows[0]){
             throw new ExpressError("Username already taken", 401)
         }
