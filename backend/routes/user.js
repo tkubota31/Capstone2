@@ -3,12 +3,19 @@ const router = new express.Router()
 const {ensureLoggedIn} = require("../middleware/auth")
 const User= require("../models/user");
 
+const jsonschema = require("jsonschema");
+const newUserSchema = require("../schemas/newUser.json");
+
 
 //create a new user
 router.post("/register", async (req,res,next) =>{
     try{
+        const validator = jsonschema.validate(req.body, newUserSchema);
+        if(!validator.valid){
+            const errs = validator.errors.map(e=>e.stack);
+            return next(errs)
+        }
         const user = await User.register(req.body);
-        console.log(user)
         return res.json({user})
     }catch(e){
         return next(e);
@@ -20,6 +27,7 @@ router.post("/register", async (req,res,next) =>{
 router.get("/:username", async (req,res,next) =>{
     try{
         const user = await User.getUser(req.params.username);
+        console.log(user)
         return res.json({user});
     } catch(e){
         return next(e);

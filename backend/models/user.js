@@ -50,7 +50,7 @@ class User{
                 last_name,
                 email)
             VALUES ($1,$2,$3,$4,$5)
-            RETURNING username, first_name, last_name, email`,
+            RETURNING username, first_name AS "firstName", last_name AS "lastName", email`,
             [
                 username,
                 hashedPassword,
@@ -73,10 +73,11 @@ class User{
                     last_name,
                     email)
             FROM users
-            WHERE username = $1`,
+            WHERE username = $1
+            `,
             [username],
         );
-
+            console.log(userRes)
         const user = userRes.rows[0];
 
         if(!user){

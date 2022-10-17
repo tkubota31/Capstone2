@@ -1,0 +1,119 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "default": {},
+    "title": "Root Schema",
+    "required": [
+        "id",
+        "type",
+        "breed",
+        "gender",
+        "age",
+        "spayed_neutered",
+        "location"
+    ],
+    "properties": {
+                "id": {
+                    "type": "integer",
+                    "default": 0,
+                    "title": "The id Schema",
+                    "examples": [
+                        58561120
+                    ]
+                },
+                "type": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The type Schema",
+                    "examples": [
+                        "Dog"
+                    ]
+                },
+                "breed": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The breed Schema",
+                    "examples": [
+                        "Pit Bull Terrier"
+                    ]
+                },
+                "gender": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The gender Schema",
+                    "examples": [
+                        "Female"
+                    ]
+                },
+                "age": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The age Schema",
+                    "examples": [
+                        "Young"
+                    ]
+                },
+                "spayed_neutered": {
+                    "type": "boolean",
+                    "default": false,
+                    "title": "The spayed_neutered Schema",
+                    "examples": [
+                        true
+                    ]
+                },
+                "color": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The color Schema",
+                    "examples": [
+                        "Black"
+                    ]
+                },
+                "description": {
+                    "type": "null",
+                    "default": null,
+                    "title": "The description Schema",
+                    "examples": [
+                        null
+                    ]
+                },
+                "location": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The location Schema",
+                    "examples": [
+                        "FL"
+                    ]
+                },
+                "image_url": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The image_url Schema",
+                    "examples": [
+                        "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/58561120/1/?bust=1666021694"
+                    ]
+                },
+                "organization_id": {
+                    "type": "string",
+                    "default": "",
+                    "title": "The organization_id Schema",
+                    "examples": [
+                        "FL219"
+                    ]
+                }
+            },
+            "examples": [{
+                "id": 58561120,
+                "type": "Dog",
+                "breed": "Pit Bull Terrier",
+                "gender": "Female",
+                "age": "Young",
+                "spayed_neutered": true,
+                "color": "Black",
+                "description": null,
+                "location": "FL",
+                "image_url": "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/58561120/1/?bust=1666021694",
+                "organization_id": "FL219"
+            }]
+        }

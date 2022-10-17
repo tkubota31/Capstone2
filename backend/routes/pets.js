@@ -4,7 +4,10 @@ const axios = require("axios")
 const Pet = require("../models/pets")
 const {ensureLoggedIn} = require("../middleware/auth")
 
-let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6IjE3YjAzMjEzODZlNDQxOGY1NmRkZTgyNTEzMmNiMjQ4ZTViMzYyZTM4OTgwZGQ5MTQyNWY5MzM5ZmYwMjU2NjM3NjI1YmM2M2RhMzhiOWM4IiwiaWF0IjoxNjY1OTQ4MDMzLCJuYmYiOjE2NjU5NDgwMzMsImV4cCI6MTY2NTk1MTYzMywic3ViIjoiIiwic2NvcGVzIjpbXX0.PYbdGG3WNPHm2rZtjtHgUEQxBPRedi5nhmePo3flTJQBrOGcRDv22X5VORmYfEf30L7QcTRSsHtR1u16hWOIHsPhqUyOzn2kyTiY-3Wvx1jGCkS3ZubTSxdBp2-HJaOrFCerbxuKYM5UhoSp4itp4bAnFtIXr_ALABpAIlLnX6Hv8oz-kEHGNqCtMHKb_jQzhqUnbeiVv_XujKT86Hw7YZkqsIIPIOATc4WWwg3c0R6DozB0FQMFHoCu1ZZdiXpZiwgz87i-nXW89fcfW5btczOy6i_fzgOAUlnjZBYDKGjx2hSubk5GwnGYYkRMsKHxshS1RJMzxtG8RLVuGg-sYw"
+const jsonschema = require("jsonschema");
+const favPetSchema = require("../schemas/favPet.json");
+
+let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6IjFhYWUwYmE3N2RkMGViNTA5YzAyZDQxN2I0ODZlMGE2ODM3ZjUwZDkyODc0MzkxYzZlNTIyMTQzYmU0Y2E0OGU1ZmZiMzM5NjkzNzIyMDNjIiwiaWF0IjoxNjY2MDI3ODU0LCJuYmYiOjE2NjYwMjc4NTQsImV4cCI6MTY2NjAzMTQ1NCwic3ViIjoiIiwic2NvcGVzIjpbXX0.ATKQPq59s7gWTTIg_xT793Qh8oJKLVdIM70b1sLy7KvpLsGGuWW7TS4zH9Kd1mglbEqTAvzqCy4oFHU0aeE5c_SYJIIu2HfZ1bKuVun1igGjoydMLPh3UGXumO8fv1pL9qv2tEt21GJebpqpmsPDInI6VL5MdyHN-Wxm4NXV-eZ-EKKOBiRU7iTRLhKQ5E8SVCr6ABUl6_IJNvcIyDmC-wqaOp8K7MArDB_tUm2yE5yx7lEW8kbNEk9Iaq8eQbqLMC-tw8PjzZ7fgUaNQN9iXJ3QlerI7P_Dm8DWkRJAokQGxYa1gs1ChdKqv69fM_CLUch5-o7OUrIF7aUyTXZ6Eg"
 // axios.defaults.headers.common["Authorization"] = 'Bearer ' + accessToken **didn't work!
 const apiURL = "https://api.petfinder.com/v2"
 const config ={
@@ -14,9 +17,9 @@ const config ={
 }
 
 // makes ensureLoggedIn method run for every route that has /pets
-router.get("/*", ensureLoggedIn, async(req,res,next)=>{
-    next();
-})
+// router.get("/*", ensureLoggedIn, async(req,res,next)=>{
+//     next();
+// })
 
 
 //filter out pet output
@@ -28,6 +31,7 @@ router.get("/search", async (req,res,next) =>{
         console.log(breed)
         await axios.get(`${apiURL}/animals?breed=${breed}&size=${size}&gender=${gender}$age=${age}`,config)
         .then((result)=>{
+            console.log(result)
             res.json(result)
         })
     }catch(e){
@@ -78,12 +82,18 @@ router.post("/:id", async(req,res,next) =>{
                 gender: favPet.gender,
                 age: favPet.age,
                 spayed_neutered: favPet.attributes.spayed_neutered,
-                color: favPet.colors.primary,
+                color: favPet.colors.primary ? favPet.colors.primary : "Unknown",
                 description: favPet.description,
                 location: favPet.contact.address.state,
-                image_url: favPet.primary_photo_cropped.full,
+                image_url: favPet.primary_photo_cropped.full ? favPet.primary_photo_cropped.full : "Unavailable" ,
                 organization_id: favPet.organization_id
             }
+        const validator = jsonschema.validate(data, favPetSchema);
+        console.log(validator)
+        if(!validator.valid){
+            const errs = validator.errors.map(e => e.stack);
+            return next(errs)
+        }
             Pet.create(data)
             return res.status(201).json({data})
         })

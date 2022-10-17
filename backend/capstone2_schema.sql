@@ -14,9 +14,9 @@ CREATE TABLE pets(
     gender TEXT NOT NULL,
     age TEXT NOT NULL,
     spayed_neutered BOOLEAN NOT NULL,
-    color TEXT NOT NULL,
-    description TEXT NOT NULL,
-    location TEXT NOT NULL,
+    color TEXT,
+    description TEXT,
+    location TEXT ,
     image_url TEXT,
     organization_id VARCHAR NOT NULL
 );

@@ -5,7 +5,6 @@ const ExpressError = require("../expressError")
 class Pet{
 
     static async create(data){
-        console.log("SCHEMA PROBLEM")
         const result = await db.query(`INSERT INTO pets(pet_id,
                                                         type,
                                                         breed,
@@ -32,7 +31,6 @@ class Pet{
                                         data.image_url,
                                         data.organization_id
                                     ]);
-        console.log("SCHEMA END")
     return result.rows[0]
     }
 
