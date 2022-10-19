@@ -7,7 +7,7 @@ const {ensureLoggedIn} = require("../middleware/auth")
 const jsonschema = require("jsonschema");
 const favPetSchema = require("../schemas/favPet.json");
 
-let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6IjFhYWUwYmE3N2RkMGViNTA5YzAyZDQxN2I0ODZlMGE2ODM3ZjUwZDkyODc0MzkxYzZlNTIyMTQzYmU0Y2E0OGU1ZmZiMzM5NjkzNzIyMDNjIiwiaWF0IjoxNjY2MDI3ODU0LCJuYmYiOjE2NjYwMjc4NTQsImV4cCI6MTY2NjAzMTQ1NCwic3ViIjoiIiwic2NvcGVzIjpbXX0.ATKQPq59s7gWTTIg_xT793Qh8oJKLVdIM70b1sLy7KvpLsGGuWW7TS4zH9Kd1mglbEqTAvzqCy4oFHU0aeE5c_SYJIIu2HfZ1bKuVun1igGjoydMLPh3UGXumO8fv1pL9qv2tEt21GJebpqpmsPDInI6VL5MdyHN-Wxm4NXV-eZ-EKKOBiRU7iTRLhKQ5E8SVCr6ABUl6_IJNvcIyDmC-wqaOp8K7MArDB_tUm2yE5yx7lEW8kbNEk9Iaq8eQbqLMC-tw8PjzZ7fgUaNQN9iXJ3QlerI7P_Dm8DWkRJAokQGxYa1gs1ChdKqv69fM_CLUch5-o7OUrIF7aUyTXZ6Eg"
+let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6ImVhMDY0ZTM5MmQyNzVhOWJmNDYxMTAwZmFjYjJiMjkzZTVjNmJhOGZjNDk1MDE4MWJiMzQyMmM2ZTg1MzU1ZDQwNDgxODA4NmUwNWY5NGIxIiwiaWF0IjoxNjY2MTAyOTUyLCJuYmYiOjE2NjYxMDI5NTIsImV4cCI6MTY2NjEwNjU1Miwic3ViIjoiIiwic2NvcGVzIjpbXX0.NY5wFXzVkqptkit9sSKuElKySuibqZEQqMAHsEfy655qmbInDsQFnHmzP3Qxah1oY1DDKK7PC1mWCjEBlfbWPk8rKwoYh6osjr8KiTguWsh8Ep4jWJTOjJ8MnRgRturhHzwDrqylUinxc4QwlWOqOv8GHopF314hSIyDUMWWRlO2DZC2_gg1zLC_kivgKsyAcED0KISHShVBplAflr5ksCceKjUppFuaU3bCQG-AdROaSCUAEhLLnCMyxSKDmTG7cBWNTnEF_PctS0sdraGCULaqy0_NosYmNsd1OqWkGZ6fEMRba11crdQGYdXxU5NyS2zq82JTHWI1MgtogswowA"
 // axios.defaults.headers.common["Authorization"] = 'Bearer ' + accessToken **didn't work!
 const apiURL = "https://api.petfinder.com/v2"
 const config ={
@@ -46,8 +46,8 @@ router.get('/', async (req,res,next) =>{
         // hardcoded type for now. Figure out how to get user to decide query params
         await axios.get(`${apiURL}/animals?type=${type}`,config)
         .then((result) => {
-            let findDogs = result.data
-            res.json(findDogs)
+            let petSearch = result.data
+            res.json(petSearch)
         })
     } catch(e){
         next(e)
@@ -69,7 +69,7 @@ router.get('/:id', async (req,res,next) =>{
 
 
 //Create favorite for the user and put in database
-router.post("/:id", async(req,res,next) =>{
+router.post("/favorite/:id", async(req,res,next) =>{
     try{
         const id = req.params.id;
         await axios.get(`${apiURL}/animals/${id}`, config)

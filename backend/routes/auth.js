@@ -48,14 +48,14 @@ router.post("/login", async (req,res,next) =>{
 
 
 //test route for checking token
-router.get("/topsecret", ensureLoggedIn, async (req,res,next)=>{
-    try{
-        const token = req.body._token;
-        const data= jwt.verify(token, SECRET_KEY)
-        return res.json({msg: "Signed In"})
-    }catch(e){
-        return next(e)
-    }
-})
+// router.get("/token", ensureLoggedIn, async (req,res,next)=>{
+//     try{
+//         const token = req.body._token;
+//         const data= jwt.verify(token, SECRET_KEY)
+//         return res.json({msg: "Signed In"}, data)
+//     }catch(e){
+//         return next(e)
+//     }
+// })
 
 module.exports = router;
