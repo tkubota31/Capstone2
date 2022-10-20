@@ -9,7 +9,7 @@ class PetApi{
     static async register(user){
         try{
             let response = await axios.post("/users/register",user)
-            return response.data
+            return response.token
         } catch(e){
             console.log(e)
         }
