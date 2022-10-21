@@ -10,7 +10,7 @@ app.use(authenticateJWT)
 
 //Router routes
 const petRoutes = require("./routes/pets")
-const userRoutes= require("./routes/user")
+const userRoutes= require("./routes/users")
 const authRoutes = require("./routes/auth")
 app.use("/users", userRoutes)
 app.use("/pets", petRoutes)

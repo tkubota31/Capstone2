@@ -1,7 +1,7 @@
 const express = require("express")
 const router = new express.Router()
 const {ensureLoggedIn} = require("../middleware/auth")
-const User= require("../models/user");
+const User= require("../models/users");
 
 const jsonschema = require("jsonschema");
 const newUserSchema = require("../schemas/newUser.json");

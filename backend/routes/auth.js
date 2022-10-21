@@ -7,7 +7,7 @@ const {BCRYPT_WORK_FACTOR, SECRET_KEY} = require("../config")
 const jwt = require("jsonwebtoken")
 const {ensureLoggedIn} = require("../middleware/auth")
 
-const User = require("../models/user")
+const User = require("../models/users")
 
 //Same as user register route.
 // router.post("/register", async (req,res,next) =>{
