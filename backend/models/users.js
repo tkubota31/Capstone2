@@ -73,9 +73,8 @@ class User{
                     last_name,
                     email)
             FROM users
-            WHERE username = $1
-            `,
-            [username],
+            WHERE username = $1`,
+            [username]
         );
             console.log(userRes)
         const user = userRes.rows[0];
@@ -84,6 +83,15 @@ class User{
             throw new ExpressError("User not found", 404)
         }
 
+        //grab the favorites of that user
+        const userFavorites = await db.query(
+            `SELECT favorites.pet_id
+            FROM favorites
+            WHERE favorites.username = $1`,
+            [username]
+        );
+
+        user.favorites = userFavorites.rows.map(f => f.pet_id);
         return user;
     }
 

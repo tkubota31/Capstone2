@@ -8,9 +8,9 @@ function AllRoutes({login, register}){
     return(
         <div>
             <Routes>
-                <Route path="/users/register"
+                <Route path="/register"
                        element={<RegisterationForm register={register} />}/>
-                <Route path="/auth/login"
+                <Route path="/login"
                        element={<LoginForm login = {login} />} />
             </Routes>
         </div>
