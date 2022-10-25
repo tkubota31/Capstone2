@@ -27,9 +27,9 @@ router.get("/search", async (req,res,next) =>{
     console.log("searchhh")
     try{
         console.log("IN THE ROUTE")
-        const {breed, size, gender, age} = req.query;
+        const {breed, gender, age, color, location} = req.query;
         console.log(breed)
-        await axios.get(`${apiURL}/animals?breed=${breed}&size=${size}&gender=${gender}$age=${age}`,config)
+        await axios.get(`${apiURL}/animals?breed=${breed}&gender=${gender}&age=${age}&color=${color}&location${location}`,config)
         .then((result)=>{
             console.log(result)
             res.json(result)

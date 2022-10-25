@@ -9,7 +9,9 @@ function PetCard({id,name, type, breed, gender, age, spayed_neutered, color, des
         setFavorited(hasFavoritedPet(id));
     }, [id,hasFavoritedPet]);
 
-    async function handleFavorited(evt){
+
+    //add pet as favorite
+    async function handleFavorite(evt){
         if(hasFavoritedPet(id)) return;
         favoritePet(id)
         setFavorited(true);
@@ -18,8 +20,24 @@ function PetCard({id,name, type, breed, gender, age, spayed_neutered, color, des
     return(
         <div>
             <h2>{name}</h2>
-
-
+            <img src={image_url} alt="Pet Picture" />
+            <ul>
+                <li>Pet Type: {type}</li>
+                <li>Breed: {breed}</li>
+                <li>Gender: {gender}</li>
+                <li>Age: {age}</li>
+                <li>Hair Color: {color}</li>
+                <li>Spayed/Neutered?: {spayed_neutered}</li>
+                <li>{location}</li>
+            </ul>
+            <p>{description}</p>
+            <button
+                onClick={handleFavorite}
+                disabled = {favorited}>
+              {favorited ? "Favorited" : "Add to Favorite"}
+            </button>
         </div>
-    )
+    );
 }
+
+export default PetCard

@@ -56,9 +56,9 @@ class PetApi{
     }
 
     //get pet based on filters
-    static async petFilter(filters){
+    static async petFilter(breed,gender,age,color,location){
         try{
-            let response = await axios.get("/pets", {filters});
+            let response = await axios.get("/pets/search", {breed,gender,age,color,location});
             return response.data
         }catch(e){
             console.log(e)
