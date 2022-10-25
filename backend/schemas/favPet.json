@@ -6,6 +6,7 @@
     "title": "Root Schema",
     "required": [
         "id",
+        "name",
         "type",
         "breed",
         "gender",
@@ -20,6 +21,14 @@
                     "title": "The id Schema",
                     "examples": [
                         58561120
+                    ]
+                },
+                "name":{
+                    "type": "string",
+                    "default": "",
+                    "title": "The name Schema",
+                    "examples":[
+                        "Cinnabone"
                     ]
                 },
                 "type": {
@@ -105,6 +114,7 @@
             },
             "examples": [{
                 "id": 58561120,
+                "name": "Cinnabon",
                 "type": "Dog",
                 "breed": "Pit Bull Terrier",
                 "gender": "Female",

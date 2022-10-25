@@ -6,6 +6,7 @@ class Pet{
 
     static async create(data){
         const result = await db.query(`INSERT INTO pets(pet_id,
+                                                        name,
                                                         type,
                                                         breed,
                                                         gender,
@@ -16,10 +17,11 @@ class Pet{
                                                         location,
                                                         image_url,
                                                         organization_id)
-                                    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
-                                    RETURNING pet_id, type, breed, gender,age,spayed_neutered,color,description,location,image_url,organization_id`,
+                                    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
+                                    RETURNING pet_id, name, type, breed, gender,age,spayed_neutered,color,description,location,image_url,organization_id`,
                                     [
                                         data.id,
+                                        data.name,
                                         data.type,
                                         data.breed,
                                         data.gender,
@@ -37,6 +39,7 @@ class Pet{
     static async getPet(id){
         const result = await db.query(
             `SELECT (pet_id,
+                    name,
                     type,
                     breed,
                     gender,

@@ -7,7 +7,7 @@ const {ensureLoggedIn} = require("../middleware/auth")
 const jsonschema = require("jsonschema");
 const favPetSchema = require("../schemas/favPet.json");
 
-let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6ImVhMDY0ZTM5MmQyNzVhOWJmNDYxMTAwZmFjYjJiMjkzZTVjNmJhOGZjNDk1MDE4MWJiMzQyMmM2ZTg1MzU1ZDQwNDgxODA4NmUwNWY5NGIxIiwiaWF0IjoxNjY2MTAyOTUyLCJuYmYiOjE2NjYxMDI5NTIsImV4cCI6MTY2NjEwNjU1Miwic3ViIjoiIiwic2NvcGVzIjpbXX0.NY5wFXzVkqptkit9sSKuElKySuibqZEQqMAHsEfy655qmbInDsQFnHmzP3Qxah1oY1DDKK7PC1mWCjEBlfbWPk8rKwoYh6osjr8KiTguWsh8Ep4jWJTOjJ8MnRgRturhHzwDrqylUinxc4QwlWOqOv8GHopF314hSIyDUMWWRlO2DZC2_gg1zLC_kivgKsyAcED0KISHShVBplAflr5ksCceKjUppFuaU3bCQG-AdROaSCUAEhLLnCMyxSKDmTG7cBWNTnEF_PctS0sdraGCULaqy0_NosYmNsd1OqWkGZ6fEMRba11crdQGYdXxU5NyS2zq82JTHWI1MgtogswowA"
+let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6ImUzNDYyZDBmN2U4OWZhOTRkN2U0NWVlNzJhYzA2YjFjZTliNTRmZTcwYTk0OTI3MjkzOTJjMzU4MTk0NzZkYzE2NWNhNWY4ZjE4MTc0ZmU2IiwiaWF0IjoxNjY2NzEzNzIyLCJuYmYiOjE2NjY3MTM3MjIsImV4cCI6MTY2NjcxNzMyMiwic3ViIjoiIiwic2NvcGVzIjpbXX0.YZ9KhFVbQDZNBKxjKZGAFxc8VceCMQWjv0L6PCEkLKRQDMC-fGohH7Q3IToeMKXAJaY393EznTq1XPO0-nKX7X9XHc0YPwbkfOzjmhLWzVDkpFwvOur9o9v2retJSRmiEF02I8a5eDS0dyFFPgWClMmq15xPXGvH6l1PXloTnpUmIcS_csGJjvyyQ9spQOMPDu2_kVNuUSsfSmPKLgj1mMvkGVUIsVtW40GzvDbqu5DGfAabE6pYOyRw4fxR-zToWZv76N3ROvKNwwL1d9yYuONVGMU2n4__zJ3krmiFeQSK44ts-0WCPCLJ9A-IB3UMiKAAgD-FFlTWIzhZOcueEg"
 // axios.defaults.headers.common["Authorization"] = 'Bearer ' + accessToken **didn't work!
 const apiURL = "https://api.petfinder.com/v2"
 const config ={
@@ -77,6 +77,7 @@ router.post("/favorite/:id", async(req,res,next) =>{
             let favPet = result.data.animal
             let data ={
                 id: favPet.id,
+                name:favPet.name,
                 type: favPet.type,
                 breed: favPet.breeds.primary,
                 gender: favPet.gender,

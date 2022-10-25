@@ -3,6 +3,7 @@ import {Routes,Route,Navigate} from "react-router-dom"
 import RegisterationForm from "../auth/RegisterationForm"
 import LoginForm from "../auth/LoginForm"
 import Homepage from "../general/Homepage"
+import SecuredRoute from "./SecuredRoute"
 
 function AllRoutes({login, register}){
 

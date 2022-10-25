@@ -9,6 +9,7 @@ CREATE TABLE users (
 
 CREATE TABLE pets(
     pet_id VARCHAR(25) PRIMARY KEY,
+    name TEXT NOT NULL,
     type TEXT NOT NULL,
     breed TEXT NOT NULL,
     gender TEXT NOT NULL,

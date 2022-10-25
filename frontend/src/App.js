@@ -5,12 +5,13 @@ import Routes from "./routes-nav/Routes"
 import UserContext from "./auth/UserContext";
 import LoadingPage from "./general/LoadingPage"
 import Navigation from "./routes-nav/Navigation"
-
+import jwt from "jsonwebtoken"
 
 function App() {
   const [token, setToken] = useState(null)
   const [currentUser, setCurrentUser] = useState(null);
   const [infoLoaded, setInfoLoaded] = useState(false);
+  const [favoritedPetsId, setFavoritedPetsId] = useState(new Set([]));
 
   useEffect(function loadUserInfo(){
 
@@ -58,6 +59,21 @@ function App() {
       }
     }
 
+    function logout(){
+      setCurrentUser(null);
+      setToken(null);
+    }
+
+    function hasFavoritedPet(id){
+      return favoritedPetsId.has(id)
+    }
+
+    function favoritePet(id){
+      if(hasFavoritedPet(id)) return;
+      PetApi.favPet(id);
+      setFavoritedPetsId(new Set([...favoritedPetsId,id]))
+    }
+
 
     if(!infoLoaded){
       return <LoadingPage />;
@@ -65,7 +81,7 @@ function App() {
   return (
     <BrowserRouter>
       <UserContext.Provider
-        value={{currentUser, setCurrentUser}}>
+        value={{currentUser, setCurrentUser, favoritePet, hasFavoritedPet}}>
 
           <div>
             <Navigation logout ={logout} />
