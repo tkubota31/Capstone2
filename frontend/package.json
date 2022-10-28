@@ -15,10 +15,9 @@
     "crypto-browserify": "^3.12.0",
     "domain-browser": "^4.22.0",
     "https-browserify": "^1.0.0",
-    "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^3.1.2",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
-    "process": "^0.11.10",
     "querystring-es3": "^0.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -55,5 +54,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "process": "^0.11.10"
   }
 }

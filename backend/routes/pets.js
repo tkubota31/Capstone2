@@ -7,7 +7,7 @@ const {ensureLoggedIn} = require("../middleware/auth")
 const jsonschema = require("jsonschema");
 const favPetSchema = require("../schemas/favPet.json");
 
-let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6ImUzNDYyZDBmN2U4OWZhOTRkN2U0NWVlNzJhYzA2YjFjZTliNTRmZTcwYTk0OTI3MjkzOTJjMzU4MTk0NzZkYzE2NWNhNWY4ZjE4MTc0ZmU2IiwiaWF0IjoxNjY2NzEzNzIyLCJuYmYiOjE2NjY3MTM3MjIsImV4cCI6MTY2NjcxNzMyMiwic3ViIjoiIiwic2NvcGVzIjpbXX0.YZ9KhFVbQDZNBKxjKZGAFxc8VceCMQWjv0L6PCEkLKRQDMC-fGohH7Q3IToeMKXAJaY393EznTq1XPO0-nKX7X9XHc0YPwbkfOzjmhLWzVDkpFwvOur9o9v2retJSRmiEF02I8a5eDS0dyFFPgWClMmq15xPXGvH6l1PXloTnpUmIcS_csGJjvyyQ9spQOMPDu2_kVNuUSsfSmPKLgj1mMvkGVUIsVtW40GzvDbqu5DGfAabE6pYOyRw4fxR-zToWZv76N3ROvKNwwL1d9yYuONVGMU2n4__zJ3krmiFeQSK44ts-0WCPCLJ9A-IB3UMiKAAgD-FFlTWIzhZOcueEg"
+let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6IjRlMWYxYjgxOGY1OWVhYmY4N2MxMjQ5NjViYjU0MWQzNzA3NzVhNTJhNTExY2VlNjQ0ZDQ4NTFlNzEyNGMzY2FkYWQ1NWE1OWEwMDg4ZWE5IiwiaWF0IjoxNjY2OTIxOTIxLCJuYmYiOjE2NjY5MjE5MjEsImV4cCI6MTY2NjkyNTUyMSwic3ViIjoiIiwic2NvcGVzIjpbXX0.HQjofG1jIfJfKWTjtY-ncKMceq9_jvt8lHhuJ8j5HHuCLQdEEQtwycoLreVe5EaJqieyoTTK7JtCo6fYClIX4sFVO2wPcZPdNNIxJ_MITPrkEdDVOPNWXDuyXZzGMmm4TYBgYVzRrqSfEhcuUKbhn4k573h8S-5_rfZD_KuORr6ouiYa7_soRhLFHBn3fFv2GxLvRc2UqROyLyIH3MPL9QGpiLCbdsiJxQxUE_JbWLVCw8NMvExVQcGY9338xw0_gMf8xCLsxM7zkwlhr8PBZnlYnIoOsfNwFOWdPFLUN_-3xYOoPwLzSTRbFtEuED04L7gK4CMVPcqIBi0DzGnJ8g"
 // axios.defaults.headers.common["Authorization"] = 'Bearer ' + accessToken **didn't work!
 const apiURL = "https://api.petfinder.com/v2"
 const config ={
@@ -28,11 +28,26 @@ router.get("/search", async (req,res,next) =>{
     try{
         console.log("IN THE ROUTE")
         const {breed, gender, age, color, location} = req.query;
-        console.log(breed)
-        await axios.get(`${apiURL}/animals?breed=${breed}&gender=${gender}&age=${age}&color=${color}&location${location}`,config)
+        const filterObj = {
+            breed,
+            gender,
+            age,
+            color,
+            location
+        }
+        for( let key in filterObj){
+            if(filterObj[key] ===undefined){
+                delete filterObj[key]
+            }
+        }
+
+        let newUrl= new URLSearchParams(filterObj).toString()
+        console.log(newUrl,`${apiURL}/animals/?${newUrl}`)
+        await axios.get(`${apiURL}/animals/?${newUrl}`, config)
+        // console.log(`${apiURL}/animals?breed${breed ? `= ${breed}` : "="}&gender=${gender}&age=${age}&color=${color}&location${location}`)
+        // await axios.get(`${apiURL}/animals?breed=${breed}&gender=${gender}&age=${age}&color=${color}&location=${location}`,config)
         .then((result)=>{
-            console.log(result)
-            res.json(result)
+            res.json(result.data)
         })
     }catch(e){
         next(e)

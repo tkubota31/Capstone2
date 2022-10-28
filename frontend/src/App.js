@@ -5,7 +5,8 @@ import Routes from "./routes-nav/Routes"
 import UserContext from "./auth/UserContext";
 import LoadingPage from "./general/LoadingPage"
 import Navigation from "./routes-nav/Navigation"
-import jwt from "jsonwebtoken"
+import jwt from "jwt-decode"
+import PetSearch from "./pets/PetSearch";
 
 function App() {
   const [token, setToken] = useState(null)
@@ -87,7 +88,7 @@ function App() {
             <Navigation logout ={logout} />
             <Routes register = {register} login = {login} />
           </div>
-
+      <PetSearch />
       </UserContext.Provider>
     </BrowserRouter>
   );
