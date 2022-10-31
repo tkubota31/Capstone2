@@ -10,7 +10,7 @@ function Navigation({logout}){
         return (
             <ul>
                 <li>
-                    <NavLink to="/homepage">
+                    <NavLink to="/">
                         Homepage
                     </NavLink>
                 </li>
@@ -38,7 +38,7 @@ function Navigation({logout}){
         return (
             <ul>
                 <li>
-                    <NavLink to="/homepage">
+                    <NavLink to="/">
                         Homepage
                     </NavLink>
                 </li>

@@ -21,6 +21,7 @@ function FilterForm({filterSearch,type}){
 
     useEffect(() =>{
         getBreeds()
+        getColors()
     }, []);
 
     async function getColors(type){
@@ -66,7 +67,7 @@ function FilterForm({filterSearch,type}){
                         <option value="senior">Senior</option>
                     </select>
                 </label>
-
+{/*
                 <label>
                     Breed
                     <select name="breed" value={filterTerm.breed} onChange={handleChange}>
@@ -83,7 +84,7 @@ function FilterForm({filterSearch,type}){
                             <option value={color}>{color}</option>
                         ))}
                     </select>
-                </label>
+                </label> */}
 
                 <label>
                     State

@@ -4,6 +4,7 @@ import RegisterationForm from "../auth/RegisterationForm"
 import LoginForm from "../auth/LoginForm"
 import Homepage from "../general/Homepage"
 import SecuredRoute from "./SecuredRoute"
+import PetType from "../pets/PetType"
 
 function AllRoutes({login, register}){
 
@@ -16,6 +17,10 @@ function AllRoutes({login, register}){
                        element={<RegisterationForm register={register} />}/>
                 <Route path="/login"
                        element={<LoginForm login = {login} />} />
+                <Route path="/pet/type"
+                       element ={<PetType />} />
+                <Route path ="/"
+                       element={<Navigate to="/"/>} />
             </Routes>
         </div>
     )

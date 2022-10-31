@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import Alert from "../general/Alert";
-
+import Button from "react-bootstrap/Button"
 
 //get register function from App.js once I make it
 function RegisterationForm ({register}){
@@ -94,13 +94,14 @@ function RegisterationForm ({register}){
                         : null
                     }
 
-                    <button
+                    <Button
+                        variant="dark"
                         type="submit"
                         className="btn btn-primary float-right"
                         onSubmit={handleSubmit}
                     >
                     Submit
-                    </button>
+                    </Button>
                 </form>
             </div>
 

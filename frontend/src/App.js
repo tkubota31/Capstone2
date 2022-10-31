@@ -9,6 +9,7 @@ import jwt from "jwt-decode"
 import PetSearch from "./pets/PetSearch";
 import PetType from "./pets/PetType"
 import FilterForm from "./general/FilterForm"
+import PetCard from "./pets/PetCard"
 
 function App() {
   const [token, setToken] = useState(null)
@@ -90,9 +91,10 @@ function App() {
             <Navigation logout ={logout} />
             <Routes register = {register} login = {login} />
           </div>
+          <PetCard />
       {/* <PetSearch /> */}
-      <PetType />
-      <FilterForm />
+      {/* <PetType />
+      <FilterForm /> */}
       </UserContext.Provider>
     </BrowserRouter>
   );
