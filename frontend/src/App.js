@@ -7,6 +7,8 @@ import LoadingPage from "./general/LoadingPage"
 import Navigation from "./routes-nav/Navigation"
 import jwt from "jwt-decode"
 import PetSearch from "./pets/PetSearch";
+import PetType from "./pets/PetType"
+import FilterForm from "./general/FilterForm"
 
 function App() {
   const [token, setToken] = useState(null)
@@ -88,7 +90,9 @@ function App() {
             <Navigation logout ={logout} />
             <Routes register = {register} login = {login} />
           </div>
-      <PetSearch />
+      {/* <PetSearch /> */}
+      <PetType />
+      <FilterForm />
       </UserContext.Provider>
     </BrowserRouter>
   );

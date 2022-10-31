@@ -4,25 +4,22 @@ import PetCardList from "./PetCardList";
 import LoadingPage from "../general/LoadingPage";
 import FilterForm from "../general/FilterForm";
 
-function PetSearch(){
+function PetSearch({type}){
     const[pets, setPets] = useState([]);
 
     useEffect(() =>{
-        search({});
+        filterSearch({});
     }, []);
 
-    async function search({breed,gender,age,color,location}){
-        console.log("*********")
-        let pets = await PetApi.petFilter(breed,gender,age,color,location);
-        console.log(pets.animals)
+    async function filterSearch({type,breed,gender,age,color,location}){
+        let pets = await PetApi.petFilter(type,breed,gender,age,color,location);
         setPets(pets.animals);
     }
 
-    // if(!pets) return <LoadingPage/>
-    let test = "unch"
+    if(!pets) return <LoadingPage/>
     return(
         <div>
-            <FilterForm filterFor={search} test={test} />
+            <FilterForm filterSearch={filterSearch} type={type} />
             {pets.length
                 ? <PetCardList pets = {pets} />
                 : <h3> No Results Found</h3>

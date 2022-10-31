@@ -27,8 +27,8 @@ function PetCard({id,name, type, breed, gender, age, spayed_neutered, color, des
                 <li>Gender: {gender}</li>
                 <li>Age: {age}</li>
                 <li>Hair Color: {color}</li>
-                <li>Spayed/Neutered?: {spayed_neutered}</li>
-                <li>{location}</li>
+                <li>Spayed/Neutered: {String(spayed_neutered)}</li>
+                <li>Location: {location}</li>
             </ul>
             <p>{description}</p>
             <button

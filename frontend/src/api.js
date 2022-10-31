@@ -55,11 +55,31 @@ class PetApi{
         }
     }
 
-    //get pet based on filters
-    static async petFilter(breed,gender,age,color,location){
+    //get all types of pets
+    static async allPetTypes(){
         try{
-            console.log("MOSHISMOHI")
-            let response = await axios.get(`${BASE_URL}/pets/search`, {breed,gender,age,color,location});
+            console.log("inside pet type")
+            let response = await axios.get(`${BASE_URL}/pets/types`)
+            return response.data
+        }catch(e){
+            console.log(e)
+        }
+    }
+
+    //get info on one type of pet
+    static async petTypeInfo(type){
+        try{
+            let response = await axios.get(`${BASE_URL}/pets/onetype/${type}`, {type})
+            return response.data
+        }catch(e){
+            console.log(e)
+        }
+    }
+
+    //get pet based on filters
+    static async petFilter(type,breed,gender,age,color,location){
+        try{
+            let response = await axios.get(`${BASE_URL}/pets/search`, {type,breed,gender,age,color,location});
             return response.data
         }catch(e){
             console.log(e)
@@ -80,6 +100,16 @@ class PetApi{
     static async favPet(id){
         try{
             let response = await axios.post(`${BASE_URL}/pets/favorite/${id}`);
+            return response.data
+        }catch(e){
+            console.log(e)
+        }
+    }
+
+    //get breeds of specific pet type
+    static async petBreed(type){
+        try{
+            let response = await axios.get(`${BASE_URL}/pets/breeds/${type}`)
             return response.data
         }catch(e){
             console.log(e)
