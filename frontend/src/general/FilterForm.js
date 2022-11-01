@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import PetApi from "../api";
+import {Form, Button, Container, Row, Col} from "react-bootstrap"
 
 function FilterForm({filterSearch,type}){
     const INITIAL_STATE ={
@@ -18,6 +19,7 @@ function FilterForm({filterSearch,type}){
     const [breeds, setBreeds] = useState([])
     const [colors, setColors] = useState([])
 
+    //Come back and fix. not hardcoding type but getting type from PETTYPE component
     useEffect(() =>{
         let petType= "dog"
         getBreeds(petType)
@@ -28,7 +30,6 @@ function FilterForm({filterSearch,type}){
     async function getColors(petType){
         let response = await PetApi.petTypeInfo(petType)
         setColors(response.colors)
-        console.log(colors)
     }
 
     async function getBreeds(petType){
@@ -53,54 +54,70 @@ function FilterForm({filterSearch,type}){
 
     return (
         <div>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Gender
-                    <select name="gender" value={filterTerm.gender} onChange={handleChange}>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </select>
-                </label>
+        <Container fluid>
+            <Form>
+                <Row>
+                    <Col>
+                        <Form.Group controlId="formGender">
+                            <Form.Label>Gender</Form.Label>
+                            <Form.Select name="gender" value={filterTerm.gender} onChange={handleChange}>
+                                {/* <select name="gender" value={filterTerm.gender} onChange={handleChange}> */}
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                {/* </select> */}
+                            </Form.Select>
+                        </Form.Group>
+                    </Col>
 
-                <label>
-                    Age
-                    <select name="age" value={filterTerm.age} onChange={handleChange}>
-                        <option value="baby">Baby</option>
-                        <option value="young">Young</option>
-                        <option value="adult">Adult</option>
-                        <option value="senior">Senior</option>
-                    </select>
-                </label>
+                    <Col>
+                        <Form.Group controlId="formAge">
+                            <Form.Label>Age</Form.Label>
+                                <Form.Select name="age" value={filterTerm.age} onChange={handleChange}>
+                                    <option value="baby">Baby</option>
+                                    <option value="young">Young</option>
+                                    <option value="adult">Adult</option>
+                                    <option value="senior">Senior</option>
+                                </Form.Select>
+                        </Form.Group>
+                    </Col>
 
-                <label>
-                    Breed
-                    <select name="breed" value={filterTerm.breed} onChange={handleChange}>
-                        {breeds.map(breed =>(
-                         <option value={breed}>{breed}</option>
-                        ))}
-                    </select>
-                </label>
+                    <Col>
+                        <Form.Group controlId="formBreed">
+                            <Form.Label>Breed</Form.Label>
+                                <Form.Select name="breed" value={filterTerm.breed} onChange={handleChange}>
+                                    {breeds.map(breed =>(
+                                    <option value={breed}>{breed}</option>
+                                    ))}
+                                </Form.Select>
+                        </Form.Group>
+                    </Col>
 
-                <label>
-                    Color
-                    <select name="color" value={filterTerm.color} onChange={handleChange}>
-                        {colors.map(color =>(
-                            <option key={color} value={color}>{color}</option>
-                        ))}
-                    </select>
-                </label>
+                    <Col>
+                        <Form.Group controlId="formColor">
+                            <Form.Label>Color</Form.Label>
+                                <Form.Select name="color" value={filterTerm.color} onChange={handleChange}>
+                                    {colors.map(color =>(
+                                        <option key={color} value={color}>{color}</option>
+                                    ))}
+                                </Form.Select>
+                        </Form.Group>
+                    </Col>
 
-                <label>
-                    State
-                    <select name="state" valu={filterTerm.state} onChange={handleChange}>
-                        {US_STATES.map(state =>(
-                            <option key = {state} value ={state}>{state}</option>
-                        ))}
-                    </select>
-                </label>
+                    <Col>
+                        <Form.Group controlId="formState">
+                            <Form.Label>State</Form.Label>
+                                <Form.Select name="state" value={filterTerm.state} onChange={handleChange}>
+                                    {US_STATES.map(state =>(
+                                        <option key = {state} value ={state}>{state}</option>
+                                    ))}
+                                </Form.Select>
+                        </Form.Group>
+                    </Col>
+                </Row>
 
-                <input type="submit" value="Submit" />
-            </form>
+                <Button size="sm" variant= "primary" type="submit"> Search </Button>
+            </Form>
+        </Container>
         </div>
     )
 }

@@ -94,7 +94,7 @@ function App() {
           {/* <PetCard /> */}
       {/* <PetSearch /> */}
       {/* <PetType /> */}
-      <FilterForm />
+      {/* <FilterForm /> */}
       </UserContext.Provider>
     </BrowserRouter>
   );
