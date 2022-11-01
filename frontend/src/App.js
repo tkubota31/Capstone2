@@ -91,10 +91,10 @@ function App() {
             <Navigation logout ={logout} />
             <Routes register = {register} login = {login} />
           </div>
-          <PetCard />
+          {/* <PetCard /> */}
       {/* <PetSearch /> */}
-      {/* <PetType />
-      <FilterForm /> */}
+      {/* <PetType /> */}
+      <FilterForm />
       </UserContext.Provider>
     </BrowserRouter>
   );

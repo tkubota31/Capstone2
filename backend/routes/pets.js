@@ -7,7 +7,7 @@ const {ensureLoggedIn} = require("../middleware/auth")
 const jsonschema = require("jsonschema");
 const favPetSchema = require("../schemas/favPet.json");
 
-let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6ImUxYTRmMDY5ODI5ZjM0ZjQzYTMwNDRhMTc1MjIwN2VkMmIwNmVlN2IxM2EyMGI4ZDkxNDEzYmU0NzY5NzY5MjU5ODUyZGE1NGYwMmZkZjIxIiwiaWF0IjoxNjY3MjI3MDA0LCJuYmYiOjE2NjcyMjcwMDQsImV4cCI6MTY2NzIzMDYwNCwic3ViIjoiIiwic2NvcGVzIjpbXX0.rGyPsXoG91B17lyajaBTQv5kAghV0gtO7okcZgMpdMt_FLQavLcIOtFFmCJAdU8dweDUGPXy6H2UzfAX9FchrYLKnJk7CjxLWbXZXAvGlOcs-6u_fXEgk0FFy_az69fBMCcUhsjHVhzLS7SjgnGZLbDZrBV0_Pq4gsuldUkLq_KojjjJrtzL8uIaXvjfHVARyZn4FPKCEXspt4-E0gEdxNCZuD8x45aOmEe2E6w3_6uLXyqfx9xURXI5P_2Z84p2jpnWHwdPiaoxPBFfd9ZXegNgj57wGekbu8nLN2NLZqYrDW_zR5bEkTsyOPd7XwLZfcla_1xyCsgotHlSexKNYw"
+let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6IjRmNDliOWI5YzBhNDNhZmQ1YzM4YmI3NGMwYzE5MjZhMWUxOWY3MGVjYmU1ZjIzODU1NWJhODM4MWY1MzhhM2IxZTQ5OWJlZDk5YmEzZGJlIiwiaWF0IjoxNjY3MzE0Mzc3LCJuYmYiOjE2NjczMTQzNzcsImV4cCI6MTY2NzMxNzk3Nywic3ViIjoiIiwic2NvcGVzIjpbXX0.uB1bFEqNbcjT8V2qVAXS-N0qetPL2MWPTZQeOa5t1HFrzPd2sy23PDKJvRqFkW8iQ9WxLfCc8ADwbatW5B1suD99R4Gl47bOOCxbBLxnfaLasB2NSlUrFzMSIHd9ifsjljxpaR9jsVQCB9VuCfBzN6IjbSh2QvwpUtxeEicOJNwJUc2aO5HTjc_AozDY34Y5L0ln49Et5kEL1TJyMs9G_GzjIIZc697I_V39fnGx6XRcg-jAQkua-_4jXzTYjqnBGZam6BsAyoVrDgiO5gvxlsq9D1GzmnAzp1LfQd3WSN0IU_Ozvms1doe_P781o7bdzQsQ0IQmlcDulJch96lTFg"
 // axios.defaults.headers.common["Authorization"] = 'Bearer ' + accessToken **didn't work!
 const apiURL = "https://api.petfinder.com/v2"
 const config ={
@@ -25,7 +25,6 @@ const config ={
 //filter out pet output
 router.get("/search", async (req,res,next) =>{
     try{
-        console.log("IN THE ROUTE")
         const {type,breed, gender, age, color, location} = req.query;
         const filterObj = {
             type,
@@ -73,7 +72,7 @@ router.get('/', async (req,res,next) =>{
 //return info on single animal type, (so i can grab all possible colors)
 router.get("/onetype/:type", async (req,res,next) =>{
     try{
-        const{type} = req.params.type;
+        const type = req.params.type;
         await axios.get(`${apiURL}/types/${type}`, config)
         .then(result =>{
             res.json(result.data)

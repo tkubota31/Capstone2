@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import { createRoutesFromElements } from "react-router-dom";
 import PetApi from "../api";
 
 function FilterForm({filterSearch,type}){
@@ -20,18 +19,23 @@ function FilterForm({filterSearch,type}){
     const [colors, setColors] = useState([])
 
     useEffect(() =>{
-        getBreeds()
-        getColors()
+        let petType= "dog"
+        getBreeds(petType)
+        getColors(petType)
+
     }, []);
 
-    async function getColors(type){
-        let response = PetApi.petTypeInfo(type)
+    async function getColors(petType){
+        let response = await PetApi.petTypeInfo(petType)
         setColors(response.colors)
+        console.log(colors)
     }
 
-    async function getBreeds(type){
-        let response = PetApi.petBreed(type)
-        setBreeds(response)
+    async function getBreeds(petType){
+        let response = await PetApi.petBreed(petType)
+        for(let breed of response){
+            setBreeds(breeds =>[...breeds, breed.name])
+        }
     }
 
     function handleSubmit(e){
@@ -67,7 +71,7 @@ function FilterForm({filterSearch,type}){
                         <option value="senior">Senior</option>
                     </select>
                 </label>
-{/*
+
                 <label>
                     Breed
                     <select name="breed" value={filterTerm.breed} onChange={handleChange}>
@@ -81,16 +85,16 @@ function FilterForm({filterSearch,type}){
                     Color
                     <select name="color" value={filterTerm.color} onChange={handleChange}>
                         {colors.map(color =>(
-                            <option value={color}>{color}</option>
+                            <option key={color} value={color}>{color}</option>
                         ))}
                     </select>
-                </label> */}
+                </label>
 
                 <label>
                     State
                     <select name="state" valu={filterTerm.state} onChange={handleChange}>
                         {US_STATES.map(state =>(
-                            <option value ={state}>{state}</option>
+                            <option key = {state} value ={state}>{state}</option>
                         ))}
                     </select>
                 </label>

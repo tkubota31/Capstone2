@@ -69,8 +69,8 @@ class PetApi{
     //get info on one type of pet
     static async petTypeInfo(type){
         try{
-            let response = await axios.get(`${BASE_URL}/pets/onetype/${type}`, {type})
-            return response.data
+            let response = await axios.get(`${BASE_URL}/pets/onetype/${type}`)
+            return response.data.type
         }catch(e){
             console.log(e)
         }
@@ -110,7 +110,7 @@ class PetApi{
     static async petBreed(type){
         try{
             let response = await axios.get(`${BASE_URL}/pets/breeds/${type}`)
-            return response.data
+            return response.data.breeds
         }catch(e){
             console.log(e)
         }

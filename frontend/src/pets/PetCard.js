@@ -3,6 +3,7 @@ import UserContext from "../auth/UserContext";
 import Card from "react-bootstrap/Card"
 import ListGroup from "react-bootstrap/ListGroup"
 import Button from "react-bootstrap/Button"
+
 function PetCard({id,name, type, breed, gender, age, spayed_neutered, color, description, location, image_url, organization_id}){
     const {favoritePet, hasFavoritedPet} = useContext(UserContext);
     const [favorited, setFavorited] = useState();
