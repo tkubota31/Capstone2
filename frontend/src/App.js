@@ -89,6 +89,9 @@ function App() {
 
           <div>
             <Navigation logout ={logout} />
+          </div>
+
+          <div>
             <Routes register = {register} login = {login} />
           </div>
           {/* <PetCard /> */}

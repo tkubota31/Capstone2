@@ -16,14 +16,18 @@ function Homepage(){
                     Welcome Back, {currentUser.firstName || currentUser.username}!
                 </h2>
                 : (
-                    <p>
-                        <Link to="/login">
+                <div>
+                    <div>
+                        <Link className="btn btn-warning btn-lg" to="/login">
                         Log in
                         </Link>
-                        <Link to="/signup">
+                    </div>
+                    <div>
+                        <Link className="btn btn-warning btn-lg" to="/signup">
                         Register
                         </Link>
-                    </p>
+                    </div>
+                </div>
                 )}
         </div>
     )

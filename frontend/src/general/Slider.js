@@ -16,10 +16,11 @@ function Slider() {
           height="500"
         />
         <Carousel.Caption>
-          <h3>First slide label</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+          <h1>Welcome</h1>
+          <p>The place to meet your best furend</p>
         </Carousel.Caption>
       </Carousel.Item>
+
       <Carousel.Item>
         <img
           className="d-block w-100"
@@ -30,10 +31,11 @@ function Slider() {
         />
 
         <Carousel.Caption>
-          <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          <h1>Pets Are Looking For A Home And Family</h1>
+          <p>They offer love and affection</p>
         </Carousel.Caption>
       </Carousel.Item>
+
       <Carousel.Item>
         <img
           className="d-block w-100"
@@ -44,10 +46,8 @@ function Slider() {
         />
 
         <Carousel.Caption>
-          <h3>Third slide label</h3>
-          <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-          </p>
+          <h1>Pets Of All Species And Breeds</h1>
+          <p>Dogs, Cats, Rabbits, Aquatic Animals, Etc.</p>
         </Carousel.Caption>
       </Carousel.Item>
     </Carousel>
