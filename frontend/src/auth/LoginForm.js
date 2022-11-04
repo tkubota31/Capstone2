@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom"
 import Alert from "../general/Alert";
-
+import Button from "react-bootstrap/Button"
 
 function LoginForm({login}){
     const navigate = useNavigate()
@@ -62,12 +62,13 @@ function LoginForm({login}){
                     ? <Alert type="danger" messages={formErrors} />
                     : null}
 
-                <button
-                    className="btn btn-primary float-right"
+                <Button
+                    variant="info"
+                    type="submit"
                     onSubmit={handleSubmit}
                 >
                   Login
-                </button>
+                </Button>
               </form>
             </div>
           </div>

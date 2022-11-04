@@ -1,0 +1,15 @@
+.Homepage {
+    /* put around the vertical center of page */
+    height: 50vh;
+    display: flex;
+    align-items: center;
+    background-color: rgb(56, 56, 67)
+  }
+
+h1{
+    color: white;
+  }
+
+p{
+    color:white;
+}

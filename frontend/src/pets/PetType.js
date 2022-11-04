@@ -4,9 +4,11 @@ import LoadingPage from "../general/LoadingPage";
 import PetSearch from "./PetType"
 import {Card, Button} from "react-bootstrap"
 import CatDog from "../images/catdog.webp"
+import {useNavigate} from "react-router-dom"
 
 function PetType(){
     const[types, setTypes] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() =>{
         getAllPetTypes()
@@ -23,26 +25,24 @@ function PetType(){
    return (
     <div>
         <div>
-                <Card className="bg-dark text-white">
-                    <Card.Img src={CatDog} alt="Card image" />
-                    <Card.ImgOverlay>
-                        <Card.Title>Card title</Card.Title>
-                        <Card.Text>
-                        This is a wider card with supporting text below as a natural lead-in
-                        to additional content. This content is a little bit longer.
-                        </Card.Text>
-                        <Card.Text>Last updated 3 mins ago</Card.Text>
-                    </Card.ImgOverlay>
-                </Card>
-
-            //this formay of doing cards is better!
+           {/* this formay of doing cards is better! */}
                 <Card style={{ width: "18rem"}}>
                     <Card.Img variant = "top" src={CatDog} alt="Pet Picture" />
                     <Button
-                        variant="primary">
+                        variant="info"
+                        href = "/">
                             DOGS
                     </Button>
                 </Card>
+
+
+                {/* <Card style={{ width: "18rem"}}>
+                    <Button
+                        variant="primary">
+                            DOGS
+                            <Card.Img src={CatDog} alt="Pet Picture" />
+                    </Button>
+                </Card> */}
 
 
             </div>
