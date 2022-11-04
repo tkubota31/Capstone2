@@ -5,11 +5,12 @@ import Routes from "./routes-nav/Routes"
 import UserContext from "./auth/UserContext";
 import LoadingPage from "./general/LoadingPage"
 import Navigation from "./routes-nav/Navigation"
-import jwt from "jwt-decode"
+
 import PetSearch from "./pets/PetSearch";
 import PetType from "./pets/PetType"
 import FilterForm from "./general/FilterForm"
 import PetCard from "./pets/PetCard"
+import jwt_decode from "jwt-decode"
 
 function App() {
   const [token, setToken] = useState(null)
@@ -20,14 +21,16 @@ function App() {
   useEffect(function loadUserInfo(){
 
     async function getCurrentUser(){
-      if(token){
+      console.log(localStorage.getItem("token"))
+      if(localStorage.getItem("token")){
         try{
-          let{username} = jwt.decode(token);
+          let{username} = jwt_decode(localStorage.getItem("token"));
 
           //put token on pet api class
-          PetApi.token = token;
-          let currentUser = await PetApi.getCurrentUser(username);
-          setCurrentUser(currentUser)
+          // PetApi.token = token;
+          // let currentUser = await PetApi.getCurrentUser(username);
+          setCurrentUser(username)
+          console.log(`CURRENT USER ${currentUser}`)
         }catch(e){
           console.log(e)
           setCurrentUser(null)
@@ -44,7 +47,8 @@ function App() {
     async function register(data){
       try{
         let token = await PetApi.register(data);
-        setToken(token);
+        localStorage.setItem("token", token)
+        setToken(token)
         return {success:true};
       }catch(e){
         console.log(e);
@@ -54,8 +58,12 @@ function App() {
 
     async function login(data){
       try{
+        console.log("FRONTEND LOGIN")
         let token = await PetApi.login(data);
+        localStorage.setItem("token",token)
         setToken(token)
+        // setToken(token)
+        console.log(token)
         return {success: true};
       }catch(e){
         console.log(e)
@@ -63,9 +71,12 @@ function App() {
       }
     }
 
-    function logout(){
+    function logout() {
+      console.log("UNCHUNCUNCUHU")
       setCurrentUser(null);
-      setToken(null);
+      localStorage.removeItem("token")
+      setToken(null)
+      console.log(localStorage.getItem("token"))
     }
 
     function hasFavoritedPet(id){
@@ -78,7 +89,7 @@ function App() {
       setFavoritedPetsId(new Set([...favoritedPetsId,id]))
     }
 
-
+console.log(`CURRENT USER ${currentUser}`)
     if(!infoLoaded){
       return <LoadingPage />;
     }
@@ -95,7 +106,7 @@ function App() {
             <Routes register = {register} login = {login} />
           </div>
           {/* <PetCard /> */}
-      {/* <PetSearch /> */}
+      <PetSearch />
       {/* <PetType /> */}
       {/* <FilterForm /> */}
       </UserContext.Provider>

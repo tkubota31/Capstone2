@@ -17,8 +17,8 @@ function AllRoutes({login, register}){
                        element={<RegisterationForm register={register} />}/>
                 <Route path="/login"
                        element={<LoginForm login = {login} />} />
-                <Route path="/pet/type"
-                       element ={<PetType />} />
+                <Route path="/pets"
+                       element = {<PetType/>} />
                 <Route path ="/"
                        element={<Navigate to="/"/>} />
             </Routes>

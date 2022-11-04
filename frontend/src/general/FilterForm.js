@@ -37,32 +37,37 @@ function FilterForm({filterSearch,type}){
         for(let breed of response){
             setBreeds(breeds =>[...breeds, breed.name])
         }
+        // const tempBreeds = [];
+        // for (let breed of response) {
+        //     tempBreeds.push(breed.name);
+        // }
+        // setBreeds(tempBreeds);
     }
 
     function handleSubmit(e){
         e.preventDefault();
-        const {breed,gender,age,color,location} = filterTerm
+        console.log("**************")
+        console.log(filterTerm)
         filterSearch(filterTerm)
-        setFilterTerm(INITIAL_STATE)
     }
 
     function handleChange(e){
         const {name, value} = e.target
-        setFilterTerm(filterTerm =>({...filterTerm, [name]:value}))
+        setFilterTerm(term =>({...term, [name]:value}))
         console.log(filterTerm)
     }
 
     return (
         <div>
         <Container fluid>
-            <Form>
+            <Form onSubmit={(e)=>handleSubmit(e)}>
                 <Row>
                     <Col>
                         <Form.Group controlId="formGender">
                             <Form.Label>Gender</Form.Label>
-                            <Form.Select name="gender" value={filterTerm.gender} onChange={handleChange}>
+                            <Form.Select name="gender" defaultValue={filterTerm.gender}  onChange={handleChange}>
                                 {/* <select name="gender" value={filterTerm.gender} onChange={handleChange}> */}
-                                    <option value="male">Male</option>
+                                    <option value="male" >Male</option>
                                     <option value="female">Female</option>
                                 {/* </select> */}
                             </Form.Select>
@@ -72,7 +77,7 @@ function FilterForm({filterSearch,type}){
                     <Col>
                         <Form.Group controlId="formAge">
                             <Form.Label>Age</Form.Label>
-                                <Form.Select name="age" value={filterTerm.age} onChange={handleChange}>
+                                <Form.Select name="age" defaultValue={filterTerm.age} onChange={handleChange}>
                                     <option value="baby">Baby</option>
                                     <option value="young">Young</option>
                                     <option value="adult">Adult</option>
@@ -84,7 +89,7 @@ function FilterForm({filterSearch,type}){
                     <Col>
                         <Form.Group controlId="formBreed">
                             <Form.Label>Breed</Form.Label>
-                                <Form.Select name="breed" value={filterTerm.breed} onChange={handleChange}>
+                                <Form.Select name="breed" defaultValue={filterTerm.breed} onChange={handleChange}>
                                     {breeds.map(breed =>(
                                     <option value={breed}>{breed}</option>
                                     ))}
@@ -95,7 +100,7 @@ function FilterForm({filterSearch,type}){
                     <Col>
                         <Form.Group controlId="formColor">
                             <Form.Label>Color</Form.Label>
-                                <Form.Select name="color" value={filterTerm.color} onChange={handleChange}>
+                                <Form.Select name="color" defaultValue={filterTerm.color} onChange={handleChange}>
                                     {colors.map(color =>(
                                         <option key={color} value={color}>{color}</option>
                                     ))}
@@ -106,9 +111,9 @@ function FilterForm({filterSearch,type}){
                     <Col>
                         <Form.Group controlId="formState">
                             <Form.Label>State</Form.Label>
-                                <Form.Select name="state" value={filterTerm.state} onChange={handleChange}>
-                                    {US_STATES.map(state =>(
-                                        <option key = {state} value ={state}>{state}</option>
+                                <Form.Select name="location" defaultValue={filterTerm.location} onChange={handleChange}>
+                                    {US_STATES.map(location =>(
+                                        <option key = {location} value ={location}>{location}</option>
                                     ))}
                                 </Form.Select>
                         </Form.Group>

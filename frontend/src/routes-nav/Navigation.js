@@ -1,6 +1,5 @@
 import React, {useContext} from "react";
 import {Link, NavLink} from "react-router-dom";
-import { formatWithOptions } from "util";
 import UserContext from "../auth/UserContext";
 import {Container, Nav, Navbar} from "react-bootstrap"
 import Kaia from "../images/kaia.jpg"
@@ -26,7 +25,7 @@ function Navigation({logout}){
                             <Nav.Link href="/"> Homepage </Nav.Link>
                             <Nav.Link href="/favorites"> Favorites </Nav.Link>
                             <Nav.Link href="/profile"> Profile </Nav.Link>
-                            <Nav.Link href="/" onSelect={logout}> Log out {currentUser.first_name || currentUser.username}</Nav.Link>
+                            <Nav.Link href="/" onClick={() => logout()}> Log out {currentUser.first_name || currentUser.username}</Nav.Link>
                         </Nav>
                     </Container>
                 </Navbar>
@@ -56,12 +55,6 @@ function Navigation({logout}){
             //     </li>
             // </ul>
 
-
-
-
-    function testtest(){
-        return console.log("**********")
-    }
 
     function loggedOutNavBar(){
         return (

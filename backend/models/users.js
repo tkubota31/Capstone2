@@ -18,11 +18,10 @@ class User{
         const user = result.rows[0];
         if(user){
             const isValid = await bcrypt.compare(password,user.password);
-            if(isValid ===true){
+            if(isValid){
                 return user;
             }
         }
-
         throw new ExpressError("Invalid username/password", 401)
     }
 

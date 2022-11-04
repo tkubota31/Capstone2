@@ -1,6 +1,6 @@
 const express = require("express")
 const router = new express.Router()
-const {ensureLoggedIn} = require("../middleware/auth")
+const {ensureLoggedIn,ensureCorrectUser} = require("../middleware/auth")
 const User= require("../models/users");
 
 const jsonschema = require("jsonschema");
@@ -27,7 +27,7 @@ router.post("/register", async (req,res,next) =>{
 router.get("/:username", async (req,res,next) =>{
     try{
         const user = await User.getUser(req.params.username);
-        console.log(user)
+        // console.log(user)
         return res.json({user});
     } catch(e){
         return next(e);
@@ -35,7 +35,7 @@ router.get("/:username", async (req,res,next) =>{
 })
 
 //delete user
-router.get("/:username/delete", ensureLoggedIn, async (req,res,next) =>{
+router.get("/:username/delete", ensureCorrectUser, async (req,res,next) =>{
     try{
         let username = req.params.username;
         await User.deleteUser(username);

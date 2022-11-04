@@ -10,6 +10,8 @@ class PetApi{
     static async register(user){
         try{
             let response = await axios.post(`${BASE_URL}/users/register`,user)
+            console.log(response)
+            PetApi.token = response.data.token;
             return response.token
         } catch(e){
             console.log(e)
@@ -19,8 +21,8 @@ class PetApi{
     //get current user
     static async getCurrentUser(username){
         try{
-        let response = await axios.get(`${BASE_URL}/users/${username}`);
-        return response.user;
+        let response = await axios.get(`${BASE_URL}/users/${username}`,{params:{_token: localStorage.getItem("token")}});
+        return response.data.user;
         } catch(e){
             console.log(e)
         }
@@ -38,8 +40,12 @@ class PetApi{
     //login to website
     static async login(data){
         try{
-        let response =await axios.post(`${BASE_URL}/auth/login`, data);
-        return response.token;
+            let response = await axios.post(`${BASE_URL}/auth/login`, data);
+            // console.log(`login res: ${JSON.stringify(response)}`);
+            // console.log(`token in login: ${response.data.token}`);
+            PetApi.token = response.data.token;
+            localStorage.setItem("token", PetApi.token )
+            return response.data.token;
         }catch(e){
             console.log(e)
         }
@@ -48,7 +54,7 @@ class PetApi{
     //get pet based on type (dog,cat,etc)
     static async petType(type){
         try{
-            let response = await axios.get(`${BASE_URL}/pets`, {type});
+            let response = await axios.get(`${BASE_URL}/pets?`, {params:{type,_token: localStorage.getItem("token")}});
             return response.data
         } catch(e){
             console.log(e)
@@ -58,8 +64,7 @@ class PetApi{
     //get all types of pets
     static async allPetTypes(){
         try{
-            console.log("inside pet type")
-            let response = await axios.get(`${BASE_URL}/pets/types`)
+            let response = await axios.get(`${BASE_URL}/pets/types`, {params:{_token: localStorage.getItem("token")}})
             return response.data
         }catch(e){
             console.log(e)
@@ -69,7 +74,7 @@ class PetApi{
     //get info on one type of pet
     static async petTypeInfo(type){
         try{
-            let response = await axios.get(`${BASE_URL}/pets/onetype/${type}`)
+            let response = await axios.get(`${BASE_URL}/pets/onetype/${type}`,{params:{_token: localStorage.getItem("token")}})
             return response.data.type
         }catch(e){
             console.log(e)
@@ -79,7 +84,8 @@ class PetApi{
     //get pet based on filters
     static async petFilter(type,breed,gender,age,color,location){
         try{
-            let response = await axios.get(`${BASE_URL}/pets/search`, {type,breed,gender,age,color,location});
+            let response = await axios.get(`${BASE_URL}/pets/search`, {params: {type,breed,gender,age,color,location,_token: localStorage.getItem("token")}});
+
             return response.data
         }catch(e){
             console.log(e)
@@ -89,7 +95,7 @@ class PetApi{
     //get specific pet based on id
     static async getPet(id){
         try{
-            let response = await axios.get(`${BASE_URL}/pets/${id}`);
+            let response = await axios.get(`${BASE_URL}/pets/${id}`,{params:{_token: localStorage.getItem("token")}});
             return response.data
         }catch(e){
             console.log(e)
@@ -99,7 +105,7 @@ class PetApi{
     //create pet favorite
     static async favPet(id){
         try{
-            let response = await axios.post(`${BASE_URL}/pets/favorite/${id}`);
+            let response = await axios.post(`${BASE_URL}/pets/favorite/${id}`,{params:{_token: localStorage.getItem("token")}});
             return response.data
         }catch(e){
             console.log(e)
@@ -109,7 +115,7 @@ class PetApi{
     //get breeds of specific pet type
     static async petBreed(type){
         try{
-            let response = await axios.get(`${BASE_URL}/pets/breeds/${type}`)
+            let response = await axios.get(`${BASE_URL}/pets/breeds/${type}`, {params:{_token: localStorage.getItem("token")}})
             return response.data.breeds
         }catch(e){
             console.log(e)

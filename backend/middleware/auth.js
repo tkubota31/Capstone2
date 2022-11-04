@@ -4,10 +4,17 @@ const ExpressError = require("../expressError")
 
 function authenticateJWT(req,res,next){
     try{
-    const token = req.body._token;
-    const payload = jwt.verify(token, SECRET_KEY);
-    req.user = payload;
-    return next();
+        // console.log(`req.url: ${req.url}`)
+        // console.log(`req.originalUrl: ${req.originalUrl}`)
+        // console.log(`data: ${JSON.stringify(req.data)}`);
+        // console.log(`params: ${JSON.stringify(req.params)}`);
+        console.log(`query: ${JSON.stringify(req.query)}`);
+        // console.log(`body: ${JSON.stringify(req.body)}`);
+        const token = req.query._token;
+        const payload = jwt.verify(token, SECRET_KEY);
+        req.user = payload;
+        console.log(`req.user in authjwt: ${token}`)
+        return next();
     } catch(e){
         return next()
     }
@@ -34,4 +41,5 @@ function ensureCorrectUser(req,res,next){
     }
 }
 module.exports = {authenticateJWT,
-                  ensureLoggedIn}
+                  ensureLoggedIn,
+                ensureCorrectUser}

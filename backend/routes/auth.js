@@ -5,7 +5,7 @@ const db = require("../db")
 const bcrypt = require("bcrypt")
 const {BCRYPT_WORK_FACTOR, SECRET_KEY} = require("../config")
 const jwt = require("jsonwebtoken")
-const {ensureLoggedIn} = require("../middleware/auth")
+const {ensureLoggedIn, ensureCorrectUser} = require("../middleware/auth")
 
 const User = require("../models/users")
 
@@ -38,6 +38,7 @@ router.post("/login", async (req,res,next) =>{
         const user = await User.authenticate(username,password)
         if(user){
                 const token = jwt.sign({username}, SECRET_KEY)
+                console.log(`backend token: ${token}`);
                 return res.json({message: "Logged In", token})
             }
 

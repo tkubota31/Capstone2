@@ -4,68 +4,45 @@ import LoadingPage from "../general/LoadingPage";
 import PetSearch from "./PetType"
 import {Card, Button} from "react-bootstrap"
 import CatDog from "../images/catdog.webp"
-import {useNavigate} from "react-router-dom"
+
 
 function PetType(){
     const[types, setTypes] = useState([]);
-    const navigate = useNavigate();
+    const[petType, setPetType] = useState();
 
     useEffect(() =>{
         getAllPetTypes()
     },[]);
+
 
     async function getAllPetTypes(){
         let allTypes = await PetApi.allPetTypes()
         setTypes(allTypes)
     }
 
-    // if(!types) return <LoadingPage />
+    if(!types) return <LoadingPage />
 
-    console.log(types)
    return (
     <div>
-        <div>
+        <div style={{display:"flex"}}>
            {/* this formay of doing cards is better! */}
+           {types.map((type) =>
                 <Card style={{ width: "18rem"}}>
                     <Card.Img variant = "top" src={CatDog} alt="Pet Picture" />
                     <Button
                         variant="info"
-                        href = "/">
-                            DOGS
+                        onClick={() => {
+                            setPetType(type)
+                            // setColors()
+                            // setBreeds()
+                        }}
+                        >
+                            {type.name}
                     </Button>
                 </Card>
-
-
-                {/* <Card style={{ width: "18rem"}}>
-                    <Button
-                        variant="primary">
-                            DOGS
-                            <Card.Img src={CatDog} alt="Pet Picture" />
-                    </Button>
-                </Card> */}
-
-
+           )}
             </div>
-        {/* {types.map(type =>(
-            <div>
-                <Card className="bg-dark text-white">
-                    <Card.Img src="holder.js/100px270" alt="Card image" />
-                    <Card.ImgOverlay>
-                        <Card.Title>Card title</Card.Title>
-                        <Card.Text>
-                        This is a wider card with supporting text below as a natural lead-in
-                        to additional content. This content is a little bit longer.
-                        </Card.Text>
-                        <Card.Text>Last updated 3 mins ago</Card.Text>
-                    </Card.ImgOverlay>
-                </Card>
-
-
-                {/* <PetSearch
-                    key={type.name}
-                    type={type.name} /> */}
-            {/* </div>
-        ))} */}
+            <PetSearch type={petType} />
     </div>
    )
 }
