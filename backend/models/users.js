@@ -94,6 +94,20 @@ class User{
         return user;
     }
 
+    //add to favorite
+    static async addPetFav(username, petId){
+        const petCheck = await db.query(
+            `SELECT pet_id
+            FROM pets
+            WHERE pet_id = $1`,
+            [petId]
+        );
+
+        const pet = petCheck.rows[0]
+
+        if(!pet) throw new ExpressError("Pet not found", 404)
+    }
+
     static async deleteUser(username){
         const userRes = await db.query(
             `DELETE

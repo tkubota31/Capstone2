@@ -80,8 +80,8 @@
                     ]
                 },
                 "description": {
-                    "type": "null",
-                    "default": null,
+                    "type": "string",
+                    "default": "",
                     "title": "The description Schema",
                     "examples": [
                         null

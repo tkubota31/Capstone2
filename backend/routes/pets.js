@@ -7,7 +7,7 @@ const {ensureLoggedIn,ensureCorrectUser} = require("../middleware/auth")
 const jsonschema = require("jsonschema");
 const favPetSchema = require("../schemas/favPet.json");
 
-let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6IjNmYzdmYWY5OWEzZmY4Y2M3MzFkMjNlZTZjOWI2YTBmZjQ0Y2U5Njg5NTdjM2ExNTFmYzcxZDNlYjJjYzIwMWJmZTg2ZTQzMThmNTg1ODVjIiwiaWF0IjoxNjY3NTQzMzg1LCJuYmYiOjE2Njc1NDMzODUsImV4cCI6MTY2NzU0Njk4NSwic3ViIjoiIiwic2NvcGVzIjpbXX0.jvo1K7AV0OfcNvj26QMLt0qnRJQAXhgdC7nGfO167I-eAyLWlOZc8WhW0Ns_Z_qElS0lqnO0HgGZP2B-V0sNpsQTAy5ESJG33aDNb4GqS--xWaH145YTNGVdhhV1y1PRyABYtC2G7D7ixFeE0mmE3x28S9UlP6z0SEOjkI6dqjXZJsLfLxfITOavNvRCGMQZ8ABZ_wIKPUhCDPqTqpxyvXSzeUGFElDtZcYrMfk62mPcydebb9zec7wh9Cxo_ZrRyDlIm-VxP-mbqqnp6GlfqCrzC68QuJnKICm0tjVpjS2Tt-dDs95BtuTV-1LBwyWlegkoRUlUwNbm7fsbAGXQcA"
+let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6ImU0ZWE2OTc1NWQxODYxMmIxOGQ5YWVlMGUwYzQzNTllNjQwZGY3NTc1YWExNDI3ZGFmNTM2YzE4Yjc0MTY5OTE3ZmM1YWFlMTQxOWFmZjA0IiwiaWF0IjoxNjY3ODU2MjQ0LCJuYmYiOjE2Njc4NTYyNDQsImV4cCI6MTY2Nzg1OTg0NCwic3ViIjoiIiwic2NvcGVzIjpbXX0.JxAOZqoN0HNTRTxnY6ZCCdVOOnHev4Lggm_Osq3vv3U1kphuPg5SCiUjfKQsUv3nKrm57kqTnsjLppJ1fAqREzcO99TNMs4GaviX6GsSBjp3Tq4YMQdtWhipIimtQj3NoWqANkqgEshM0EApWUVh4f8Vc2s8iSNj3ALFzF6_FUpcuBGPC8hZZvxiofSudSmbMgZLm-Jn0WbKe-WH3WLuu-hhZM-oamHeoG9aPF-l1YwWu_CbGIapEQRhgHv0zoOHbVoLTREmfXN2boiXZv-6QcTAUyQI7YwmM54vVbFotDiQz7BpxopQ_FibTQaKE7KrYJYCC4118vzZncmkAjxnbA"
 // axios.defaults.headers.common["Authorization"] = 'Bearer ' + accessToken **didn't work!
 const apiURL = "https://api.petfinder.com/v2"
 const config ={
@@ -112,8 +112,9 @@ router.get('/:id', ensureLoggedIn, async (req,res,next) =>{
 
 
 //Create favorite for the user and put in database
-router.post("/favorite/:id", ensureCorrectUser, async(req,res,next) =>{
+router.post("/favorite/:id", async(req,res,next) =>{
     try{
+        console.log("BACKEND PETS FAVORITE")
         const id = req.params.id;
         await axios.get(`${apiURL}/animals/${id}`, config)
         .then(result =>{

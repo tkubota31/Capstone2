@@ -58,12 +58,10 @@ function App() {
 
     async function login(data){
       try{
-        console.log("FRONTEND LOGIN")
         let token = await PetApi.login(data);
         localStorage.setItem("token",token)
         setToken(token)
         // setToken(token)
-        console.log(token)
         return {success: true};
       }catch(e){
         console.log(e)
@@ -72,21 +70,24 @@ function App() {
     }
 
     function logout() {
-      console.log("UNCHUNCUNCUHU")
       setCurrentUser(null);
       localStorage.removeItem("token")
       setToken(null)
-      console.log(localStorage.getItem("token"))
     }
 
     function hasFavoritedPet(id){
+      console.log("HAS FAVORITED PET")
+      console.log(id)
+      console.log(favoritedPetsId.has(id))
       return favoritedPetsId.has(id)
     }
 
     function favoritePet(id){
-      if(hasFavoritedPet(id)) return;
+      // if(hasFavoritedPet(id)) return;
+      console.log("favoritePet function here")
       PetApi.favPet(id);
       setFavoritedPetsId(new Set([...favoritedPetsId,id]))
+      console.log(favoritedPetsId)
     }
 
 console.log(`CURRENT USER ${currentUser}`)

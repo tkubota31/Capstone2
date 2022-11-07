@@ -5,6 +5,7 @@ import LoginForm from "../auth/LoginForm"
 import Homepage from "../general/Homepage"
 import SecuredRoute from "./SecuredRoute"
 import PetType from "../pets/PetType"
+import PetFavorites from "../pets/PetFavorites"
 
 function AllRoutes({login, register}){
 
@@ -19,6 +20,8 @@ function AllRoutes({login, register}){
                        element={<LoginForm login = {login} />} />
                 <Route path="/pets"
                        element = {<PetType/>} />
+                <Route path="/favorites"
+                       element= {<PetFavorites />} />
                 <Route path ="/"
                        element={<Navigate to="/"/>} />
             </Routes>

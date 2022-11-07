@@ -27,12 +27,13 @@ function PetType(){
         <div style={{display:"flex"}}>
            {/* this formay of doing cards is better! */}
            {types.map((type) =>
-                <Card style={{ width: "18rem"}}>
+                <Card key={type.name} style={{ width: "18rem"}}>
                     <Card.Img variant = "top" src={CatDog} alt="Pet Picture" />
                     <Button
                         variant="info"
                         onClick={() => {
-                            setPetType(type)
+                            setPetType(type.name)
+                            console.log(type)
                             // setColors()
                             // setBreeds()
                         }}
@@ -42,7 +43,7 @@ function PetType(){
                 </Card>
            )}
             </div>
-            <PetSearch type={petType} />
+            {/* <PetSearch type={petType} /> */}
     </div>
    )
 }

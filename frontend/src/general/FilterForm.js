@@ -23,8 +23,8 @@ function FilterForm({filterSearch,type}){
     useEffect(() =>{
         let petType= "dog"
         getBreeds(petType)
+        console.log("USEEFFECT RUNNING")
         getColors(petType)
-
     }, []);
 
     async function getColors(petType){
@@ -46,14 +46,16 @@ function FilterForm({filterSearch,type}){
 
     function handleSubmit(e){
         e.preventDefault();
-        console.log("**************")
-        console.log(filterTerm)
         filterSearch(filterTerm)
+        console.log(breeds)
     }
 
     function handleChange(e){
         const {name, value} = e.target
         setFilterTerm(term =>({...term, [name]:value}))
+        console.log("**************")
+        console.log(breeds)
+        console.log(colors)
         console.log(filterTerm)
     }
 
@@ -67,8 +69,8 @@ function FilterForm({filterSearch,type}){
                             <Form.Label>Gender</Form.Label>
                             <Form.Select name="gender" defaultValue={filterTerm.gender}  onChange={handleChange}>
                                 {/* <select name="gender" value={filterTerm.gender} onChange={handleChange}> */}
-                                    <option value="male" >Male</option>
-                                    <option value="female">Female</option>
+                                    <option key ="male" value="male" >Male</option>
+                                    <option key ="female" value="female">Female</option>
                                 {/* </select> */}
                             </Form.Select>
                         </Form.Group>
@@ -78,10 +80,10 @@ function FilterForm({filterSearch,type}){
                         <Form.Group controlId="formAge">
                             <Form.Label>Age</Form.Label>
                                 <Form.Select name="age" defaultValue={filterTerm.age} onChange={handleChange}>
-                                    <option value="baby">Baby</option>
-                                    <option value="young">Young</option>
-                                    <option value="adult">Adult</option>
-                                    <option value="senior">Senior</option>
+                                    <option key="baby" value="baby">Baby</option>
+                                    <option key="young" value="young">Young</option>
+                                    <option key="adult" value="adult">Adult</option>
+                                    <option key="senior" value="senior">Senior</option>
                                 </Form.Select>
                         </Form.Group>
                     </Col>
@@ -91,7 +93,7 @@ function FilterForm({filterSearch,type}){
                             <Form.Label>Breed</Form.Label>
                                 <Form.Select name="breed" defaultValue={filterTerm.breed} onChange={handleChange}>
                                     {breeds.map(breed =>(
-                                    <option value={breed}>{breed}</option>
+                                    <option key={breed.name} value={breed}>{breed}</option>
                                     ))}
                                 </Form.Select>
                         </Form.Group>

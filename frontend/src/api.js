@@ -104,9 +104,11 @@ class PetApi{
 
     //create pet favorite
     static async favPet(id){
+        console.log("FRONTEND FAVORITE API")
         try{
             let response = await axios.post(`${BASE_URL}/pets/favorite/${id}`,{params:{_token: localStorage.getItem("token")}});
-            return response.data
+            console.log(response.data.data)
+            return response.data.data
         }catch(e){
             console.log(e)
         }

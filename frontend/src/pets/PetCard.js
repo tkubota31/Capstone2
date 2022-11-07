@@ -8,13 +8,14 @@ function PetCard({id,name, type, breed, gender, age, spayed_neutered, color, des
     const {favoritePet, hasFavoritedPet} = useContext(UserContext);
     const [favorited, setFavorited] = useState();
 
-    useEffect(function updatedFavoritedStatus(){
-        setFavorited(hasFavoritedPet(id));
-    }, [id,hasFavoritedPet]);
+    // useEffect(function updatedFavoritedStatus(){
+    //     setFavorited(hasFavoritedPet(id));
+    // }, [id,hasFavoritedPet]);
 
 
     //add pet as favorite
     async function handleFavorite(evt){
+        console.log("HANDLE FAVORITE")
         if(hasFavoritedPet(id)) return;
         favoritePet(id)
         setFavorited(true);
