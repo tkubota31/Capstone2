@@ -19,7 +19,8 @@ CREATE TABLE pets(
     description TEXT,
     location TEXT ,
     image_url TEXT,
-    organization_id VARCHAR NOT NULL
+    organization_id VARCHAR NOT NULL,
+    user_username TEXT NOT NULL
 );
 
 CREATE TABLE favorites(

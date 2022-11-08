@@ -16,8 +16,9 @@ class Pet{
                                                         description,
                                                         location,
                                                         image_url,
-                                                        organization_id)
-                                    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
+                                                        organization_id,
+                                                        user_username)
+                                    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
                                     RETURNING pet_id, name, type, breed, gender,age,spayed_neutered,color,description,location,image_url,organization_id`,
                                     [
                                         data.id,
@@ -31,7 +32,8 @@ class Pet{
                                         data.description,
                                         data.location,
                                         data.image_url,
-                                        data.organization_id
+                                        data.organization_id,
+                                        data.user_username
                                     ]);
     return result.rows[0]
     }

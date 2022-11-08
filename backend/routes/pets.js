@@ -7,7 +7,7 @@ const {ensureLoggedIn,ensureCorrectUser} = require("../middleware/auth")
 const jsonschema = require("jsonschema");
 const favPetSchema = require("../schemas/favPet.json");
 
-let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6ImU0ZWE2OTc1NWQxODYxMmIxOGQ5YWVlMGUwYzQzNTllNjQwZGY3NTc1YWExNDI3ZGFmNTM2YzE4Yjc0MTY5OTE3ZmM1YWFlMTQxOWFmZjA0IiwiaWF0IjoxNjY3ODU2MjQ0LCJuYmYiOjE2Njc4NTYyNDQsImV4cCI6MTY2Nzg1OTg0NCwic3ViIjoiIiwic2NvcGVzIjpbXX0.JxAOZqoN0HNTRTxnY6ZCCdVOOnHev4Lggm_Osq3vv3U1kphuPg5SCiUjfKQsUv3nKrm57kqTnsjLppJ1fAqREzcO99TNMs4GaviX6GsSBjp3Tq4YMQdtWhipIimtQj3NoWqANkqgEshM0EApWUVh4f8Vc2s8iSNj3ALFzF6_FUpcuBGPC8hZZvxiofSudSmbMgZLm-Jn0WbKe-WH3WLuu-hhZM-oamHeoG9aPF-l1YwWu_CbGIapEQRhgHv0zoOHbVoLTREmfXN2boiXZv-6QcTAUyQI7YwmM54vVbFotDiQz7BpxopQ_FibTQaKE7KrYJYCC4118vzZncmkAjxnbA"
+let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6IjZmOWIxYmUxOGY0ODU4MDIzOGFiMjk2YzYxMjM0NmFlNmI2ZGQ0MDZjZDljYmEzN2ZiNjYzNjVkYTgyY2YxZDIyODhhY2JiM2IzY2Q2NGRiIiwiaWF0IjoxNjY3ODc4NzU0LCJuYmYiOjE2Njc4Nzg3NTQsImV4cCI6MTY2Nzg4MjM1Mywic3ViIjoiIiwic2NvcGVzIjpbXX0.xtFkczf3HBhu8zVjapPUD5HM8m5vziAev49QZguFhax35wLXlJbBDF7De5DkIyi_mHeLKAkHJ5f0PdsOQcUA8rqvW153YXsTeqlIExZyJbRr6f3hKTqpSOVkszca1aNGmUfLmj89YR1nmnMPD33bVvou5rIbLJMQvwJPiTHIqXFjf_R-H4ym7TXWeOjLDlQdIDKcX4ojqzNKu3AWuhvb-1MLGniDIJ5iHH-ab1hqZYZRgLG8q4a0nDzLBAC-d38t89afYsEtAkFwzxSudR6FgvyjETuhW2qPjPt2g00H2NbKFa2c4AaZ-Jrh1j7YBbG2aeyH_BGK_ay9WNMbQQgnbQ"
 // axios.defaults.headers.common["Authorization"] = 'Bearer ' + accessToken **didn't work!
 const apiURL = "https://api.petfinder.com/v2"
 const config ={
@@ -110,12 +110,13 @@ router.get('/:id', ensureLoggedIn, async (req,res,next) =>{
     }
 })
 
-
+//**** add username to pet */
 //Create favorite for the user and put in database
-router.post("/favorite/:id", async(req,res,next) =>{
+router.post("/favorite/:id/:username", async(req,res,next) =>{
     try{
         console.log("BACKEND PETS FAVORITE")
         const id = req.params.id;
+        const username = req.params.username
         await axios.get(`${apiURL}/animals/${id}`, config)
         .then(result =>{
             let favPet = result.data.animal
@@ -131,7 +132,9 @@ router.post("/favorite/:id", async(req,res,next) =>{
                 description: favPet.description,
                 location: favPet.contact.address.state,
                 image_url: favPet.primary_photo_cropped.full ? favPet.primary_photo_cropped.full : "Unavailable" ,
-                organization_id: favPet.organization_id
+                organization_id: favPet.organization_id,
+                user_username: username
+
             }
         const validator = jsonschema.validate(data, favPetSchema);
         // console.log(validator)

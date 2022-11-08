@@ -8,12 +8,13 @@ function authenticateJWT(req,res,next){
         // console.log(`req.originalUrl: ${req.originalUrl}`)
         // console.log(`data: ${JSON.stringify(req.data)}`);
         // console.log(`params: ${JSON.stringify(req.params)}`);
-        console.log(`query: ${JSON.stringify(req.query)}`);
+        // console.log(`query: ${JSON.stringify(req.query)}`);
         // console.log(`body: ${JSON.stringify(req.body)}`);
         const token = req.query._token;
         const payload = jwt.verify(token, SECRET_KEY);
         req.user = payload;
         console.log(`req.user in authjwt: ${token}`)
+        console.log(`trying to find current user ${payload}`)
         return next();
     } catch(e){
         return next()

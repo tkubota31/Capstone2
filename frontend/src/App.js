@@ -82,10 +82,11 @@ function App() {
       return favoritedPetsId.has(id)
     }
 
-    function favoritePet(id){
+    function favoritePet(id,currentUser){
       // if(hasFavoritedPet(id)) return;
       console.log("favoritePet function here")
-      PetApi.favPet(id);
+      console.log(currentUser)
+      PetApi.favPet(id,currentUser);
       setFavoritedPetsId(new Set([...favoritedPetsId,id]))
       console.log(favoritedPetsId)
     }

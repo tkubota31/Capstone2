@@ -12,7 +12,8 @@
         "gender",
         "age",
         "spayed_neutered",
-        "location"
+        "location",
+        "user_username"
     ],
     "properties": {
                 "id": {
@@ -110,6 +111,14 @@
                     "examples": [
                         "FL219"
                     ]
+                },
+                "user_username":{
+                    "type": "string",
+                    "default":"",
+                    "title": "The user_username Schema",
+                    "examples":[
+                        "taiohk31"
+                    ]
                 }
             },
             "examples": [{
@@ -124,6 +133,7 @@
                 "description": null,
                 "location": "FL",
                 "image_url": "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/58561120/1/?bust=1666021694",
-                "organization_id": "FL219"
+                "organization_id": "FL219",
+                "username":"taiohk31"
             }]
         }

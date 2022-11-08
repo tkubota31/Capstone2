@@ -7,6 +7,7 @@ import Button from "react-bootstrap/Button"
 function PetCard({id,name, type, breed, gender, age, spayed_neutered, color, description, location, image_url, organization_id}){
     const {favoritePet, hasFavoritedPet} = useContext(UserContext);
     const [favorited, setFavorited] = useState();
+    const {currentUser, setCurrentUser} = useContext(UserContext)
 
     // useEffect(function updatedFavoritedStatus(){
     //     setFavorited(hasFavoritedPet(id));
@@ -17,7 +18,7 @@ function PetCard({id,name, type, breed, gender, age, spayed_neutered, color, des
     async function handleFavorite(evt){
         console.log("HANDLE FAVORITE")
         if(hasFavoritedPet(id)) return;
-        favoritePet(id)
+        favoritePet(id,currentUser)
         setFavorited(true);
     }
 
