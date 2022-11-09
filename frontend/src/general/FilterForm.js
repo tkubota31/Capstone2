@@ -23,7 +23,7 @@ function FilterForm({filterSearch,type}){
     useEffect(() =>{
         let petType= "dog"
         getBreeds(petType)
-        console.log("USEEFFECT RUNNING")
+        // console.log("USEEFFECT RUNNING")
         getColors(petType)
     }, []);
 

@@ -104,12 +104,19 @@ class PetApi{
 
     //create pet favorite
     static async favPet(id,username){
-        console.log("FRONTEND FAVORITE API")
-        console.log(id,username)
         try{
             let response = await axios.post(`${BASE_URL}/pets/favorite/${id}/${username}`,{params:{_token: localStorage.getItem("token")}});
-            console.log(response.data.data)
             return response.data.data
+        }catch(e){
+            console.log(e)
+        }
+    }
+
+    //get all favorited pets
+    static async getAllFavPets(username){
+        try{
+            let response = await axios.get(`${BASE_URL}/pets/favorite/${username}`,{params:{_token: localStorage.getItem("token")}});
+            return response.data.result
         }catch(e){
             console.log(e)
         }
@@ -126,9 +133,14 @@ class PetApi{
     }
 
     //delete pet based on id
-    static async deletePet(id){
+    static async deletePet(id,username){
+        console.log("DELETING PET")
         try{
-            let response = await axios.get(`${BASE_URL}/pets/favorite/${id}`);
+            console.log("before response")
+            console.log(id,username)
+            let response = await axios.delete(`${BASE_URL}/pets/favorite/${id}/${username}`,{params:{_token: localStorage.getItem("token")}});
+            console.log("after response")
+            return response
         }catch(e){
             console.log(e)
         }

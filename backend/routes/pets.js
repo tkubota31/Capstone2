@@ -7,7 +7,7 @@ const {ensureLoggedIn,ensureCorrectUser} = require("../middleware/auth")
 const jsonschema = require("jsonschema");
 const favPetSchema = require("../schemas/favPet.json");
 
-let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6IjZmOWIxYmUxOGY0ODU4MDIzOGFiMjk2YzYxMjM0NmFlNmI2ZGQ0MDZjZDljYmEzN2ZiNjYzNjVkYTgyY2YxZDIyODhhY2JiM2IzY2Q2NGRiIiwiaWF0IjoxNjY3ODc4NzU0LCJuYmYiOjE2Njc4Nzg3NTQsImV4cCI6MTY2Nzg4MjM1Mywic3ViIjoiIiwic2NvcGVzIjpbXX0.xtFkczf3HBhu8zVjapPUD5HM8m5vziAev49QZguFhax35wLXlJbBDF7De5DkIyi_mHeLKAkHJ5f0PdsOQcUA8rqvW153YXsTeqlIExZyJbRr6f3hKTqpSOVkszca1aNGmUfLmj89YR1nmnMPD33bVvou5rIbLJMQvwJPiTHIqXFjf_R-H4ym7TXWeOjLDlQdIDKcX4ojqzNKu3AWuhvb-1MLGniDIJ5iHH-ab1hqZYZRgLG8q4a0nDzLBAC-d38t89afYsEtAkFwzxSudR6FgvyjETuhW2qPjPt2g00H2NbKFa2c4AaZ-Jrh1j7YBbG2aeyH_BGK_ay9WNMbQQgnbQ"
+let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6IjY2NTE3NmIwNjMwMzgzMTMyNzI0MDBjZjVjZTk1NWE3MmZmNWYwODk0ZjczM2MzYTRkYWVmMTQ3ZWYyOWZiMzMyN2ViNjNmZGQzNDI3NzE2IiwiaWF0IjoxNjY3OTQxNTUxLCJuYmYiOjE2Njc5NDE1NTEsImV4cCI6MTY2Nzk0NTE1MSwic3ViIjoiIiwic2NvcGVzIjpbXX0.ebg272JcgV3wsZTGYZviCdbuptCkdAbzlc0JQ6S97UhXlSXNHqz2a0Ph5jqXbqYtl1RD71brKDUEFc_UiIFlA9ENFdDl6D60zt4G4WgOU-gjpukhQFAI4N6DWGnggG4GGe7MPnfE0ufvQhEuN20irTKneNiGM63aBspzmeRJgo5TW6drANGuhZgN_4x2255qpKV775jfRT-0DF45x8P4xEDzENgNGMoxSOTkkhAA8FOiN8FwRgxVC99jIxk-nA8YFQKJ4OukxwV2MSnTod2D32hnQnLugHIaWS_kmdRt_QVTShmeqLfLwANwXHJCp_CMwhYhn46p0NokwnZgFMiXYw"
 // axios.defaults.headers.common["Authorization"] = 'Bearer ' + accessToken **didn't work!
 const apiURL = "https://api.petfinder.com/v2"
 const config ={
@@ -110,11 +110,10 @@ router.get('/:id', ensureLoggedIn, async (req,res,next) =>{
     }
 })
 
-//**** add username to pet */
+
 //Create favorite for the user and put in database
 router.post("/favorite/:id/:username", async(req,res,next) =>{
     try{
-        console.log("BACKEND PETS FAVORITE")
         const id = req.params.id;
         const username = req.params.username
         await axios.get(`${apiURL}/animals/${id}`, config)
@@ -165,10 +164,23 @@ router.get("/breeds/:type", ensureLoggedIn, async (req,res,next) =>{
     }
 })
 
-//delete dog based on id
-router.delete("/favorite/:id", ensureCorrectUser, async (req,res,next) =>{
+//route to get all pets that are favorited
+router.get("/favorite/:username", async(req,res,next) =>{
     try{
-        await Pet.delete(req.params.id)
+        const username = req.params.username;
+        const result = await Pet.getAllFavPet(username);
+        return res.json({result})
+    }catch(e){
+        return next(e)
+    }
+})
+
+//delete dog based on id
+router.delete("/favorite/:id/:username", async (req,res,next) =>{
+    console.log("BACKEND DELETE ROUTE")
+    try{
+        console.log("INSIDE BACKEND DELETE ROUTE")
+        await Pet.delete(req.params.id,req.params.username)
         return res.json({msg: "Deleted"})
     } catch(e){
         return next(e)

@@ -28,9 +28,6 @@ function PetCard({id,name, type, breed, gender, age, spayed_neutered, color, des
                 <Card.Img variant = "top" src={image_url} alt="Pet Picture" />
                 <Card.Body>
                     <Card.Title>{name}</Card.Title>
-                    <Card.Text>
-                        {description}
-                    </Card.Text>
                 </Card.Body>
                 <ListGroup variant="flush">
                     <ListGroup.Item>Pet Type: {type}</ListGroup.Item>

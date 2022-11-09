@@ -11,6 +11,7 @@ import PetType from "./pets/PetType"
 import FilterForm from "./general/FilterForm"
 import PetCard from "./pets/PetCard"
 import jwt_decode from "jwt-decode"
+import PetCardList from "./pets/PetCardList"
 
 function App() {
   const [token, setToken] = useState(null)
@@ -107,6 +108,7 @@ console.log(`CURRENT USER ${currentUser}`)
           <div>
             <Routes register = {register} login = {login} />
           </div>
+          {/* <PetCardList /> */}
           {/* <PetCard /> */}
       <PetSearch />
       {/* <PetType /> */}

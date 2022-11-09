@@ -33,9 +33,7 @@ function PetType(){
                         variant="info"
                         onClick={() => {
                             setPetType(type.name)
-                            console.log(type)
-                            // setColors()
-                            // setBreeds()
+                            console.log(type.name)
                         }}
                         >
                             {type.name}

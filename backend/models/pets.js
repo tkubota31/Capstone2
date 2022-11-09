@@ -40,7 +40,7 @@ class Pet{
 
     static async getPet(id){
         const result = await db.query(
-            `SELECT (pet_id,
+            `SELECT pet_id,
                     name,
                     type,
                     breed,
@@ -51,25 +51,52 @@ class Pet{
                     description,
                     location,
                     image_url,
-                    organization_id)
+                    organization_id,
+                    user_username
             FROM pets
             WHERE pet_id = $1`,
             [id]
         );
-
-        if(!result.rows.length ===0){
+        if(result.rows.length ===0){
             throw new ExpressError("Pet not found", 404)
         }
 
         return result.rows[0];
     }
 
-    static async delete(id){
+    static async getAllFavPet(username){
+        const result = await db.query(
+            `SELECT pet_id,
+                    name,
+                    type,
+                    breed,
+                    gender,
+                    age,
+                    spayed_neutered,
+                    color,
+                    description,
+                    location,
+                    image_url,
+                    organization_id,
+                    user_username
+            FROM pets
+            WHERE user_username = $1`,
+            [username]
+        );
+
+        if(result.rows.length ===0){
+            throw new ExpressError("No pets favorited", 404)
+        }
+        return result.rows
+    }
+
+    static async delete(id,username){
+        console.log("INSIDE QUERY")
         const result = await db.query(`
         DELETE FROM pets
-        WHERE id = $1
-        RETURNING id`,
-        [id])
+        WHERE pet_id = $1 AND user_username = $2
+        RETURNING pet_id`,
+        [id,username])
         if(result.rows.length ===0){
             throw new ExpressError("Pet not found", 404)
         }

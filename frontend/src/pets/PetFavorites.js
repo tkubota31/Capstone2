@@ -1,15 +1,57 @@
 import React, {useContext, useState, useEffect} from "react"
 import UserContext from "../auth/UserContext";
+import PetApi from "../api";
+import PetCard from "./PetCard"
 import Card from "react-bootstrap/Card"
 import ListGroup from "react-bootstrap/ListGroup"
 import Button from "react-bootstrap/Button"
 
 function PetFavorites(){
+    const {favoritePet, hasFavoritedPet} = useContext(UserContext);
+    const {currentUser, setCurrentUser} = useContext(UserContext);
+    const [favoritePets, setFavoritePets] = useState([])
 
+    useEffect (()=>{
+        getAllFavoritedPets(currentUser)
+    },[])
+
+    async function getAllFavoritedPets(username){
+        let response = await PetApi.getAllFavPets(username)
+        setFavoritePets(response)
+    }
+console.log(favoritePets)
 
     return (
-        <h1>PET FAVORITerS</h1>
+    <div>
+        {favoritePets.map(pet =>(
+        <div style ={{display:"flex"}}>
+            <Card style={{ width: "18rem"}}>
+                <Card.Img variant = "top" src={pet.image_url} alt="Pet Picture" />
+                <Card.Body>
+                    <Card.Title>{pet.name}</Card.Title>
+                </Card.Body>
+                <ListGroup variant="flush">
+                    <ListGroup.Item>Pet Type: {pet.type}</ListGroup.Item>
+                    <ListGroup.Item>Breed: {pet.breed}</ListGroup.Item>
+                    <ListGroup.Item>Gender: {pet.gender}</ListGroup.Item>
+                    <ListGroup.Item>Age: {pet.age}</ListGroup.Item>
+                    <ListGroup.Item>Hair Color: {pet.color}</ListGroup.Item>
+                    <ListGroup.Item>Spayed/Neutered: {String(pet.spayed_neutered)}</ListGroup.Item>
+                    <ListGroup.Item>Location: {pet.location}</ListGroup.Item>
+                </ListGroup>
+            <Button
+                variant="primary"
+                onClick={() =>{
+                    PetApi.deletePet(pet.pet_id,currentUser)
+                }}>
+            Remove
+            </Button>
+            </Card>
+        </div>
+        ))}
+    </div>
     )
 }
+
 
 export default PetFavorites

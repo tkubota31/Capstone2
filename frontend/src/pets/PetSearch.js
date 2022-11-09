@@ -6,38 +6,36 @@ import FilterForm from "../general/FilterForm";
 
 function PetSearch({type}){
     const[pets, setPets] = useState([
-		{
-            "id": 58732868,
-            "name": "Lucky",
-            "type": "Dog",
-            "breeds": {
-                "primary": "pug"
-            },
-            "gender": "male",
-            "age": "young",
-            "attributes":{
-                    "spayed_neutered": true
-                },
-            "colors": {
-                "primary":null
-            },
-            "contact":{
-                    "address":{
-                        "state":"MA"
-                    }
-            },
-            "image_url": null,
-            "organization_id": "Ma31234"
-        }
+		// {
+        //     "id": 58732868,
+        //     "name": "Lucky",
+        //     "type": "Dog",
+        //     "breeds": {
+        //         "primary": "pug"
+        //     },
+        //     "gender": "male",
+        //     "age": "young",
+        //     "attributes":{
+        //             "spayed_neutered": true
+        //         },
+        //     "colors": {
+        //         "primary":null
+        //     },
+        //     "contact":{
+        //             "address":{
+        //                 "state":"MA"
+        //             }
+        //     },
+        //     "image_url": null,
+        //     "organization_id": "Ma31234"
+        // }
 
 	]);
 
-    // useEffect(() =>{
-    //     filterSearch({});
-    // }, []);
 
     async function filterSearch({type,breed,gender,age,color,location}){
         let pets = await PetApi.petFilter(type,breed,gender,age,color,location);
+        console.log(pets.animals)
         setPets(pets.animals);
     }
 
