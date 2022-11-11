@@ -110,7 +110,7 @@ console.log(`CURRENT USER ${currentUser}`)
           </div>
           {/* <PetCardList /> */}
           {/* <PetCard /> */}
-      <PetSearch />
+      {/* <PetSearch /> */}
       {/* <PetType /> */}
       {/* <FilterForm /> */}
       </UserContext.Provider>

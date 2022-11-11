@@ -85,7 +85,6 @@ class PetApi{
     static async petFilter(type,breed,gender,age,color,location){
         try{
             let response = await axios.get(`${BASE_URL}/pets/search`, {params: {type,breed,gender,age,color,location,_token: localStorage.getItem("token")}});
-
             return response.data
         }catch(e){
             console.log(e)
@@ -127,6 +126,16 @@ class PetApi{
         try{
             let response = await axios.get(`${BASE_URL}/pets/breeds/${type}`, {params:{_token: localStorage.getItem("token")}})
             return response.data.breeds
+        }catch(e){
+            console.log(e)
+        }
+    }
+
+    //get company info of the pet
+    static async getCompany(orgId){
+        try{
+            let response = await axios.get(`${BASE_URL}/pets/company/${orgId}`, {params:{_token: localStorage.getItem("token")}});
+            return response.data
         }catch(e){
             console.log(e)
         }

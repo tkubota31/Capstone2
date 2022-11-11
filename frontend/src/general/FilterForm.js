@@ -21,27 +21,33 @@ function FilterForm({filterSearch,type}){
 
     //Come back and fix. not hardcoding type but getting type from PETTYPE component
     useEffect(() =>{
-        let petType= "dog"
-        getBreeds(petType)
-        // console.log("USEEFFECT RUNNING")
-        getColors(petType)
-    }, []);
+        if(type){
+            getBreeds(type)
+            getColors(type)
+        }
+    }, [type]);
 
     async function getColors(petType){
+
         let response = await PetApi.petTypeInfo(petType)
-        setColors(response.colors)
+        if(response){
+            setColors(response.colors)
+        }
     }
 
     async function getBreeds(petType){
         let response = await PetApi.petBreed(petType)
-        for(let breed of response){
-            setBreeds(breeds =>[...breeds, breed.name])
-        }
-        // const tempBreeds = [];
-        // for (let breed of response) {
-        //     tempBreeds.push(breed.name);
+        // for(let breed of response){
+        //     setBreeds(breeds =>[...breeds, breed.name])
         // }
-        // setBreeds(tempBreeds);
+        if(response){
+            const tempBreeds = [];
+        for (let breed of response) {
+            tempBreeds.push(breed.name);
+        }
+        setBreeds(tempBreeds);
+        }
+
     }
 
     function handleSubmit(e){
@@ -53,10 +59,6 @@ function FilterForm({filterSearch,type}){
     function handleChange(e){
         const {name, value} = e.target
         setFilterTerm(term =>({...term, [name]:value}))
-        console.log("**************")
-        console.log(breeds)
-        console.log(colors)
-        console.log(filterTerm)
     }
 
     return (
@@ -93,7 +95,7 @@ function FilterForm({filterSearch,type}){
                             <Form.Label>Breed</Form.Label>
                                 <Form.Select name="breed" defaultValue={filterTerm.breed} onChange={handleChange}>
                                     {breeds.map(breed =>(
-                                    <option key={breed.name} value={breed}>{breed}</option>
+                                    <option key={`breed_${breed}`} value={breed}>{breed}</option>
                                     ))}
                                 </Form.Select>
                         </Form.Group>
@@ -104,7 +106,7 @@ function FilterForm({filterSearch,type}){
                             <Form.Label>Color</Form.Label>
                                 <Form.Select name="color" defaultValue={filterTerm.color} onChange={handleChange}>
                                     {colors.map(color =>(
-                                        <option key={color} value={color}>{color}</option>
+                                        <option key={`color_${color}`} value={color}>{color}</option>
                                     ))}
                                 </Form.Select>
                         </Form.Group>

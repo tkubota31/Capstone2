@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import PetApi from "../api";
 import LoadingPage from "../general/LoadingPage";
-import PetSearch from "./PetType"
+import PetSearch from "./PetSearch"
 import {Card, Button} from "react-bootstrap"
 import CatDog from "../images/catdog.webp"
 
@@ -31,17 +31,22 @@ function PetType(){
                     <Card.Img variant = "top" src={CatDog} alt="Pet Picture" />
                     <Button
                         variant="info"
+                        style = {{background: petType === type.name
+                                             ? "yellow"
+                                             :""}}
                         onClick={() => {
                             setPetType(type.name)
-                            console.log(type.name)
+                            console.log(petType)
                         }}
                         >
                             {type.name}
                     </Button>
                 </Card>
            )}
-            </div>
-            {/* <PetSearch type={petType} /> */}
+        </div>
+        {petType
+            ?<PetSearch type={petType} />
+            : <h4> Please Select Pet Type</h4>}
     </div>
    )
 }

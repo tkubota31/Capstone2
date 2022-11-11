@@ -1,13 +1,11 @@
 import React, {useContext, useState, useEffect} from "react"
 import UserContext from "../auth/UserContext";
 import PetApi from "../api";
-import PetCard from "./PetCard"
 import Card from "react-bootstrap/Card"
 import ListGroup from "react-bootstrap/ListGroup"
 import Button from "react-bootstrap/Button"
 
 function PetFavorites(){
-    const {favoritePet, hasFavoritedPet} = useContext(UserContext);
     const {currentUser, setCurrentUser} = useContext(UserContext);
     const [favoritePets, setFavoritePets] = useState([])
 
@@ -23,7 +21,7 @@ console.log(favoritePets)
 
     return (
     <div>
-        {favoritePets.map(pet =>(
+        {favoritePets.map((pet,index) =>(
         <div style ={{display:"flex"}}>
             <Card style={{ width: "18rem"}}>
                 <Card.Img variant = "top" src={pet.image_url} alt="Pet Picture" />
@@ -40,9 +38,11 @@ console.log(favoritePets)
                     <ListGroup.Item>Location: {pet.location}</ListGroup.Item>
                 </ListGroup>
             <Button
-                variant="primary"
+                variant="danger"
                 onClick={() =>{
-                    PetApi.deletePet(pet.pet_id,currentUser)
+                    console.log(index)
+                    setFavoritePets([...favoritePets.slice(0,index), ...favoritePets.slice(index+1)])
+                    // PetApi.deletePet(pet.pet_id,currentUser)
                 }}>
             Remove
             </Button>

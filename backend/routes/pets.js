@@ -7,7 +7,7 @@ const {ensureLoggedIn,ensureCorrectUser} = require("../middleware/auth")
 const jsonschema = require("jsonschema");
 const favPetSchema = require("../schemas/favPet.json");
 
-let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6IjY2NTE3NmIwNjMwMzgzMTMyNzI0MDBjZjVjZTk1NWE3MmZmNWYwODk0ZjczM2MzYTRkYWVmMTQ3ZWYyOWZiMzMyN2ViNjNmZGQzNDI3NzE2IiwiaWF0IjoxNjY3OTQxNTUxLCJuYmYiOjE2Njc5NDE1NTEsImV4cCI6MTY2Nzk0NTE1MSwic3ViIjoiIiwic2NvcGVzIjpbXX0.ebg272JcgV3wsZTGYZviCdbuptCkdAbzlc0JQ6S97UhXlSXNHqz2a0Ph5jqXbqYtl1RD71brKDUEFc_UiIFlA9ENFdDl6D60zt4G4WgOU-gjpukhQFAI4N6DWGnggG4GGe7MPnfE0ufvQhEuN20irTKneNiGM63aBspzmeRJgo5TW6drANGuhZgN_4x2255qpKV775jfRT-0DF45x8P4xEDzENgNGMoxSOTkkhAA8FOiN8FwRgxVC99jIxk-nA8YFQKJ4OukxwV2MSnTod2D32hnQnLugHIaWS_kmdRt_QVTShmeqLfLwANwXHJCp_CMwhYhn46p0NokwnZgFMiXYw"
+let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6IjM5M2VlYTMyMDIxY2NkZDMxMTNmMWQwNjllZjkwZjgyNWY1N2RkOGUzYWJhODc2ZjgxODY1ZDk1OTNiNjYyZmM5MWE3NDVlNjAwODVhZThjIiwiaWF0IjoxNjY4MTMyODI5LCJuYmYiOjE2NjgxMzI4MjksImV4cCI6MTY2ODEzNjQyOSwic3ViIjoiIiwic2NvcGVzIjpbXX0.Q89YD73Le61ExyNZfpcQLLVdzy2mPHMjfeA71hWaBeSbN8I5Aodbhs66t6cfTtz9OoYdIqrVmxI6RjhXe_sr9YuMcUd2vYqikB77XdGCJoz27KUkWzsDlZpEb9kzOhP_8YMgyYc-JAoQdQY5RtMwUMjRaU-QiEMdIybj3YxPkBTpnsBAM6NDG_dsojeC-LC6D_CnVBCWYtcWxDZA7p5ryEeqCFtZwOGoJtOxzC7c8AJBnLxUEpJSAMifVUbTWV1Hu5-vpDyG6xFnDuYCp39SfSfI8IpNbGGlqX6YPDGRnYxhMDrU7D5IdEGeXnhA7Fdnud4qnOiGhsxFM4XPm245Yw"
 // axios.defaults.headers.common["Authorization"] = 'Bearer ' + accessToken **didn't work!
 const apiURL = "https://api.petfinder.com/v2"
 const config ={
@@ -38,12 +38,15 @@ router.get("/search", ensureLoggedIn, async (req,res,next) =>{
 
         //if query param is undefined, delete it so that it will not go into the url
         for( let key in filterObj){
-            if(filterObj[key] ===undefined){
+            console.log(key, filterObj[key])
+            if(filterObj[key] === undefined || filterObj[key] === ""){
+
                 delete filterObj[key]
             }
         }
 
         let newUrl= new URLSearchParams(filterObj).toString()
+        console.log()
         console.log(newUrl)
         await axios.get(`${apiURL}/animals/?${newUrl}`, config)
         // console.log(`${apiURL}/animals?breed${breed ? `= ${breed}` : "="}&gender=${gender}&age=${age}&color=${color}&location${location}`)
@@ -174,6 +177,21 @@ router.get("/favorite/:username", async(req,res,next) =>{
         return next(e)
     }
 })
+
+//route to get company info about the pet
+router.get("/company/:orgId", async (req,res,next) =>{
+    try{
+        const orgId = req.params.companyId
+        await axios.get(`${apiURL}/organizations/${orgId}`, config)
+        .then(result =>{
+            let orgInfo = result.data
+            res.json(orgInfo)
+        })
+    }catch(e){
+        return next(e)
+    }
+})
+
 
 //delete dog based on id
 router.delete("/favorite/:id/:username", async (req,res,next) =>{

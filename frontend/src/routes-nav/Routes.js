@@ -6,6 +6,7 @@ import Homepage from "../general/Homepage"
 import SecuredRoute from "./SecuredRoute"
 import PetType from "../pets/PetType"
 import PetFavorites from "../pets/PetFavorites"
+import CompanyDetail from "../company/CompanyDetail"
 
 function AllRoutes({login, register}){
 
@@ -22,6 +23,8 @@ function AllRoutes({login, register}){
                        element = {<PetType/>} />
                 <Route path="/favorites"
                        element= {<PetFavorites />} />
+                <Route path="/company"
+                       element= {<CompanyDetail />} />
                 <Route path ="/"
                        element={<Navigate to="/"/>} />
             </Routes>

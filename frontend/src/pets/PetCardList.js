@@ -6,7 +6,10 @@ function PetCardList({pets}){
 
     return(
         <div>
-            {pets.map(pet =>(
+            {pets.length === 0
+            ? <h4>No results found</h4>
+            :
+            pets.map(pet =>(
                 <PetCard
                     key={pet.id}
                     id={pet.id}
