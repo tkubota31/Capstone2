@@ -42,7 +42,6 @@ console.log(favoritePets)
                 onClick={() =>{
                     console.log(index)
                     setFavoritePets([...favoritePets.slice(0,index), ...favoritePets.slice(index+1)])
-                    // PetApi.deletePet(pet.pet_id,currentUser)
                 }}>
             Remove
             </Button>

@@ -7,7 +7,7 @@ const {ensureLoggedIn,ensureCorrectUser} = require("../middleware/auth")
 const jsonschema = require("jsonschema");
 const favPetSchema = require("../schemas/favPet.json");
 
-let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6IjM5M2VlYTMyMDIxY2NkZDMxMTNmMWQwNjllZjkwZjgyNWY1N2RkOGUzYWJhODc2ZjgxODY1ZDk1OTNiNjYyZmM5MWE3NDVlNjAwODVhZThjIiwiaWF0IjoxNjY4MTMyODI5LCJuYmYiOjE2NjgxMzI4MjksImV4cCI6MTY2ODEzNjQyOSwic3ViIjoiIiwic2NvcGVzIjpbXX0.Q89YD73Le61ExyNZfpcQLLVdzy2mPHMjfeA71hWaBeSbN8I5Aodbhs66t6cfTtz9OoYdIqrVmxI6RjhXe_sr9YuMcUd2vYqikB77XdGCJoz27KUkWzsDlZpEb9kzOhP_8YMgyYc-JAoQdQY5RtMwUMjRaU-QiEMdIybj3YxPkBTpnsBAM6NDG_dsojeC-LC6D_CnVBCWYtcWxDZA7p5ryEeqCFtZwOGoJtOxzC7c8AJBnLxUEpJSAMifVUbTWV1Hu5-vpDyG6xFnDuYCp39SfSfI8IpNbGGlqX6YPDGRnYxhMDrU7D5IdEGeXnhA7Fdnud4qnOiGhsxFM4XPm245Yw"
+let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6ImIxNDRjM2YyMWIxYzdkNTBjNzFlZTM0MjQyYTg2MDBjOTJkYzViNDAwYzljODkyZjU4MGQ1M2JhM2Y0ZGNiYzI5YzZmMTE3YTBiZDhmMmZiIiwiaWF0IjoxNjY4NDQzMTY4LCJuYmYiOjE2Njg0NDMxNjgsImV4cCI6MTY2ODQ0Njc2OCwic3ViIjoiIiwic2NvcGVzIjpbXX0.Ps0oETob8ou0DcV7khLhgut9Hr1dBfuscxmTCk-dJiQUc1OeGX-IHbpna6o36dK8dJScP3ZAW8citnOWFfbBBwa85RsSdiI-64gqCJOfyhUXRk9yGBl1-rk7lMFfuaOkVO9ivuQrgVRLF2m0eUpWhvU0rsjTjUGvNreX1pmrNMAsShfaJUhVXdgTv4QCA9F3mXXA78oRyuFFXQZhfyyx7iAN_RAuFVG9_K6qOIEQnJqrJ72xoo7VZALzOAalH5QVrYxmhqGi_owHye5vkIGaP2ZK4FdVreOXXBP2NsrL89ag9ScTnb7xJr6gM8ywd15Q9tW4a8XIu1ikJAAD5ZCNyQ"
 // axios.defaults.headers.common["Authorization"] = 'Bearer ' + accessToken **didn't work!
 const apiURL = "https://api.petfinder.com/v2"
 const config ={
@@ -181,7 +181,7 @@ router.get("/favorite/:username", async(req,res,next) =>{
 //route to get company info about the pet
 router.get("/company/:orgId", async (req,res,next) =>{
     try{
-        const orgId = req.params.companyId
+        const orgId = req.params.orgId
         await axios.get(`${apiURL}/organizations/${orgId}`, config)
         .then(result =>{
             let orgInfo = result.data

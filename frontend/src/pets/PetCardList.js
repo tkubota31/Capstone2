@@ -4,8 +4,9 @@ import PetCard from "./PetCard";
 
 function PetCardList({pets}){
 
+
     return(
-        <div>
+        <div style={{display:"flex"}}>
             {pets.length === 0
             ? <h4>No results found</h4>
             :
@@ -21,8 +22,8 @@ function PetCardList({pets}){
                     spayed_neutered={pet.attributes.spayed_neutered}
                     color={pet.colors.primary}
                     location={pet.contact.address.state}
-                    image_url={pet.image_url}
-                    organization_id={pet.organization}
+                    image_url={pet.primary_photo_cropped.full !== null ? pet.primary_photo_cropped.full : "Not Found"}
+                    organization_id={pet.organization_id}
                 />
 
             ))}

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import PetApi from "../api";
-import {Form, Button, Container, Row, Col} from "react-bootstrap"
+import {Form, Button, Container, Row, Col, FloatingLabel} from "react-bootstrap"
 
 function FilterForm({filterSearch,type}){
     const INITIAL_STATE ={
@@ -53,7 +53,6 @@ function FilterForm({filterSearch,type}){
     function handleSubmit(e){
         e.preventDefault();
         filterSearch(filterTerm)
-        console.log(breeds)
     }
 
     function handleChange(e){
@@ -68,58 +67,66 @@ function FilterForm({filterSearch,type}){
                 <Row>
                     <Col>
                         <Form.Group controlId="formGender">
-                            <Form.Label>Gender</Form.Label>
-                            <Form.Select name="gender" defaultValue={filterTerm.gender}  onChange={handleChange}>
-                                {/* <select name="gender" value={filterTerm.gender} onChange={handleChange}> */}
-                                    <option key ="male" value="male" >Male</option>
-                                    <option key ="female" value="female">Female</option>
-                                {/* </select> */}
-                            </Form.Select>
+                            <FloatingLabel label="Gender">
+                                <Form.Select name="gender" defaultValue={filterTerm.gender}  onChange={handleChange}>
+                                        <option>Choose Option</option>
+                                        <option key ="male" value="male" >Male</option>
+                                        <option key ="female" value="female">Female</option>
+                                </Form.Select>
+                            </FloatingLabel>
                         </Form.Group>
                     </Col>
 
                     <Col>
                         <Form.Group controlId="formAge">
-                            <Form.Label>Age</Form.Label>
+                            <FloatingLabel label="Age">
                                 <Form.Select name="age" defaultValue={filterTerm.age} onChange={handleChange}>
+                                    <option>Choose Age</option>
                                     <option key="baby" value="baby">Baby</option>
                                     <option key="young" value="young">Young</option>
                                     <option key="adult" value="adult">Adult</option>
                                     <option key="senior" value="senior">Senior</option>
                                 </Form.Select>
+                            </FloatingLabel>
                         </Form.Group>
                     </Col>
 
                     <Col>
                         <Form.Group controlId="formBreed">
-                            <Form.Label>Breed</Form.Label>
+                        <FloatingLabel label="Breed">
                                 <Form.Select name="breed" defaultValue={filterTerm.breed} onChange={handleChange}>
+                                    <option>Choose Breed</option>
                                     {breeds.map(breed =>(
                                     <option key={`breed_${breed}`} value={breed}>{breed}</option>
                                     ))}
                                 </Form.Select>
+                        </FloatingLabel>
                         </Form.Group>
                     </Col>
 
                     <Col>
                         <Form.Group controlId="formColor">
-                            <Form.Label>Color</Form.Label>
+                            <FloatingLabel label="color">
                                 <Form.Select name="color" defaultValue={filterTerm.color} onChange={handleChange}>
+                                    <option>Choose Color</option>
                                     {colors.map(color =>(
                                         <option key={`color_${color}`} value={color}>{color}</option>
                                     ))}
                                 </Form.Select>
+                            </FloatingLabel>
                         </Form.Group>
                     </Col>
 
                     <Col>
                         <Form.Group controlId="formState">
-                            <Form.Label>State</Form.Label>
+                            <FloatingLabel label= "state">
                                 <Form.Select name="location" defaultValue={filterTerm.location} onChange={handleChange}>
+                                    <option>Choose State</option>
                                     {US_STATES.map(location =>(
                                         <option key = {location} value ={location}>{location}</option>
                                     ))}
                                 </Form.Select>
+                            </FloatingLabel>
                         </Form.Group>
                     </Col>
                 </Row>

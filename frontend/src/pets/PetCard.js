@@ -3,6 +3,10 @@ import UserContext from "../auth/UserContext";
 import Card from "react-bootstrap/Card"
 import ListGroup from "react-bootstrap/ListGroup"
 import Button from "react-bootstrap/Button"
+import CompanyDetail from "../company/CompanyDetail"
+import {Container, Nav, Navbar} from "react-bootstrap"
+import {Link, NavLink} from "react-router-dom";
+
 
 function PetCard({id,name, type, breed, gender, age, spayed_neutered, color, description, location, image_url, organization_id}){
     const {favoritePet, hasFavoritedPet} = useContext(UserContext);
@@ -21,9 +25,10 @@ function PetCard({id,name, type, breed, gender, age, spayed_neutered, color, des
         favoritePet(id,currentUser)
         setFavorited(true);
     }
+    console.log(organization_id)
 
     return(
-        <div>
+        <div style = {{display:"flex"}}>
             <Card style={{ width: "18rem"}}>
                 <Card.Img variant = "top" src={image_url} alt="Pet Picture" />
                 <Card.Body>
@@ -38,6 +43,7 @@ function PetCard({id,name, type, breed, gender, age, spayed_neutered, color, des
                     <ListGroup.Item>Spayed/Neutered: {String(spayed_neutered)}</ListGroup.Item>
                     <ListGroup.Item>Location: {location}</ListGroup.Item>
                 </ListGroup>
+                <Link to={`/company/${organization_id}`}>UNCH</Link>
                 <Button
                     variant="primary"
                     onClick={handleFavorite}

@@ -23,7 +23,7 @@ function AllRoutes({login, register}){
                        element = {<PetType/>} />
                 <Route path="/favorites"
                        element= {<PetFavorites />} />
-                <Route path="/company"
+                <Route path="/company/:orgId"
                        element= {<CompanyDetail />} />
                 <Route path ="/"
                        element={<Navigate to="/"/>} />

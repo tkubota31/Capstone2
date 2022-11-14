@@ -134,6 +134,7 @@ class PetApi{
     //get company info of the pet
     static async getCompany(orgId){
         try{
+            console.log("FRONTEND API")
             let response = await axios.get(`${BASE_URL}/pets/company/${orgId}`, {params:{_token: localStorage.getItem("token")}});
             return response.data
         }catch(e){

@@ -7,7 +7,7 @@ import "../css/Homepage.css"
 function Homepage(){
     const{ currentUser } = useContext(UserContext);
 
-
+console.log(currentUser)
     return (
         <div>
             <Slider/>
@@ -16,9 +16,13 @@ function Homepage(){
                 <h1 className= "md-4 font-weight-bold">Pet Furend</h1>
                 <p className="lead"> Meet your best furend today!</p>
                 {currentUser
-                    ? <h2>
-                        Welcome Back, {currentUser.firstName || currentUser.username}!
-                    </h2>
+                    ?
+                    <div>
+                        <h2>
+                        Welcome Back, {currentUser}!
+                         </h2>
+                        <Link className="btn btn-info font-weight-bold btn-lg" to="/pets">Search</Link>
+                    </div>
                     : (
                         <p className="HomepageLink">
                             <Link className="btn btn-info font-weight-bold btn-lg" to="/login">
