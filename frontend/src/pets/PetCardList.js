@@ -22,7 +22,7 @@ function PetCardList({pets}){
                     spayed_neutered={pet.attributes.spayed_neutered}
                     color={pet.colors.primary}
                     location={pet.contact.address.state}
-                    image_url={pet.primary_photo_cropped.full !== null ? pet.primary_photo_cropped.full : "Not Found"}
+                    image_url={pet.primary_photo_cropped?.full ? pet.primary_photo_cropped.full : "Not Found"}
                     organization_id={pet.organization_id}
                 />
 

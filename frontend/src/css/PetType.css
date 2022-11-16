@@ -1,0 +1,12 @@
+
+.pettype-container{
+    display:flex;
+    width: 100vw;
+    background-color: green;
+}
+
+
+.pettype-card{
+    width: 18rem;
+
+}

@@ -108,11 +108,6 @@ console.log(`CURRENT USER ${currentUser}`)
           <div>
             <Routes register = {register} login = {login} />
           </div>
-          {/* <PetCardList /> */}
-          {/* <PetCard /> */}
-      {/* <PetSearch /> */}
-      {/* <PetType /> */}
-      {/* <FilterForm /> */}
       </UserContext.Provider>
     </BrowserRouter>
   );

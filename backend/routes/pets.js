@@ -6,8 +6,36 @@ const {ensureLoggedIn,ensureCorrectUser} = require("../middleware/auth")
 
 const jsonschema = require("jsonschema");
 const favPetSchema = require("../schemas/favPet.json");
+const app = require("../app")
 
-let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6ImIxNDRjM2YyMWIxYzdkNTBjNzFlZTM0MjQyYTg2MDBjOTJkYzViNDAwYzljODkyZjU4MGQ1M2JhM2Y0ZGNiYzI5YzZmMTE3YTBiZDhmMmZiIiwiaWF0IjoxNjY4NDQzMTY4LCJuYmYiOjE2Njg0NDMxNjgsImV4cCI6MTY2ODQ0Njc2OCwic3ViIjoiIiwic2NvcGVzIjpbXX0.Ps0oETob8ou0DcV7khLhgut9Hr1dBfuscxmTCk-dJiQUc1OeGX-IHbpna6o36dK8dJScP3ZAW8citnOWFfbBBwa85RsSdiI-64gqCJOfyhUXRk9yGBl1-rk7lMFfuaOkVO9ivuQrgVRLF2m0eUpWhvU0rsjTjUGvNreX1pmrNMAsShfaJUhVXdgTv4QCA9F3mXXA78oRyuFFXQZhfyyx7iAN_RAuFVG9_K6qOIEQnJqrJ72xoo7VZALzOAalH5QVrYxmhqGi_owHye5vkIGaP2ZK4FdVreOXXBP2NsrL89ag9ScTnb7xJr6gM8ywd15Q9tW4a8XIu1ikJAAD5ZCNyQ"
+
+const tokenAuth = {
+	"grant_type": "client_credentials",
+	"client_id": "5ixH8MOVGnQx6pe5WZ3o8MXbci27FUolrtuGF37uJ4E2fFnJol",
+	"client_secret": "6HAEXzcmExEIrpJszeWbNryp6GD9zInaZjCUIVDb"
+}
+
+// let accessToken = async () =>{
+//     await axios.post("https://api.petfinder.com/v2/oauth2/token", tokenAuth)
+//     .then((result) =>{
+//         accessToken = result.data.access_token
+//        return(result.data.access_token)
+// })}
+
+
+let accessToken = null;
+// request to get accessToken
+async function getAccessToken(){
+    await axios.post("https://api.petfinder.com/v2/oauth2/token", tokenAuth)
+    .then((result) =>{
+       return(result.data.access_token)
+    })
+}
+
+getAccessToken().then(data => (accessToken = data))
+
+console.log(accessToken)
+
 // axios.defaults.headers.common["Authorization"] = 'Bearer ' + accessToken **didn't work!
 const apiURL = "https://api.petfinder.com/v2"
 const config ={
@@ -15,6 +43,9 @@ const config ={
         "Authorization": "Bearer " + accessToken
     }
 }
+
+
+
 
 // makes ensureLoggedIn method run for every route that has /pets
 // router.get("/*", ensureLoggedIn, async(req,res,next)=>{
@@ -46,12 +77,12 @@ router.get("/search", ensureLoggedIn, async (req,res,next) =>{
         }
 
         let newUrl= new URLSearchParams(filterObj).toString()
-        console.log()
         console.log(newUrl)
         await axios.get(`${apiURL}/animals/?${newUrl}`, config)
         // console.log(`${apiURL}/animals?breed${breed ? `= ${breed}` : "="}&gender=${gender}&age=${age}&color=${color}&location${location}`)
         // await axios.get(`${apiURL}/animals?breed=${breed}&gender=${gender}&age=${age}&color=${color}&location=${location}`,config)
         .then((result)=>{
+            console.log(result)
             res.json(result.data)
         })
     }catch(e){

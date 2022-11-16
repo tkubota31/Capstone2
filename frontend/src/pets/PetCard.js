@@ -5,13 +5,14 @@ import ListGroup from "react-bootstrap/ListGroup"
 import Button from "react-bootstrap/Button"
 import CompanyDetail from "../company/CompanyDetail"
 import {Container, Nav, Navbar} from "react-bootstrap"
-import {Link, NavLink} from "react-router-dom";
+import {Link, NavLink, useNavigate} from "react-router-dom";
 
 
 function PetCard({id,name, type, breed, gender, age, spayed_neutered, color, description, location, image_url, organization_id}){
     const {favoritePet, hasFavoritedPet} = useContext(UserContext);
     const [favorited, setFavorited] = useState();
     const {currentUser, setCurrentUser} = useContext(UserContext)
+    const navigate = useNavigate();
 
     // useEffect(function updatedFavoritedStatus(){
     //     setFavorited(hasFavoritedPet(id));
@@ -43,13 +44,25 @@ function PetCard({id,name, type, breed, gender, age, spayed_neutered, color, des
                     <ListGroup.Item>Spayed/Neutered: {String(spayed_neutered)}</ListGroup.Item>
                     <ListGroup.Item>Location: {location}</ListGroup.Item>
                 </ListGroup>
-                <Link to={`/company/${organization_id}`}>UNCH</Link>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-info"
+                    onClick= {()=>{
+                        navigate(`/company/${organization_id}`)
+                        }}> Organization
+                    </button>
+                    <button type="button" class="btn btn-success"
+                    onClick= {handleFavorite}
+                    disable = {favorited}>
+                        {favorited ? "Favorited" : "Add to Favorite"}
+                    </button>
+                </div>
+                {/* <Link to={`/company/${organization_id}`}>UNCH</Link>
                 <Button
                     variant="primary"
                     onClick={handleFavorite}
                     disabled = {favorited}>
                 {favorited ? "Favorited" : "Add to Favorite"}
-                </Button>
+                </Button> */}
             </Card>
         </div>
     );
