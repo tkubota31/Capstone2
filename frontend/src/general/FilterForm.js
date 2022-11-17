@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import PetApi from "../api";
 import {Form, Button, Container, Row, Col, FloatingLabel} from "react-bootstrap"
+import "../css/FilterForm.css"
 
 function FilterForm({filterSearch,type}){
     const INITIAL_STATE ={
@@ -63,7 +64,7 @@ function FilterForm({filterSearch,type}){
     return (
         <div>
         <Container fluid>
-            <Form onSubmit={(e)=>handleSubmit(e)}>
+            <Form className= "filterform-form"onSubmit={(e)=>handleSubmit(e)}>
                 <Row>
                     <Col>
                         <Form.Group controlId="formGender">
@@ -131,7 +132,7 @@ function FilterForm({filterSearch,type}){
                     </Col>
                 </Row>
 
-                <Button size="sm" variant= "primary" type="submit"> Search </Button>
+                <Button className= "filterform-btn"size="md" variant= "primary" type="submit"> Search </Button>
             </Form>
         </Container>
         </div>

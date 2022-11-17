@@ -18,23 +18,22 @@ const tokenAuth = {
 // let accessToken = async () =>{
 //     await axios.post("https://api.petfinder.com/v2/oauth2/token", tokenAuth)
 //     .then((result) =>{
-//         accessToken = result.data.access_token
+//         console.log(result.data.access_token)
 //        return(result.data.access_token)
 // })}
 
 
-let accessToken = null;
+let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6IjQ4OGE2MzJhZDA4YjUyYWRhOWJiYjQwMmZiMDk3ZDk2MGM2NTZlYTRiOWE5M2Q2ZGNkYWJjYWRkZWM1NGNiNGZkOGJmM2FkZDRhZjU1Mjc4IiwiaWF0IjoxNjY4NjUzMDI4LCJuYmYiOjE2Njg2NTMwMjgsImV4cCI6MTY2ODY1NjYyOCwic3ViIjoiIiwic2NvcGVzIjpbXX0.BMKz-gGSg6FHrCppngEdI1RiYhE5TEQ1rhDyyOHQ-mUoFUlXBFN5TaKN7dl3gmxZPGgu73qqlHz5hdgfaI9r88ji4figl9i-KuqWIDh8fJLXM-8XTJ4cFgHMkK6Vp8WFSglQO9f_NlNf54bljKQ1RRbCycyLTQoKtN_c9bnIRNKG8NWUUmk5ffMbzkbrTqt0iZMwQFjpKQRpIoStG6761yLOSAHfkA0N1kGDFnCtoKl3xjuSDWm8blgEhnywK_gGpFRKMGrHtWAa8XP61zxhRh8Omsq4P8NP_NbeSOCNA70TvAbMgwKrLP5QpcjPnsb3LwhPjU7l2QVQhV_OzFteIg"
 // request to get accessToken
 async function getAccessToken(){
     await axios.post("https://api.petfinder.com/v2/oauth2/token", tokenAuth)
     .then((result) =>{
+        console.log(result.data.access_token)
        return(result.data.access_token)
     })
 }
 
-getAccessToken().then(data => (accessToken = data))
 
-console.log(accessToken)
 
 // axios.defaults.headers.common["Authorization"] = 'Bearer ' + accessToken **didn't work!
 const apiURL = "https://api.petfinder.com/v2"

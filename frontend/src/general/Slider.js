@@ -17,7 +17,7 @@ function Slider() {
         />
         <Carousel.Caption>
           <h1>Welcome</h1>
-          <p>The place to meet your best furend</p>
+          <h4>The place to meet your best furend</h4>
         </Carousel.Caption>
       </Carousel.Item>
 
@@ -32,7 +32,7 @@ function Slider() {
 
         <Carousel.Caption>
           <h1>Pets Are Looking For A Home And Family</h1>
-          <p>They offer love and affection</p>
+          <h4>They offer love and affection</h4>
         </Carousel.Caption>
       </Carousel.Item>
 
@@ -47,7 +47,7 @@ function Slider() {
 
         <Carousel.Caption>
           <h1>Pets Of All Species And Breeds</h1>
-          <p>Dogs, Cats, Rabbits, Aquatic Animals, Etc.</p>
+          <h4>Dogs, Cats, Rabbits, Aquatic Animals, Etc.</h4>
         </Carousel.Caption>
       </Carousel.Item>
     </Carousel>

@@ -1,12 +1,23 @@
 
 .pettype-container{
     display:flex;
-    width: 100vw;
-    background-color: green;
+    width: 100%;
+    margin-bottom: 20px;
 }
 
 
 .pettype-card{
-    width: 18rem;
+    position:absolute;
+    width: 11.3rem;
+    height: 5rem;
 
+}
+
+.pettype-image{
+    height:6.5rem;
+    width: rem;
+}
+
+.pettype-button{
+    height: 2.5rem;
 }

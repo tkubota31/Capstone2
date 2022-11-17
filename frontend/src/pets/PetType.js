@@ -47,8 +47,9 @@ function PetType(){
            {types.map((type) =>
             <div className= "pettype-item">
                 <Card className= "pettype-card" key={type.name}>
-                    <Card.Img variant = "top" src={imgObj[type.name]} alt="Pet Picture" />
+                    <Card.Img className ="pettype-image" variant = "top" src={imgObj[type.name]} alt="Pet Picture" />
                     <Button
+                        className= "pettype-button"
                         variant="info"
                         style = {{background: petType === type.name
                                              ? "yellow"

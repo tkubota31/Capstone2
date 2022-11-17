@@ -64,6 +64,7 @@ class PetApi{
     //get all types of pets
     static async allPetTypes(){
         try{
+            console.log(localStorage.getItem("token"))
             let response = await axios.get(`${BASE_URL}/pets/types`, {params:{_token: localStorage.getItem("token")}})
             return response.data
         }catch(e){
