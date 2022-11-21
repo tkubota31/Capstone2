@@ -3,10 +3,11 @@ import UserContext from "../auth/UserContext";
 import PetApi from "../api";
 import {Card, ListGroup,Button} from "react-bootstrap"
 import {Link,useNavigate} from "react-router-dom";
+import "../css/PetFavorites.css"
 
 function PetFavorites(){
     const {currentUser, setCurrentUser} = useContext(UserContext);
-    const [favoritePets, setFavoritePets] = useState([])
+    const [favoritePets, setFavoritePets] = useState(([]))
     const navigate = useNavigate()
 
     useEffect (()=>{
@@ -15,20 +16,20 @@ function PetFavorites(){
 
     async function getAllFavoritedPets(username){
         let response = await PetApi.getAllFavPets(username)
+        console.log(response)
         setFavoritePets(response)
     }
+console.log("*****FAVORITEPETS******")
 console.log(favoritePets)
 
     return (
-    <div style={{display:"flex"}}>
+    <div className="petfavorite-container">
         {favoritePets.map((pet,index) =>(
-        <div style ={{display:"flex"}}>
-            <Card className= " "key = {`petcard${index}`}style={{ width: "18rem"}}>
-                <Card.Img variant = "top" src={pet.image_url} alt="Pet Picture" />
-                <Card.Body>
-                    <Card.Title>{pet.name}</Card.Title>
-                </Card.Body>
-                <ListGroup variant="flush">
+        <div>
+            <Card className= "petfavorite-card" key = {`petcard${index}`}>
+                <Card.Img className= "petfavorite-img" variant = "top" src={pet.image_url} alt="Pet Picture" />
+                <Card.Title className= "petfavorite-title">{pet.name}</Card.Title>
+                <ListGroup className= "petcard-list" variant="flush">
                     <ListGroup.Item key={`type_${pet.type}`}>Pet Type: {pet.type}</ListGroup.Item>
                     <ListGroup.Item key={`breed_${pet.breed}`}>Breed: {pet.breed}</ListGroup.Item>
                     <ListGroup.Item key={`gender_${pet.gender}`}>Gender: {pet.gender}</ListGroup.Item>
@@ -39,13 +40,13 @@ console.log(favoritePets)
                 </ListGroup>
                 {/* <Link className="" to={`/company/${pet.organization_id}`}>Organization Info</Link> */}
 
-            <div class="btn-group">
-                <button type="button" class="btn btn-info"
+            <div className="btn-group">
+                <button type="button" className="btn btn-info"
                 onClick= {()=>{
                     navigate(`/company/${pet.organization_id}`)
                     }}> Organization
                 </button>
-                <button type="button" class="btn btn-danger"
+                <button type="button" className="btn btn-danger"
                 onClick= {() =>{
                     setFavoritePets([...favoritePets.slice(0,index), ...favoritePets.slice(index+1)])
                 }}>Remove</button>

@@ -1,0 +1,33 @@
+.petfavorite-container{
+    display:flex;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100%;
+}
+
+.petfavorite-card{
+    margin: 10px;
+    width: 18rem;
+}
+
+.petfavorite-img{
+    height: 16rem;
+}
+
+.petfavorite-title{
+    font-size: 25px;
+    text-align: center;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-style: italic;
+}
+
+.petcard-list{
+    height: 100%;
+    width: 100%;
+}
+
+.list-group-item{
+    height: 100%;
+    font-size: 90%;
+}

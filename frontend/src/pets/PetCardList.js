@@ -1,12 +1,12 @@
 import React from "react";
 import PetCard from "./PetCard";
-
+import "../css/PetCardList.css"
 
 function PetCardList({pets}){
 
 
     return(
-        <div style={{display:"flex"}}>
+        <div className="petcard-container">
             {pets.length === 0
             ? <h4>No results found</h4>
             :

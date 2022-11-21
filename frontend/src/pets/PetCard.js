@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button"
 import CompanyDetail from "../company/CompanyDetail"
 import {Container, Nav, Navbar} from "react-bootstrap"
 import {Link, NavLink, useNavigate} from "react-router-dom";
+import "../css/PetCard.css"
 
 
 function PetCard({id,name, type, breed, gender, age, spayed_neutered, color, description, location, image_url, organization_id}){
@@ -23,6 +24,7 @@ function PetCard({id,name, type, breed, gender, age, spayed_neutered, color, des
     async function handleFavorite(evt){
         console.log("HANDLE FAVORITE")
         if(hasFavoritedPet(id)) return;
+        console.log("AFTER HAS FAOVIRTED PET")
         favoritePet(id,currentUser)
         setFavorited(true);
     }
@@ -30,17 +32,15 @@ function PetCard({id,name, type, breed, gender, age, spayed_neutered, color, des
 
     return(
         <div style = {{display:"flex"}}>
-            <Card style={{ width: "18rem"}}>
-                <Card.Img variant = "top" src={image_url} alt="Pet Picture" />
-                <Card.Body>
-                    <Card.Title>{name}</Card.Title>
-                </Card.Body>
-                <ListGroup variant="flush">
+            <Card className= "petcard-card">
+                <Card.Img className= "petcard-img" variant = "top" src={image_url} alt="Pet Picture" />
+                <Card.Title className= "petcard-title">{name}</Card.Title>
+                <ListGroup className="petcard-list" variant="flush">
                     <ListGroup.Item>Pet Type: {type}</ListGroup.Item>
                     <ListGroup.Item>Breed: {breed}</ListGroup.Item>
                     <ListGroup.Item>Gender: {gender}</ListGroup.Item>
-                    <ListGroup.Item>Age: {age}</ListGroup.Item>
-                    <ListGroup.Item>Hair Color: {color}</ListGroup.Item>
+                    <ListGroup.Item>Age: {age ? age : "Unknown"}</ListGroup.Item>
+                    <ListGroup.Item>Hair Color: {color ? color : "Unknown"}</ListGroup.Item>
                     <ListGroup.Item>Spayed/Neutered: {String(spayed_neutered)}</ListGroup.Item>
                     <ListGroup.Item>Location: {location}</ListGroup.Item>
                 </ListGroup>

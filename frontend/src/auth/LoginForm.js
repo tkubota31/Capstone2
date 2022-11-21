@@ -65,6 +65,7 @@ function LoginForm({login}){
                 <Button
                     variant="info"
                     type="submit"
+                    style= {{"margin": "10px"}}
                     onSubmit={handleSubmit}
                 >
                   Login

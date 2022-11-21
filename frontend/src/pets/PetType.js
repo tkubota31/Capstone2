@@ -41,6 +41,13 @@ function PetType(){
     console.log(types)
     if(!types) return <LoadingPage />
 
+    const buttonStyle = (type) => {
+        return {
+            background: petType === type.name ? "yellow" : "",
+            fontSize: 100 / (window.innerWidth / 100)
+        }
+    }
+
    return (
     <div>
         <div className = "pettype-container">
@@ -51,9 +58,7 @@ function PetType(){
                     <Button
                         className= "pettype-button"
                         variant="info"
-                        style = {{background: petType === type.name
-                                             ? "yellow"
-                                             :""}}
+                        style = {buttonStyle(type)}
                         onClick={() => {
                             setPetType(type.name)
                             console.log(petType)

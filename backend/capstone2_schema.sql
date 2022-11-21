@@ -23,13 +23,13 @@ CREATE TABLE pets(
     user_username TEXT NOT NULL
 );
 
-CREATE TABLE favorites(
-    username VARCHAR(25)
-        REFERENCES users ON DELETE CASCADE,
-    pet_id VARCHAR(25)
-        REFERENCES pets ON DELETE CASCADE,
-    PRIMARY KEY (username, pet_id)
-);
+-- CREATE TABLE favorites(
+--     username VARCHAR(25)
+--         REFERENCES users ON DELETE CASCADE,
+--     pet_id VARCHAR(25)
+--         REFERENCES pets ON DELETE CASCADE,
+--     PRIMARY KEY (username, pet_id)
+-- );
 
 -- CREATE TABLE organization(
 --     org_id VARCHAR PRIMARY KEY,

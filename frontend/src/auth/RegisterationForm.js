@@ -99,6 +99,7 @@ function RegisterationForm ({register}){
                     <Button
                         variant="info"
                         type="submit"
+                        style= {{"margin": "10px"}}
                         onSubmit={handleSubmit}
                     >
                     Submit
