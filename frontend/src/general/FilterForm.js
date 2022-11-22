@@ -20,7 +20,7 @@ function FilterForm({filterSearch,type}){
     const [breeds, setBreeds] = useState([])
     const [colors, setColors] = useState([])
 
-    //Come back and fix. not hardcoding type but getting type from PETTYPE component
+
     useEffect(() =>{
         if(type){
             getBreeds(type)
@@ -29,7 +29,6 @@ function FilterForm({filterSearch,type}){
     }, [type]);
 
     async function getColors(petType){
-
         let response = await PetApi.petTypeInfo(petType)
         if(response){
             setColors(response.colors)

@@ -39,6 +39,8 @@ class Pet{
     }
 
     static async getPet(id){
+        console.log("bACKEN GETPET")
+        console.log(id)
         const result = await db.query(
             `SELECT pet_id,
                     name,
@@ -63,6 +65,34 @@ class Pet{
 
         return result.rows[0];
     }
+
+    // static async getPet(id,username){
+    //     console.log("bACKEN GETPET")
+    //     console.log(id,username)
+    //     const result = await db.query(
+    //         `SELECT pet_id,
+    //                 name,
+    //                 type,
+    //                 breed,
+    //                 gender,
+    //                 age,
+    //                 spayed_neutered,
+    //                 color,
+    //                 description,
+    //                 location,
+    //                 image_url,
+    //                 organization_id,
+    //                 user_username
+    //         FROM pets
+    //         WHERE pet_id = $1 AND user_username = $2`,
+    //         [id,username]
+    //     );
+    //     if(result.rows.length ===0){
+    //         throw new ExpressError("Pet not found", 404)
+    //     }
+
+    //     return result.rows[0];
+    // }
 
     static async getAllFavPet(username){
         const result = await db.query(

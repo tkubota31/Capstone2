@@ -77,17 +77,15 @@ function App() {
     }
 
     function hasFavoritedPet(id){
-      console.log("HAS FAVORITED PET")
       console.log(favoritedPetsId)
-      console.log(id)
-      console.log(favoritedPetsId.has(id))
+      console.log("HAS FAVORITED PET")
       return favoritedPetsId.has(id)
     }
 
-    function favoritePet(id,currentUser){
-      if(hasFavoritedPet(id)) return;
+    function favoritePet(id){
+      if (hasFavoritedPet(id)) return;
       console.log("favoritePet function here")
-      console.log(currentUser)
+      console.log(currentUser,id)
       PetApi.favPet(id,currentUser);
       setFavoritedPetsId(new Set([...favoritedPetsId,id]))
       console.log(favoritedPetsId)

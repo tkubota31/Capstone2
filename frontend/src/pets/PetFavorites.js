@@ -16,15 +16,14 @@ function PetFavorites(){
 
     async function getAllFavoritedPets(username){
         let response = await PetApi.getAllFavPets(username)
-        console.log(response)
         setFavoritePets(response)
     }
-console.log("*****FAVORITEPETS******")
-console.log(favoritePets)
+
+
 
     return (
     <div className="petfavorite-container">
-        {favoritePets.map((pet,index) =>(
+        {favoritePets ? favoritePets.map((pet,index) =>(
         <div>
             <Card className= "petfavorite-card" key = {`petcard${index}`}>
                 <Card.Img className= "petfavorite-img" variant = "top" src={pet.image_url} alt="Pet Picture" />
@@ -49,6 +48,7 @@ console.log(favoritePets)
                 <button type="button" className="btn btn-danger"
                 onClick= {() =>{
                     setFavoritePets([...favoritePets.slice(0,index), ...favoritePets.slice(index+1)])
+                    PetApi.deletePet(pet.pet_id,currentUser)
                 }}>Remove</button>
             </div>
             {/* <Button
@@ -61,10 +61,13 @@ console.log(favoritePets)
             </Button> */}
             </Card>
         </div>
-        ))}
+        ))
+        :
+        <h3>No Pets Favorited</h3>
+        }
     </div>
-    )
-}
 
+)
+    }
 
 export default PetFavorites

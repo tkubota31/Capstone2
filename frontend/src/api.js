@@ -112,6 +112,16 @@ class PetApi{
         }
     }
 
+    // //check to see if pet is in favorite table
+    // static async findFavPet(id,username){
+    //     try{
+    //         let response = await axios.get(`${BASE_URL}/pets/favorite/${id}/${username}`,{params:{_token: localStorage.getItem("token")}});
+    //         return response
+    //     }catch(e){
+    //         console.log(e)
+    //     }
+    // }
+
     //get all favorited pets
     static async getAllFavPets(username){
         try{

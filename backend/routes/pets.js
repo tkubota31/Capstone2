@@ -23,7 +23,7 @@ const tokenAuth = {
 // })}
 
 
-let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6IjdmOTdmZjk4Njk4Zjg5NDQ0MzI0YWViMzMzYmM5NDU5YWVmNTFiNjQ3YjZmMDVmZTg1Y2EzZmUzN2MyY2ZkZTU1MmE0MzQ3YTI0NzA1OWFkIiwiaWF0IjoxNjY5MDQ4ODYxLCJuYmYiOjE2NjkwNDg4NjEsImV4cCI6MTY2OTA1MjQ2MSwic3ViIjoiIiwic2NvcGVzIjpbXX0.gxV5fQh5uHZ7-sLlrC1FbniCmR20tEf000wGzESQ-eO_LrxfnrpMWkgkOM76rdXYRXul9by172r07F4L1uqx3ELHXaSEs_w6dDsQA6nLvqRCvycOWpA0YHppRvezLt1dfJhIKqRZ5XXVx73FcP0ctYSXQMjGqfz_Hwlv5IWdZ0pscTyeEEyJUIOQToTJhHYAWrTw2qDqmxEhI7kVgFrlKZ0wGxbt2NGR4ma83MotHl3_YybLxXnVVKC6AoS6XSHrtAlvx3lHtppp1WgH3eu1_amXUuVZHcYmcYuhWHDH0Tgscw-TdUAjEWi2j691F6rsesX1znkFcOfbKYJvfiVhjQ"
+let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6ImU0MTc3NmVlZjA2ZTJiZTY5N2UzZjAwZDMzZTg2YmMyYjQxYWEzNmNiOGNjMGYyNjdjOTQ3ZDVmZWVlZWI4OTkxNDA4NTc1OTBlMGNjMWYyIiwiaWF0IjoxNjY5MTQxNTUxLCJuYmYiOjE2NjkxNDE1NTEsImV4cCI6MTY2OTE0NTE1MSwic3ViIjoiIiwic2NvcGVzIjpbXX0.NJDOFscDA3oEmdHDEvAYrUxVD6K4829MiHgBas3EeBJjtTyNwAo9o5kkw5YItOlPqudVJaGhZyEZ9QMvEzzsqhakq_Cr3irrsBIzSYJ_OeFRVaBvYm2Jp-rY9xrRYlFXiVRapy-KAE_KrMURMYJp_beeJ93Zk2eGG5enWx8LJDxsc9oXvwohMOj8183urZtubsBgqUfP0p40lcsN0yfU4oQ6ZVdnhCDWic0kkRYUKFUPVv3j_PjLGAxnBOL5S1JADG2klXA7qJ54C-IptLuvHVv4Zfdj3eHc1hW_GSpz68g4_A9CMVvwkKQOTMS_aApaFXUpGmXBWwVoKk17Y8WaSw"
 // request to get accessToken
 async function getAccessToken(){
     await axios.post("https://api.petfinder.com/v2/oauth2/token", tokenAuth)
@@ -105,7 +105,7 @@ router.get('/', ensureLoggedIn, async (req,res,next) =>{
 })
 
 //return info on single animal type, (so i can grab all possible colors)
-router.get("/onetype/:type", ensureLoggedIn, async (req,res,next) =>{
+router.get("/onetype/:type", async (req,res,next) =>{
     try{
         const type = req.params.type;
         await axios.get(`${apiURL}/types/${type}`, config)
@@ -142,6 +142,16 @@ router.get('/:id', ensureLoggedIn, async (req,res,next) =>{
         next(e)
     }
 })
+
+//trying to get pet from fav table to check if already there
+// router.get("/:id/:username", async (req,res,next) =>{
+//     try{
+//         const {id,username} = req.params.id;
+//         Pet.getPet()
+//     }catch(e){
+//         next(e)
+//     }
+// })
 
 
 //Create favorite for the user and put in database
@@ -222,8 +232,18 @@ router.get("/company/:orgId", async (req,res,next) =>{
     }
 })
 
+//route to check if pet is already in favorites table
+// router.get("/favorite/:id/:username", async (req,res,next) =>{
+//     try{
+//         const {id,username} = req.params;
+//         await Pet.getPet(id,username)
+//         return res.json({msg: "Pet Found"})
+//     }catch(e){
+//         next(e)
+//     }
+// })
 
-//delete dog based on id
+//delete dog based on id and username
 router.delete("/favorite/:id/:username", async (req,res,next) =>{
     console.log("BACKEND DELETE ROUTE")
     try{

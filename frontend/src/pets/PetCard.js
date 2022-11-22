@@ -7,28 +7,37 @@ import CompanyDetail from "../company/CompanyDetail"
 import {Container, Nav, Navbar} from "react-bootstrap"
 import {Link, NavLink, useNavigate} from "react-router-dom";
 import "../css/PetCard.css"
+import PetApi from "../api";
 
 
 function PetCard({id,name, type, breed, gender, age, spayed_neutered, color, description, location, image_url, organization_id}){
-    const {favoritePet, hasFavoritedPet} = useContext(UserContext);
+    const {favoritePet, hasFavoritedPet, currentUser} = useContext(UserContext);
     const [favorited, setFavorited] = useState();
-    const {currentUser, setCurrentUser} = useContext(UserContext)
+    let favArray = [];
     const navigate = useNavigate();
 
-    // useEffect(function updatedFavoritedStatus(){
-    //     setFavorited(hasFavoritedPet(id));
-    // }, [id,hasFavoritedPet]);
+    useEffect(function updatedFavoritedStatus(){
+        updatedFavoritedPets(currentUser)
+        setFavorited(hasFavoritedPet(id));
+        console.log(favorited)
+    }, [id,favorited]);
+
+    async function updatedFavoritedPets(currentUser){
+        let response = await PetApi.getAllFavPets(currentUser)
+        response.map((pet) =>{
+            favArray.push(parseInt(pet.pet_id))
+        })
+        setFavorited(favArray.includes(id))
+    }
 
 
     //add pet as favorite
     async function handleFavorite(evt){
-        console.log("HANDLE FAVORITE")
         if(hasFavoritedPet(id)) return;
-        console.log("AFTER HAS FAOVIRTED PET")
-        favoritePet(id,currentUser)
+        favoritePet(id)
         setFavorited(true);
     }
-    console.log(organization_id)
+
 
     return(
         <div style = {{display:"flex"}}>
@@ -44,15 +53,15 @@ function PetCard({id,name, type, breed, gender, age, spayed_neutered, color, des
                     <ListGroup.Item>Spayed/Neutered: {String(spayed_neutered)}</ListGroup.Item>
                     <ListGroup.Item>Location: {location}</ListGroup.Item>
                 </ListGroup>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-info"
+                <div className="btn-group">
+                    <button type="button" className="btn btn-info"
                     onClick= {()=>{
                         navigate(`/company/${organization_id}`)
                         }}> Organization
                     </button>
-                    <button type="button" class="btn btn-success"
+                    <button type="button" className="btn btn-success"
                     onClick= {handleFavorite}
-                    disable = {favorited}>
+                    disabled = {favorited}>
                         {favorited ? "Favorited" : "Add to Favorite"}
                     </button>
                 </div>
