@@ -21,7 +21,7 @@ class Pet{
                                     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
                                     RETURNING pet_id, name, type, breed, gender,age,spayed_neutered,color,description,location,image_url,organization_id`,
                                     [
-                                        data.id,
+                                        data.pet_id,
                                         data.name,
                                         data.type,
                                         data.breed,

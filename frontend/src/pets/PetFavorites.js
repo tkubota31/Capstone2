@@ -1,8 +1,8 @@
 import {React, useContext, useState, useEffect} from "react"
 import UserContext from "../auth/UserContext";
 import PetApi from "../api";
-import {Card, ListGroup,Button} from "react-bootstrap"
-import {Link,useNavigate} from "react-router-dom";
+import {Card, ListGroup} from "react-bootstrap"
+import {useNavigate} from "react-router-dom";
 import "../css/PetFavorites.css"
 
 function PetFavorites(){

@@ -23,7 +23,7 @@ const tokenAuth = {
 // })}
 
 
-let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6ImU0MTc3NmVlZjA2ZTJiZTY5N2UzZjAwZDMzZTg2YmMyYjQxYWEzNmNiOGNjMGYyNjdjOTQ3ZDVmZWVlZWI4OTkxNDA4NTc1OTBlMGNjMWYyIiwiaWF0IjoxNjY5MTQxNTUxLCJuYmYiOjE2NjkxNDE1NTEsImV4cCI6MTY2OTE0NTE1MSwic3ViIjoiIiwic2NvcGVzIjpbXX0.NJDOFscDA3oEmdHDEvAYrUxVD6K4829MiHgBas3EeBJjtTyNwAo9o5kkw5YItOlPqudVJaGhZyEZ9QMvEzzsqhakq_Cr3irrsBIzSYJ_OeFRVaBvYm2Jp-rY9xrRYlFXiVRapy-KAE_KrMURMYJp_beeJ93Zk2eGG5enWx8LJDxsc9oXvwohMOj8183urZtubsBgqUfP0p40lcsN0yfU4oQ6ZVdnhCDWic0kkRYUKFUPVv3j_PjLGAxnBOL5S1JADG2klXA7qJ54C-IptLuvHVv4Zfdj3eHc1hW_GSpz68g4_A9CMVvwkKQOTMS_aApaFXUpGmXBWwVoKk17Y8WaSw"
+let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6ImYwMmRjMTRiODg3M2YwNmI5YjQxZWE4NzEzMTM5OGViM2NmNjkxZDI0YTFiYjcyYzg1MDg5ZTJkZDk4YzQyOWI5NTIzODA1ZGM2YThiYmVmIiwiaWF0IjoxNjY5MTUyNTg3LCJuYmYiOjE2NjkxNTI1ODcsImV4cCI6MTY2OTE1NjE4Nywic3ViIjoiIiwic2NvcGVzIjpbXX0.ht20dFUIOgbZm7ZDw3DJWrPKr-q4f_yl_6CyPqzCTiSQlrEM_4weqlnF8oU82qa62ZyLnRKN1Cd5Dso1jMOM8yYE6q9Zq050FXwQCERVa6zFWn2gYisbSUh4Wmbhav1zGv465ysXk6QiDoQupjwZczM0fuqYhYfZvHsRxCjiwFbSisw_ztOYSa2TDmmDCJKQpfnWkMS51WjX4dr3SlUPHG0NzgN3NVGnZvsPX6Wpzmd36G5OABlvSMNu_7DLLmVJhGSURkG6T7lFkskJS7rrwa5485Okb_1Vz13slQGa6fNIRRVftFPSRbaKcytB_2nwnMZR3IrL4zHnrIK6O54SxA"
 // request to get accessToken
 async function getAccessToken(){
     await axios.post("https://api.petfinder.com/v2/oauth2/token", tokenAuth)
@@ -163,7 +163,7 @@ router.post("/favorite/:id/:username", async(req,res,next) =>{
         .then(result =>{
             let favPet = result.data.animal
             let data ={
-                id: favPet.id,
+                pet_id: favPet.id,
                 name:favPet.name,
                 type: favPet.type,
                 breed: favPet.breeds.primary,
