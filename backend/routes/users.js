@@ -27,7 +27,6 @@ router.post("/register", async (req,res,next) =>{
 router.get("/:username", async (req,res,next) =>{
     try{
         const user = await User.getUser(req.params.username);
-        // console.log(user)
         return res.json({user});
     } catch(e){
         return next(e);
