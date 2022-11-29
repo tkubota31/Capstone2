@@ -58,13 +58,17 @@ router.get("/*", async (req, res, next) => {
     if (!accessToken) {
         await getAccessToken()
     }
+
     res.locals.config = {
         headers: {
             "Authorization": "Bearer " + accessToken
         }
     }
+    console.log(res.locals.config)
     next();
 })
+
+
 
 
 //filter out pet output
@@ -241,11 +245,11 @@ router.get('/:id', ensureLoggedIn, async (req, res, next) => {
 
 
 //Create favorite for the user and put in database
-router.post("/favorite/:id/:username", ensureLoggedIn, async (req, res, next) => {
-    console.log("BACKEND FAV PET ROUTE")
+router.post("/favorite/:id/:username", async (req, res, next) => {
     await retry(async()=>{
         const id = req.params.id;
-        const username = req.params.username
+        const username = req.params.username;
+        console.log(id,username, apiURL)
             axios.get(`${apiURL}/animals/${id}`, res.locals.config)
             .then((result) => {
                 let favPet = result.data.animal
@@ -275,10 +279,12 @@ router.post("/favorite/:id/:username", ensureLoggedIn, async (req, res, next) =>
             })
     })
     // try {
+    //     console.log("BACKEND FAV PET ROUTE")
     //     const id = req.params.id;
     //     const username = req.params.username
     //     await axios.get(`${apiURL}/animals/${id}`, res.locals.config)
     //         .then(result => {
+    //             console.log("INSIDE AXIOS BACKEND")
     //             let favPet = result.data.animal
     //             let data = {
     //                 pet_id: favPet.id,
@@ -302,6 +308,7 @@ router.post("/favorite/:id/:username", ensureLoggedIn, async (req, res, next) =>
     //                 const errs = validator.errors.map(e => e.stack);
     //                 return next(errs)
     //             }
+    //             console.log(data)
     //             Pet.create(data)
     //             return res.status(201).json({ data })
     //         })

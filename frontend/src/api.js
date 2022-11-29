@@ -64,7 +64,7 @@ class PetApi{
     //get all types of pets
     static async allPetTypes(){
         try{
-            console.log(localStorage.getItem("token"))
+            console.log("GETS ALL PET TYPES")
             let response = await axios.get(`${BASE_URL}/pets/types`, {params:{_token: localStorage.getItem("token")}})
             return response.data
         }catch(e){
@@ -105,7 +105,9 @@ class PetApi{
     //create pet favorite
     static async favPet(id,username){
         try{
+            console.log("FRONTEND favPet API")
             let response = await axios.post(`${BASE_URL}/pets/favorite/${id}/${username}`,{params:{_token: localStorage.getItem("token")}});
+            console.log(response.data.data)
             return response.data.data
         }catch(e){
             console.log(e)

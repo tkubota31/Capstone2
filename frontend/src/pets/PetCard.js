@@ -25,9 +25,11 @@ function PetCard({id,name, type, breed, gender, age, spayed_neutered, color, des
 
     async function updatedFavoritedPets(currentUser){
         let response = await PetApi.getAllFavPets(currentUser)
+        console.log(response)
         response.map((pet) =>{
             favArray.push(parseInt(pet.pet_id))
         })
+        console.log(favArray)
         setFavorited(favArray.includes(id))
     }
 
