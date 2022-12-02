@@ -45,6 +45,7 @@ const retry = async (fn) => {
                 next(e)
             }
             if (e.response.status === 401) {
+                console.log("no token")
                 await getAccessToken()
             }
         }
@@ -53,7 +54,7 @@ const retry = async (fn) => {
 
 
 // makes ensureLoggedIn method run for every route that has /pets
-router.get("/*", async (req, res, next) => {
+router.use("/*", async (req, res, next) => {
     console.log("STAR PATH***")
     if (!accessToken) {
         await getAccessToken()
@@ -64,7 +65,6 @@ router.get("/*", async (req, res, next) => {
             "Authorization": "Bearer " + accessToken
         }
     }
-    console.log(res.locals.config)
     next();
 })
 
@@ -162,6 +162,85 @@ router.get('/', ensureLoggedIn, async (req, res, next) => {
 //         next(e)
 // }
 
+//Create favorite for the user and put in database
+router.post("/favorite/:id/:username", async function (req, res, next) {
+    await retry(()=>{
+        const id = req.params.id;
+        const username = req.params.username;
+        console.log(id,username, apiURL)
+        console.log("*****FAVORITES ROUTE*******")
+        console.log(res.locals.config )
+            axios.get(`${apiURL}/animals/${id}`, res.locals.config)
+            .then((result) => {
+                console.log("***INSIDE AWAIT REQUEST")
+                let favPet = result.data.animal
+                let data = {
+                    pet_id: favPet.id,
+                    name: favPet.name,
+                    type: favPet.type,
+                    breed: favPet.breeds.primary,
+                    gender: favPet.gender,
+                    age: favPet.age,
+                    spayed_neutered: favPet.attributes.spayed_neutered,
+                    color: favPet.colors.primary ? favPet.colors.primary : "Unknown",
+                    description: favPet.description,
+                    location: favPet.contact.address.state,
+                    image_url: favPet.primary_photo_cropped.full ? favPet.primary_photo_cropped.full : "Unavailable",
+                    organization_id: favPet.organization_id,
+                    user_username: username
+
+                }
+                console.log(data)
+                const validator = jsonschema.validate(data, favPetSchema);
+                console.log(validator)
+                if (!validator.valid) {
+                    const errs = validator.errors.map(e => e.stack);
+                    return next(errs)
+                }
+                Pet.create(data)
+                return res.status(201).json({ data })
+            })
+    })
+    // try {
+    //     console.log("BACKEND FAV PET ROUTE")
+    //     const id = req.params.id;
+    //     const username = req.params.username
+    //     await axios.get(`${apiURL}/animals/${id}`, res.locals.config)
+    //         .then(result => {
+    //             console.log("INSIDE AXIOS BACKEND")
+    //             let favPet = result.data.animal
+    //             let data = {
+    //                 pet_id: favPet.id,
+    //                 name: favPet.name,
+    //                 type: favPet.type,
+    //                 breed: favPet.breeds.primary,
+    //                 gender: favPet.gender,
+    //                 age: favPet.age,
+    //                 spayed_neutered: favPet.attributes.spayed_neutered,
+    //                 color: favPet.colors.primary ? favPet.colors.primary : "Unknown",
+    //                 description: favPet.description,
+    //                 location: favPet.contact.address.state,
+    //                 image_url: favPet.primary_photo_cropped.full ? favPet.primary_photo_cropped.full : "Unavailable",
+    //                 organization_id: favPet.organization_id,
+    //                 user_username: username
+
+    //             }
+    //             const validator = jsonschema.validate(data, favPetSchema);
+    //             // console.log(validator)
+    //             if (!validator.valid) {
+    //                 const errs = validator.errors.map(e => e.stack);
+    //                 return next(errs)
+    //             }
+    //             console.log(data)
+    //             Pet.create(data)
+    //             return res.status(201).json({ data })
+    //         })
+
+    // } catch (e) {
+    //     next(e)
+    // }
+})
+
 //return info on single animal type, (so i can grab all possible colors)
 router.get("/onetype/:type", async (req, res, next) => {
     await retry(() => {
@@ -186,6 +265,8 @@ router.get("/onetype/:type", async (req, res, next) => {
 //Lists all available types of pets
 router.get("/types", ensureLoggedIn, async (req, res, next) => {
     await retry(() => {
+        console.log("*********TYPES OF PETS LOADED******")
+        console.log(res.locals.config)
             axios.get(`${apiURL}/types`, res.locals.config)
             .then(result => {
                 // console.log(result)
@@ -244,79 +325,6 @@ router.get('/:id', ensureLoggedIn, async (req, res, next) => {
 // })
 
 
-//Create favorite for the user and put in database
-router.post("/favorite/:id/:username", async (req, res, next) => {
-    await retry(async()=>{
-        const id = req.params.id;
-        const username = req.params.username;
-        console.log(id,username, apiURL)
-            axios.get(`${apiURL}/animals/${id}`, res.locals.config)
-            .then((result) => {
-                let favPet = result.data.animal
-                let data = {
-                    pet_id: favPet.id,
-                    name: favPet.name,
-                    type: favPet.type,
-                    breed: favPet.breeds.primary,
-                    gender: favPet.gender,
-                    age: favPet.age,
-                    spayed_neutered: favPet.attributes.spayed_neutered,
-                    color: favPet.colors.primary ? favPet.colors.primary : "Unknown",
-                    description: favPet.description,
-                    location: favPet.contact.address.state,
-                    image_url: favPet.primary_photo_cropped.full ? favPet.primary_photo_cropped.full : "Unavailable",
-                    organization_id: favPet.organization_id,
-                    user_username: username
-
-                }
-                const validator = jsonschema.validate(data, favPetSchema);
-                if (!validator.valid) {
-                    const errs = validator.errors.map(e => e.stack);
-                    return next(errs)
-                }
-                Pet.create(data)
-                return res.status(201).json({ data })
-            })
-    })
-    // try {
-    //     console.log("BACKEND FAV PET ROUTE")
-    //     const id = req.params.id;
-    //     const username = req.params.username
-    //     await axios.get(`${apiURL}/animals/${id}`, res.locals.config)
-    //         .then(result => {
-    //             console.log("INSIDE AXIOS BACKEND")
-    //             let favPet = result.data.animal
-    //             let data = {
-    //                 pet_id: favPet.id,
-    //                 name: favPet.name,
-    //                 type: favPet.type,
-    //                 breed: favPet.breeds.primary,
-    //                 gender: favPet.gender,
-    //                 age: favPet.age,
-    //                 spayed_neutered: favPet.attributes.spayed_neutered,
-    //                 color: favPet.colors.primary ? favPet.colors.primary : "Unknown",
-    //                 description: favPet.description,
-    //                 location: favPet.contact.address.state,
-    //                 image_url: favPet.primary_photo_cropped.full ? favPet.primary_photo_cropped.full : "Unavailable",
-    //                 organization_id: favPet.organization_id,
-    //                 user_username: username
-
-    //             }
-    //             const validator = jsonschema.validate(data, favPetSchema);
-    //             // console.log(validator)
-    //             if (!validator.valid) {
-    //                 const errs = validator.errors.map(e => e.stack);
-    //                 return next(errs)
-    //             }
-    //             console.log(data)
-    //             Pet.create(data)
-    //             return res.status(201).json({ data })
-    //         })
-
-    // } catch (e) {
-    //     next(e)
-    // }
-})
 
 //route to list all breeds of certain animal type
 router.get("/breeds/:type", ensureLoggedIn, async (req, res, next) => {

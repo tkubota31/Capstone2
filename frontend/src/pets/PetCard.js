@@ -21,7 +21,7 @@ function PetCard({id,name, type, breed, gender, age, spayed_neutered, color, des
         updatedFavoritedPets(currentUser)
         setFavorited(hasFavoritedPet(id));
         console.log(favorited)
-    }, [id]);
+    }, []);
 
     async function updatedFavoritedPets(currentUser){
         let response = await PetApi.getAllFavPets(currentUser)

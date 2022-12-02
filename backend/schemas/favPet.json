@@ -5,7 +5,7 @@
     "default": {},
     "title": "Root Schema",
     "required": [
-        "id",
+        "pet_id",
         "name",
         "type",
         "breed",
@@ -16,7 +16,7 @@
         "user_username"
     ],
     "properties": {
-                "id": {
+                "pet_id": {
                     "type": "integer",
                     "default": 0,
                     "title": "The id Schema",
