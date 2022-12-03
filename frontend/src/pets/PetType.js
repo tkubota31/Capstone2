@@ -29,16 +29,26 @@ function PetType(){
         "Barnyard": Barnyard
     }
 
+
     useEffect(() =>{
         getAllPetTypes()
-    },[]);
+        renderPetType(petType)
+    },[petType]);
 
+    async function updatePetType(type){
+       setPetType(type)
+    }
+
+    const renderPetType = (type) => (
+            type
+            ? <PetSearch type={type} />
+            : <h4> Please Select Pet Type</h4>)
 
     async function getAllPetTypes(){
         let allTypes = await PetApi.allPetTypes()
         setTypes(allTypes)
     }
-    console.log(types)
+
     if(!types) return <LoadingPage />
 
     const buttonStyle = (type) => {
@@ -60,6 +70,7 @@ function PetType(){
                         variant="info"
                         style = {buttonStyle(type)}
                         onClick={() => {
+                            // updatePetType(type.name)
                             setPetType(type.name)
                             console.log(petType)
                         }}
@@ -70,9 +81,10 @@ function PetType(){
             </div>
            )}
         </div>
-        {petType
+        {renderPetType(petType)}
+        {/* {petType
             ?<PetSearch type={petType} />
-            : <h4> Please Select Pet Type</h4>}
+            : <h4> Please Select Pet Type</h4>} */}
     </div>
    )
 }

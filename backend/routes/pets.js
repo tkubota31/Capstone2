@@ -163,13 +163,11 @@ router.get('/', ensureLoggedIn, async (req, res, next) => {
 // }
 
 //Create favorite for the user and put in database
-router.post("/favorite/:id/:username", async function (req, res, next) {
+router.post("/favorite/:id/:username", async (req, res, next) => {
     await retry(()=>{
         const id = req.params.id;
         const username = req.params.username;
-        console.log(id,username, apiURL)
-        console.log("*****FAVORITES ROUTE*******")
-        console.log(res.locals.config )
+        console.log(req.user)
             axios.get(`${apiURL}/animals/${id}`, res.locals.config)
             .then((result) => {
                 console.log("***INSIDE AWAIT REQUEST")
@@ -350,7 +348,7 @@ router.get("/breeds/:type", ensureLoggedIn, async (req, res, next) => {
 
 
 //route to get all pets that are favorited
-router.get("/favorite/:username", ensureLoggedIn, async (req, res, next) => {
+router.get("/favorite/:username", async (req, res, next) => {
     await retry(async ()=>{
         const username = req.params.username;
         const result = await Pet.getAllFavPet(username);
@@ -368,7 +366,7 @@ router.get("/favorite/:username", ensureLoggedIn, async (req, res, next) => {
 
 
 //route to get company info about the pet
-router.get("/company/:orgId", async (req, res, next) => {
+router.get("/company/:orgId", ensureLoggedIn, async (req, res, next) => {
     await retry(() =>{
         const orgId = req.params.orgId
         axios.get(`${apiURL}/organizations/${orgId}`, res.locals.config)
@@ -402,7 +400,7 @@ router.get("/company/:orgId", async (req, res, next) => {
 // })
 
 //delete dog based on id and username
-router.delete("/favorite/:id/:username", async (req, res, next) => {
+router.delete("/favorite/:id/:username", ensureLoggedIn, async (req, res, next) => {
     await retry(async () => {
         console.log("INSIDE BACKEND DELETE ROUTE")
         await Pet.delete(req.params.id, req.params.username)
