@@ -2,7 +2,7 @@ const express = require("express")
 const router = new express.Router()
 const axios = require("axios")
 const Pet = require("../models/pets")
-const { ensureLoggedIn, ensureCorrectUser } = require("../middleware/auth")
+const { ensureLoggedIn } = require("../middleware/auth")
 
 const jsonschema = require("jsonschema");
 const favPetSchema = require("../schemas/favPet.json");

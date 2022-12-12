@@ -41,6 +41,7 @@ function ensureCorrectUser(req,res,next){
         return next(e)
     }
 }
+
 module.exports = {authenticateJWT,
                   ensureLoggedIn,
                 ensureCorrectUser}

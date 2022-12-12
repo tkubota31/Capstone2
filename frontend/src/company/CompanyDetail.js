@@ -35,7 +35,7 @@ function CompanyDetail(){
                     <div>
                         {orgInfo.photos[0]?.medium
                         ? <img className="card-image" src={orgInfo.photos[0].medium} alt="Picture"/>
-                        : <h3 className ="text-center">Organization Information</h3>
+                        : <h2>Organization Information</h2>
                     }
 
                     </div>

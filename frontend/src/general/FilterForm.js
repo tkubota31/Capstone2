@@ -69,7 +69,8 @@ function FilterForm({filterSearch,type}){
                         <Form.Group controlId="formGender">
                             <FloatingLabel label="Gender">
                                 <Form.Select name="gender" defaultValue={filterTerm.gender}  onChange={handleChange}>
-                                        <option>Choose Option</option>
+                                        <option value="">Choose Option</option>
+                                        <option value="">No Preference</option>
                                         <option key ="male" value="male" >Male</option>
                                         <option key ="female" value="female">Female</option>
                                 </Form.Select>
@@ -81,7 +82,8 @@ function FilterForm({filterSearch,type}){
                         <Form.Group controlId="formAge">
                             <FloatingLabel label="Age">
                                 <Form.Select name="age" defaultValue={filterTerm.age} onChange={handleChange}>
-                                    <option>Choose Age</option>
+                                    <option value="">Choose Age</option>
+                                    <option value="">No Preference</option>
                                     <option key="baby" value="baby">Baby</option>
                                     <option key="young" value="young">Young</option>
                                     <option key="adult" value="adult">Adult</option>
@@ -95,7 +97,8 @@ function FilterForm({filterSearch,type}){
                         <Form.Group controlId="formBreed">
                         <FloatingLabel label="Breed">
                                 <Form.Select name="breed" defaultValue={filterTerm.breed} onChange={handleChange}>
-                                    <option>Choose Breed</option>
+                                    <option value="">Choose Breed</option>
+                                    <option value="">No Preference</option>
                                     {breeds.map(breed =>(
                                     <option key={`breed_${breed}`} value={breed}>{breed}</option>
                                     ))}
@@ -106,9 +109,10 @@ function FilterForm({filterSearch,type}){
 
                     <Col>
                         <Form.Group controlId="formColor">
-                            <FloatingLabel label="color">
+                            <FloatingLabel label="Color">
                                 <Form.Select name="color" defaultValue={filterTerm.color} onChange={handleChange}>
-                                    <option>Choose Color</option>
+                                    <option value="">Choose Color</option>
+                                    <option value="">No Preference</option>
                                     {colors.map(color =>(
                                         <option key={`color_${color}`} value={color}>{color}</option>
                                     ))}
@@ -119,9 +123,10 @@ function FilterForm({filterSearch,type}){
 
                     <Col>
                         <Form.Group controlId="formState">
-                            <FloatingLabel label= "state">
+                            <FloatingLabel label= "State">
                                 <Form.Select name="location" defaultValue={filterTerm.location} onChange={handleChange}>
-                                    <option>Choose State</option>
+                                    <option value="">Choose State</option>
+                                    <option value="">No Preference</option>
                                     {US_STATES.map(location =>(
                                         <option key = {location} value ={location}>{location}</option>
                                     ))}

@@ -35,9 +35,6 @@ function PetType(){
         renderPetType(petType)
     },[petType]);
 
-    async function updatePetType(type){
-       setPetType(type)
-    }
 
     const renderPetType = (type) => (
             type
@@ -70,9 +67,7 @@ function PetType(){
                         variant="info"
                         style = {buttonStyle(type)}
                         onClick={() => {
-                            // updatePetType(type.name)
                             setPetType(type.name)
-                            console.log(petType)
                         }}
                         >
                             {type.name}
