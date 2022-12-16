@@ -1,5 +1,6 @@
 "use strict";
 
+process.env.NODE_ENV = "test"
 const request = require("supertest")
 const app = require("../app");
 const Pet = require("../models/pets");
@@ -10,25 +11,7 @@ const{commonBeforeAll} = require("./_testCommon")
 beforeAll(commonBeforeAll);
 
 
-//test
-
-function rollDice(numSides) {
-    return Math.floor(Math.random() * numSides);
-  }
-
-describe("#rollDice", function() {
-    Math.random = jest.fn(() => 0.5);
-
-    test("it rolls the correct amount of dice", function() {
-      expect(rollDice(6)).toEqual(3);
-      expect(Math.random).toHaveBeenCalled();
-
-      expect(rollDice(2)).toEqual(1);
-      expect(Math.random).toHaveBeenCalled();
-    });
-  });
-
-//GET PETS
+// GET PETS
 
 describe("GET /pets/favorite/:username", async function (){
     test("get pet when favorited", async function (){
@@ -54,7 +37,7 @@ describe("GET /pets/favorite/:username", async function (){
 })
 
 
-//CREATE PETS
+// CREATE PETS
 // describe("POST /pets/favorite/:id/:username", async function(){
 //     test("create pet when favorited", async function(){
 //         const response = await request(app)

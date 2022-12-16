@@ -5,13 +5,8 @@ import Routes from "./routes-nav/Routes"
 import UserContext from "./auth/UserContext";
 import LoadingPage from "./general/LoadingPage"
 import Navigation from "./routes-nav/Navigation"
-
-import PetSearch from "./pets/PetSearch";
-import PetType from "./pets/PetType"
-import FilterForm from "./general/FilterForm"
-import PetCard from "./pets/PetCard"
 import jwt_decode from "jwt-decode"
-import PetCardList from "./pets/PetCardList"
+
 
 function App() {
   const [token, setToken] = useState(null)
