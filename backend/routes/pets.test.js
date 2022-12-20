@@ -9,7 +9,7 @@ const{commonBeforeAll} = require("./_testCommon")
 
 beforeAll(commonBeforeAll);
 
-
+console.log("UNCHH")
 //test
 
 function rollDice(numSides) {
