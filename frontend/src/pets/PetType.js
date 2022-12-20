@@ -31,6 +31,7 @@ function PetType(){
 
 
     useEffect(() =>{
+        setPetType(petType)
         getAllPetTypes()
         renderPetType(petType)
     },[petType]);

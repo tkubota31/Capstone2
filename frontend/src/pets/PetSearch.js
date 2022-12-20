@@ -13,9 +13,9 @@ function PetSearch({type}){
         setPetType(type)
     }, [type])
 
-    async function filterSearch({petType,breed,gender,age,color,location}){
+    async function filterSearch({breed,gender,age,color,location}){
         setIsLoading(true)
-        let pets = await PetApi.petFilter(petType,breed,gender,age,color,location);
+        let pets = await PetApi.petFilter(type,breed,gender,age,color,location);
         setPets(pets.animals);
         setIsLoading(false)
     }
