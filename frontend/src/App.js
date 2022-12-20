@@ -5,13 +5,8 @@ import Routes from "./routes-nav/Routes"
 import UserContext from "./auth/UserContext";
 import LoadingPage from "./general/LoadingPage"
 import Navigation from "./routes-nav/Navigation"
-
-import PetSearch from "./pets/PetSearch";
-import PetType from "./pets/PetType"
-import FilterForm from "./general/FilterForm"
-import PetCard from "./pets/PetCard"
 import jwt_decode from "jwt-decode"
-import PetCardList from "./pets/PetCardList"
+
 
 function App() {
   const [token, setToken] = useState(null)
@@ -77,18 +72,13 @@ function App() {
     }
 
     function hasFavoritedPet(id){
-      console.log(favoritedPetsId)
-      console.log("HAS FAVORITED PET")
       return favoritedPetsId.has(id)
     }
 
     function favoritePet(id){
       if (hasFavoritedPet(id)) return;
-      console.log("favoritePet function here")
-      console.log(currentUser,id)
       PetApi.favPet(id,currentUser);
       setFavoritedPetsId(new Set([...favoritedPetsId,id]))
-      console.log(favoritedPetsId)
     }
 
 console.log(`CURRENT USER ${currentUser}`)

@@ -21,7 +21,9 @@ let accessToken = "";
 // let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6ImZmNGM5NDkxMTE3OWNkMTY2MmJmY2QzYmQzMGVjZjFmN2IzYmE5ZGY2NzM2ZDkzYzA5ZDYyYTExNTFmNTVkZWFlNzAxNGQ5M2I3YjQyM2UyIiwiaWF0IjoxNjY5NTcyOTk1LCJuYmYiOjE2Njk1NzI5OTUsImV4cCI6MTY2OTU3NjU5NCwic3ViIjoiIiwic2NvcGVzIjpbXX0.PFWzicPaAu4R4CFLr_JwDRw21jBNpjYfyOD47oHRL0sRcdJot3o1yXj0lkYK_3oKk4j5RnoVRdu2Q_jPf7Z9QA5QUYfPKA-khCeEoZhJgUL_O0_m5YGS63aer3-0PPhgS_5k1zbpjN8_XadP-9gF2kLyhVYBljHpqbAY7oZuZMvyKsexZidQAB0Fz3jYVImBEG_bAz5IQzMYIqrcSScghu22-OUNjC8F2oH7sgYj0_y-nldJEF1PDrqJfqd7hbcNKIEAqZp2ERRHdCUWkX3mzVObwgZ3RcqAK0KSC6PFlw8Q2evew10pWW2ZPCOzVyBXLx5upxu84p2F947eP2k8zQ"
 // request to get accessToken
 async function getAccessToken() {
-    if (process.env.NODE_ENV == "production") {
+    if (process.env.NODE_ENV == "test") {
+        return
+    } else {
         await axios.post("https://api.petfinder.com/v2/oauth2/token", tokenAuth)
             .then((result) => {
                 accessToken = result.data.access_token
