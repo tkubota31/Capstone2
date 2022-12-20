@@ -1,4 +1,3 @@
-process.env.NODE_ENV = "production"
 const express = require("express")
 const router = new express.Router()
 const axios = require("axios")
