@@ -31,8 +31,10 @@ function PetType(){
 
 
     useEffect(() =>{
+        setPetType(petType)
         getAllPetTypes()
         renderPetType(petType)
+        console.log(petType)
     },[petType]);
 
 
@@ -54,6 +56,7 @@ function PetType(){
             fontSize: 100 / (window.innerWidth / 100)
         }
     }
+
 
    return (
     <div>

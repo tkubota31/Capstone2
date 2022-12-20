@@ -17,26 +17,21 @@ function PetCard({id,name, type, breed, gender, age, spayed_neutered, color, des
     const navigate = useNavigate();
 
     useEffect(function updatedFavoritedStatus(){
-        console.log("INSIDE updated favoritedstatus ")
         updatedFavoritedPets(currentUser)
         setFavorited(hasFavoritedPet(id));
-        console.log(favorited)
     }, []);
 
     async function updatedFavoritedPets(currentUser){
         let response = await PetApi.getAllFavPets(currentUser)
-        console.log(response)
         response.map((pet) =>{
             favArray.push(parseInt(pet.pet_id))
         })
-        console.log(favArray)
         setFavorited(favArray.includes(id))
     }
 
 
     //add pet as favorite
     async function handleFavorite(evt){
-        console.log("HANDLE FAVORITE")
         if(hasFavoritedPet(id)) return;
         favoritePet(id)
         setFavorited(true);
@@ -46,7 +41,7 @@ function PetCard({id,name, type, breed, gender, age, spayed_neutered, color, des
     return(
         <div style = {{display:"flex"}}>
             <Card className= "petcard-card">
-                <Card.Img className= "petcard-img" variant = "top" src={image_url} alt="Pet Picture" />
+                <Card.Img className= "petcard-img" variant = "top" src={image_url} alt="No Picture Available" />
                 <Card.Title className= "petcard-title">{name}</Card.Title>
                 <ListGroup className="petcard-list" variant="flush">
                     <ListGroup.Item>Pet Type: {type}</ListGroup.Item>

@@ -1,3 +1,4 @@
+process.env.NODE_ENV = "production"
 const express = require("express")
 const router = new express.Router()
 const axios = require("axios")
@@ -7,6 +8,7 @@ const { ensureLoggedIn } = require("../middleware/auth")
 const jsonschema = require("jsonschema");
 const favPetSchema = require("../schemas/favPet.json");
 const app = require("../app")
+
 
 
 const tokenAuth = {
@@ -19,10 +21,14 @@ let accessToken = "";
 // let accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1aXhIOE1PVkduUXg2cGU1V1ozbzhNWGJjaTI3RlVvbHJ0dUdGMzd1SjRFMmZGbkpvbCIsImp0aSI6ImZmNGM5NDkxMTE3OWNkMTY2MmJmY2QzYmQzMGVjZjFmN2IzYmE5ZGY2NzM2ZDkzYzA5ZDYyYTExNTFmNTVkZWFlNzAxNGQ5M2I3YjQyM2UyIiwiaWF0IjoxNjY5NTcyOTk1LCJuYmYiOjE2Njk1NzI5OTUsImV4cCI6MTY2OTU3NjU5NCwic3ViIjoiIiwic2NvcGVzIjpbXX0.PFWzicPaAu4R4CFLr_JwDRw21jBNpjYfyOD47oHRL0sRcdJot3o1yXj0lkYK_3oKk4j5RnoVRdu2Q_jPf7Z9QA5QUYfPKA-khCeEoZhJgUL_O0_m5YGS63aer3-0PPhgS_5k1zbpjN8_XadP-9gF2kLyhVYBljHpqbAY7oZuZMvyKsexZidQAB0Fz3jYVImBEG_bAz5IQzMYIqrcSScghu22-OUNjC8F2oH7sgYj0_y-nldJEF1PDrqJfqd7hbcNKIEAqZp2ERRHdCUWkX3mzVObwgZ3RcqAK0KSC6PFlw8Q2evew10pWW2ZPCOzVyBXLx5upxu84p2F947eP2k8zQ"
 // request to get accessToken
 async function getAccessToken() {
-    await axios.post("https://api.petfinder.com/v2/oauth2/token", tokenAuth)
-        .then((result) => {
-            accessToken = result.data.access_token
-        })
+    console.log("GET ACCESSTOKEN")
+    console.log(process.env.NODE_ENV)
+    if (process.env.NODE_ENV == "production") {
+        await axios.post("https://api.petfinder.com/v2/oauth2/token", tokenAuth)
+            .then((result) => {
+                accessToken = result.data.access_token
+            })
+    }
 }
 
 
@@ -53,7 +59,7 @@ const retry = async (fn) => {
 }
 
 
-// makes ensureLoggedIn method run for every route that has /pets
+// get accessToken
 router.use("/*", async (req, res, next) => {
     console.log("STAR PATH***")
     if (!accessToken) {
@@ -103,38 +109,6 @@ router.get("/search", ensureLoggedIn, async (req, res, next) => {
             })
     })
 })
-//     try {
-//         const { type, breed, gender, age, color, location } = req.query;
-//         const filterObj = {
-//             type,
-//             breed,
-//             gender,
-//             age,
-//             color,
-//             location
-//         }
-//         console.log(filterObj)
-
-//         //if query param is undefined, delete it so that it will not go into the url
-//         for (let key in filterObj) {
-//             console.log(key, filterObj[key])
-//             if (filterObj[key] === undefined || filterObj[key] === "") {
-
-//                 delete filterObj[key]
-//             }
-//         }
-
-//         let newUrl = new URLSearchParams(filterObj).toString()
-//         await axios.get(`${apiURL}/animals/?${newUrl}`, res.locals.config)
-//             // console.log(`${apiURL}/animals?breed${breed ? `= ${breed}` : "="}&gender=${gender}&age=${age}&color=${color}&location${location}`)
-//             // await axios.get(`${apiURL}/animals?breed=${breed}&gender=${gender}&age=${age}&color=${color}&location=${location}`,config)
-//             .then((result) => {
-//                 res.json(result.data)
-//             })
-//     } catch (e) {
-//         next(e)
-//     }
-// })
 
 //This route gives the user all of the pets of the pet type of their choice
 router.get('/', ensureLoggedIn, async (req, res, next) => {
@@ -148,29 +122,15 @@ router.get('/', ensureLoggedIn, async (req, res, next) => {
             })
     })
 })
-// try {
-//     const { type } = req.query;
-//     //Figure out how to get user to decide query params
-//     await axios.get(`${apiURL}/animals?type=${type}`, res.locals.config)
-//         .then((result) => {
-//             let petSearch = result.data
-//             res.json(petSearch)
-//         })
-// } catch (e) {
-//     console.log(e.statusCode)
-//     if (e.statusCode === 401)
-//         next(e)
-// }
+
 
 //Create favorite for the user and put in database
 router.post("/favorite/:id/:username", async (req, res, next) => {
-    await retry(()=>{
+    await retry(() => {
         const id = req.params.id;
         const username = req.params.username;
-        console.log(req.user)
-            axios.get(`${apiURL}/animals/${id}`, res.locals.config)
+        axios.get(`${apiURL}/animals/${id}`, res.locals.config)
             .then((result) => {
-                console.log("***INSIDE AWAIT REQUEST")
                 let favPet = result.data.animal
                 let data = {
                     pet_id: favPet.id,
@@ -186,57 +146,18 @@ router.post("/favorite/:id/:username", async (req, res, next) => {
                     image_url: favPet.primary_photo_cropped.full ? favPet.primary_photo_cropped.full : "Unavailable",
                     organization_id: favPet.organization_id,
                     user_username: username
-
                 }
-                console.log(data)
                 const validator = jsonschema.validate(data, favPetSchema);
-                console.log(validator)
                 if (!validator.valid) {
                     const errs = validator.errors.map(e => e.stack);
-                    return next(errs)
+                    console.error('validator errors:', errs)
+                    return res.status(400).json({ error: errs });
+                    // return next(errs)
                 }
                 Pet.create(data)
                 return res.status(201).json({ data })
             })
     })
-    // try {
-    //     console.log("BACKEND FAV PET ROUTE")
-    //     const id = req.params.id;
-    //     const username = req.params.username
-    //     await axios.get(`${apiURL}/animals/${id}`, res.locals.config)
-    //         .then(result => {
-    //             console.log("INSIDE AXIOS BACKEND")
-    //             let favPet = result.data.animal
-    //             let data = {
-    //                 pet_id: favPet.id,
-    //                 name: favPet.name,
-    //                 type: favPet.type,
-    //                 breed: favPet.breeds.primary,
-    //                 gender: favPet.gender,
-    //                 age: favPet.age,
-    //                 spayed_neutered: favPet.attributes.spayed_neutered,
-    //                 color: favPet.colors.primary ? favPet.colors.primary : "Unknown",
-    //                 description: favPet.description,
-    //                 location: favPet.contact.address.state,
-    //                 image_url: favPet.primary_photo_cropped.full ? favPet.primary_photo_cropped.full : "Unavailable",
-    //                 organization_id: favPet.organization_id,
-    //                 user_username: username
-
-    //             }
-    //             const validator = jsonschema.validate(data, favPetSchema);
-    //             // console.log(validator)
-    //             if (!validator.valid) {
-    //                 const errs = validator.errors.map(e => e.stack);
-    //                 return next(errs)
-    //             }
-    //             console.log(data)
-    //             Pet.create(data)
-    //             return res.status(201).json({ data })
-    //         })
-
-    // } catch (e) {
-    //     next(e)
-    // }
 })
 
 //return info on single animal type, (so i can grab all possible colors)
@@ -249,69 +170,32 @@ router.get("/onetype/:type", async (req, res, next) => {
             })
     })
 })
-    // try {
-    //     const type = req.params.type;
-    //     await axios.get(`${apiURL}/types/${type}`, res.locals.config)
-    //         .then(result => {
-    //             res.json(result.data)
-    //         })
-    // } catch (e) {
-    //     next(e)
-    // }
 
 
 //Lists all available types of pets
-router.get("/types", ensureLoggedIn, async (req, res, next) => {
+router.get("/types", async (req, res, next) => {
     await retry(() => {
-        console.log("*********TYPES OF PETS LOADED******")
-        console.log(res.locals.config)
-            axios.get(`${apiURL}/types`, res.locals.config)
+        axios.get(`${apiURL}/types`, res.locals.config)
             .then(result => {
                 // console.log(result)
                 res.json(result.data.types)
             })
     })
-
-    // let tryCount = 0;
-    // while (tryCount < 3) {
-    //     try {
-    // return axios.get(`${apiURL}/types`, res.locals.config)
-    // .then(result => {
-    //     // console.log(result)
-    //     res.json(result.data.types)
-    //     } catch (e) {
-    //         tryCount++
-    //         if(tryCount === 2){
-    //             next(e)
-    //         }
-    //         if (e.response.status === 401) {
-    //             await getAccessToken()
-    //         }
-    //         console.log(e.response.status)
-    //         console.log("*****")
-
-    //     }
-    // }
 })
 
 
 
 //get a specific pet from API with their ID
 router.get('/:id', ensureLoggedIn, async (req, res, next) => {
-    await retry(() =>{
+    await retry(() => {
         const id = req.params.id;
-            axios.get(`${apiURL}/animals/${id}`, res.locals.config)
-            .then(result => { res.json(result.data.animal)
+        axios.get(`${apiURL}/animals/${id}`, res.locals.config)
+            .then(result => {
+                res.json(result.data.animal)
+            })
     })
-    // try {
-    //     const id = req.params.id;
-    //     await axios.get(`${apiURL}/animals/${id}`, res.locals.config)
-    //         .then(result => { res.json(result.data.animal) })
-    // } catch (e) {
-    //     next(e)
-    // }
 })
-})
+
 //trying to get pet from fav table to check if already there
 // router.get("/:id/:username", async (req,res,next) =>{
 //     try{
@@ -323,69 +207,41 @@ router.get('/:id', ensureLoggedIn, async (req, res, next) => {
 // })
 
 
-
 //route to list all breeds of certain animal type
 router.get("/breeds/:type", ensureLoggedIn, async (req, res, next) => {
-    await retry(()=>{
+    await retry(() => {
         const type = req.params.type;
         axios.get(`${apiURL}/types/${type}/breeds`, res.locals.config)
             .then(result => {
                 let allBreeds = result.data
                 res.json(allBreeds)
-    })
+            })
     })
 })
-    // try {
-    //     const type = req.params.type;
-    //     await axios.get(`${apiURL}/types/${type}/breeds`, res.locals.config)
-    //         .then(result => {
-    //             let allBreeds = result.data
-    //             res.json(allBreeds)
-    //         })
-    // } catch (e) {
-    //     return next(e)
-    // }
 
 
 //route to get all pets that are favorited
 router.get("/favorite/:username", async (req, res, next) => {
-    await retry(async ()=>{
+    await retry(async () => {
         const username = req.params.username;
         const result = await Pet.getAllFavPet(username);
         return res.json({ result })
     })
 
-    // try {
-    //     const username = req.params.username;
-    //     const result = await Pet.getAllFavPet(username);
-    //     return res.json({ result })
-    // } catch (e) {
-    //     return next(e)
-    // }
 })
 
 
 //route to get company info about the pet
 router.get("/company/:orgId", ensureLoggedIn, async (req, res, next) => {
-    await retry(() =>{
+    await retry(() => {
         const orgId = req.params.orgId
         axios.get(`${apiURL}/organizations/${orgId}`, res.locals.config)
             .then(result => {
                 let orgInfo = result.data
                 res.json(orgInfo)
+            })
     })
 })
-})
-    // try {
-    //     const orgId = req.params.orgId
-    //     await axios.get(`${apiURL}/organizations/${orgId}`, res.locals.config)
-    //         .then(result => {
-    //             let orgInfo = result.data
-    //             res.json(orgInfo)
-    //         })
-    // } catch (e) {
-    //     return next(e)
-    // }
 
 
 //route to check if pet is already in favorites table
@@ -399,20 +255,25 @@ router.get("/company/:orgId", ensureLoggedIn, async (req, res, next) => {
 //     }
 // })
 
-//delete dog based on id and username
-router.delete("/favorite/:id/:username", ensureLoggedIn, async (req, res, next) => {
+//delete pet based on id and username
+router.delete("/favorite/:id/:username", async (req, res, next) => {
     await retry(async () => {
         console.log("INSIDE BACKEND DELETE ROUTE")
         await Pet.delete(req.params.id, req.params.username)
         return res.json({ msg: "Deleted" })
     })
-    // try {
-    //     console.log("INSIDE BACKEND DELETE ROUTE")
-    //     await Pet.delete(req.params.id, req.params.username)
-    //     return res.json({ msg: "Deleted" })
-    // } catch (e) {
-    //     return next(e)
-    // }
+})
+
+router.post("/test", async (req, res, next) => {
+    try {
+        const unchTest = {
+            Dog: "Lucky",
+            Cat: "Kaia"
+        }
+        return res.status(201).json(unchTest)
+    } catch (e) {
+
+    }
 })
 
 
