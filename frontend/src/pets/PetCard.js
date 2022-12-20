@@ -2,10 +2,7 @@ import React, {useContext, useState, useEffect} from "react"
 import UserContext from "../auth/UserContext";
 import Card from "react-bootstrap/Card"
 import ListGroup from "react-bootstrap/ListGroup"
-import Button from "react-bootstrap/Button"
-import CompanyDetail from "../company/CompanyDetail"
-import {Container, Nav, Navbar} from "react-bootstrap"
-import {Link, NavLink, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import "../css/PetCard.css"
 import PetApi from "../api";
 
@@ -32,6 +29,7 @@ function PetCard({id,name, type, breed, gender, age, spayed_neutered, color, des
 
     //add pet as favorite
     async function handleFavorite(evt){
+        console.log()
         if(hasFavoritedPet(id)) return;
         favoritePet(id)
         setFavorited(true);

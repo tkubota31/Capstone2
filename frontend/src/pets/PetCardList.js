@@ -22,7 +22,7 @@ function PetCardList({pets}){
                     spayed_neutered={pet.attributes.spayed_neutered}
                     color={pet.colors.primary}
                     location={pet.contact.address.state}
-                    image_url={pet.primary_photo_cropped?.full ? pet.primary_photo_cropped.full : "Not Found"}
+                    image_url={pet.primary_photo_cropped !== null ? pet.primary_photo_cropped.full : "https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=6&m=1216251206&s=612x612&w=0&h=G8kmMKxZlh7WyeYtlIHJDxP5XRGm9ZXyLprtVJKxd-o="}
                     organization_id={pet.organization_id}
                 />
 

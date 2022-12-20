@@ -131,6 +131,7 @@ router.post("/favorite/:id/:username", async (req, res, next) => {
         axios.get(`${apiURL}/animals/${id}`, res.locals.config)
             .then((result) => {
                 let favPet = result.data.animal
+                console.log(favPet)
                 let data = {
                     pet_id: favPet.id,
                     name: favPet.name,
@@ -142,7 +143,7 @@ router.post("/favorite/:id/:username", async (req, res, next) => {
                     color: favPet.colors.primary ? favPet.colors.primary : "Unknown",
                     description: favPet.description,
                     location: favPet.contact.address.state,
-                    image_url: favPet.primary_photo_cropped.full ? favPet.primary_photo_cropped.full : "Unavailable",
+                    image_url: favPet.primary_photo_cropped !== null ? favPet.primary_photo_cropped.full : "https://media.istockphoto.com/vectors/no-image-available-icon-vector-id1216251206?k=6&m=1216251206&s=612x612&w=0&h=G8kmMKxZlh7WyeYtlIHJDxP5XRGm9ZXyLprtVJKxd-o=",
                     organization_id: favPet.organization_id,
                     user_username: username
                 }

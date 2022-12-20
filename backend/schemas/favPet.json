@@ -81,7 +81,6 @@
                     ]
                 },
                 "description": {
-                    "type": "string",
                     "default": "",
                     "title": "The description Schema",
                     "examples": [
@@ -97,7 +96,6 @@
                     ]
                 },
                 "image_url": {
-                    "type": "string",
                     "default": "",
                     "title": "The image_url Schema",
                     "examples": [
