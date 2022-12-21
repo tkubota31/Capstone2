@@ -6,15 +6,6 @@ const axios = require("axios")
 
 jest.mock('axios');
 
-
-
-
-// const mock = jest.fn(()=>)
-// jest.fn(getAccessToken)
-
-// getAccessToken.mockImplementation(()=>{ })
-
-
 const { commonBeforeAll, commonAfterAll, commonAfterEach, commonBeforeEach } = require("./_testCommon")
 
 beforeAll(commonBeforeAll);

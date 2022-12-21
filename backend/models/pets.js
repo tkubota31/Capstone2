@@ -19,7 +19,7 @@ class Pet{
                                                         organization_id,
                                                         user_username)
                                     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
-                                    RETURNING pet_id, name, type, breed, gender,age,spayed_neutered,color,description,location,image_url,organization_id`,
+                                    RETURNING pet_id, name, type, breed, gender,age,spayed_neutered,color,description,location,image_url,organization_id,user_username`,
                                     [
                                         data.pet_id,
                                         data.name,
@@ -39,7 +39,6 @@ class Pet{
     }
 
     static async getPet(id){
-        console.log("bACKEN GETPET")
         console.log(id)
         const result = await db.query(
             `SELECT pet_id,
