@@ -39,7 +39,6 @@ class Pet{
     }
 
     static async getPet(id){
-        console.log(id)
         const result = await db.query(
             `SELECT pet_id,
                     name,
