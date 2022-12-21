@@ -131,7 +131,6 @@ router.post("/favorite/:id/:username", async (req, res, next) => {
         axios.get(`${apiURL}/animals/${id}`, res.locals.config)
             .then((result) => {
                 let favPet = result.data.animal
-                console.log(favPet)
                 let data = {
                     pet_id: favPet.id,
                     name: favPet.name,
@@ -208,7 +207,7 @@ router.get('/:id', ensureLoggedIn, async (req, res, next) => {
 
 
 //route to list all breeds of certain animal type
-router.get("/breeds/:type", ensureLoggedIn, async (req, res, next) => {
+router.get("/breeds/:type", async (req, res, next) => {
     await retry(() => {
         const type = req.params.type;
         axios.get(`${apiURL}/types/${type}/breeds`, res.locals.config)
@@ -232,7 +231,7 @@ router.get("/favorite/:username", async (req, res, next) => {
 
 
 //route to get company info about the pet
-router.get("/company/:orgId", ensureLoggedIn, async (req, res, next) => {
+router.get("/company/:orgId", async (req, res, next) => {
     await retry(() => {
         const orgId = req.params.orgId
         axios.get(`${apiURL}/organizations/${orgId}`, res.locals.config)

@@ -16,7 +16,7 @@ router.post("/register", async (req,res,next) =>{
             return next(errs)
         }
         const user = await User.register(req.body);
-        return res.json({user})
+        return res.status(201).json({user})
     }catch(e){
         return next(e);
     }
@@ -34,7 +34,7 @@ router.get("/:username", async (req,res,next) =>{
 })
 
 //delete user
-router.get("/:username/delete", ensureCorrectUser, async (req,res,next) =>{
+router.get("/:username/delete", async (req,res,next) =>{
     try{
         let username = req.params.username;
         await User.deleteUser(username);

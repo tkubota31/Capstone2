@@ -33,8 +33,6 @@ class User{
             WHERE username = $1`,
             [username],
         );
-
-        console.log("duplicat", dupCheck)
         if(dupCheck.rows[0]){
             throw new ExpressError("Username already taken", 401)
         }
@@ -75,22 +73,22 @@ class User{
             WHERE username = $1`,
             [username]
         );
-            console.log(userRes)
         const user = userRes.rows[0];
 
         if(!user){
             throw new ExpressError("User not found", 404)
         }
+        //got rid of favorites table!
+        // grab the favorites of that user
+        // const userFavorites = await db.query(
+        //     `SELECT favorites.pet_id
+        //     FROM favorites
+        //     WHERE favorites.username = $1`,
+        //     [username]
+        // );
 
-        //grab the favorites of that user
-        const userFavorites = await db.query(
-            `SELECT favorites.pet_id
-            FROM favorites
-            WHERE favorites.username = $1`,
-            [username]
-        );
+        // user.favorites = userFavorites.rows.map(f => f.pet_id);
 
-        user.favorites = userFavorites.rows.map(f => f.pet_id);
         return user;
     }
 

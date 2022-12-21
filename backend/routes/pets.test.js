@@ -26,6 +26,7 @@ afterAll(commonAfterAll);
 describe("GET /pets/favorite/:username", function () {
     test("get pet when favorited", async function () {
         const response = await request(app).get(`/pets/favorite/testuser`);
+        expect(response.statusCode).toEqual(200)
         expect(response.body).toEqual({
             result: [{
                 pet_id: "1",
@@ -189,13 +190,14 @@ describe("GET /pets/types", function () {
             }
         )
         const response = await request(app).get("/pets/types")
+        expect(response.statusCode).toEqual(200)
         expect(response._body[0].name).toEqual("Rabbit")
         expect(response._body[1].name).toEqual("Bird")
 
     })
 })
 
-
+//make sure post requests work
 describe("POST pets/test", function () {
     test("testing post route", async function () {
         const response = await request(app).post("/pets/test")
@@ -206,6 +208,7 @@ describe("POST pets/test", function () {
         })
     })
 })
+
 // CREATE PETS
 describe("POST /pets/favorite/:id/:username", function () {
     test("create pet when favorited", async function () {
@@ -299,5 +302,97 @@ describe("POST /pets/favorite/:id/:username", function () {
             .post('/pets/favorite/123/testuser')
             .send({})
         expect(response.statusCode).toEqual(400);
+    })
+})
+
+describe("GET /pets/breeds/:type", function () {
+    test("get all breeds of certain type", async function () {
+        axios.get.mockResolvedValue(
+            {
+                data: {
+                    "breeds": [
+                        {
+                            "name": "Affenpinscher",
+                            "_links": {
+                                "type": {
+                                    "href": "/v2/types/dog"
+                                }
+                            }
+                        }
+                    ]
+                }
+            })
+        const response = await request(app).get('/pets/breeds/dog')
+        expect(response.statusCode).toEqual(200)
+        expect(response._body.breeds[0].name).toEqual("Affenpinscher")
+    })
+})
+
+describe("GET /pets/company/:orgId", function () {
+    test("get info about specific company", async function () {
+        axios.get.mockResolvedValue(
+            {
+                data: {
+                    "organization": {
+                        "id": "NJ333",
+                        "name": "NJ333 - Petfinder Test Account",
+                        "email": "no-reply@petfinder.com",
+                        "phone": "555-555-5555",
+                        "address": {
+                            "address1": "Test address 1",
+                            "address2": "Test address 2",
+                            "city": "Jersey City",
+                            "state": "NJ",
+                            "postcode": "07097",
+                            "country": "US"
+                        },
+                        "hours": {
+                            "monday": null,
+                            "tuesday": null,
+                            "wednesday": null,
+                            "thursday": null,
+                            "friday": null,
+                            "saturday": null,
+                            "sunday": null
+                        },
+                        "url": "https://www.petfinder.com/member/us/nj/jersey-city/nj333-petfinder-test-account/?referrer_id=d7e3700b-2e07-11e9-b3f3-0800275f82b1",
+                        "website": null,
+                        "mission_statement": null,
+                        "adoption": {
+                            "policy": null,
+                            "url": null
+                        },
+                        "social_media": {
+                            "facebook": null,
+                            "twitter": null,
+                            "youtube": null,
+                            "instagram": null,
+                            "pinterest": null
+                        },
+                        "photos": [
+                            {
+                                "small": "https://photos.petfinder.com/photos/organizations/124/1/?bust=1546042081&width=100",
+                                "medium": "https://photos.petfinder.com/photos/organizations/124/1/?bust=1546042081&width=300",
+                                "large": "https://photos.petfinder.com/photos/organizations/124/1/?bust=1546042081&width=600",
+                                "full": "https://photos.petfinder.com/photos/organizations/124/1/?bust=1546042081"
+                            }
+                        ],
+                        "distance": null,
+                        "_links": {
+                            "self": {
+                                "href": "/v2/organizations/nj333"
+                            },
+                            "animals": {
+                                "href": "/v2/animals?organization=nj333"
+                            }
+                        }
+                    }
+                }
+            }
+        )
+        const response = await request(app).get("/pets/company/NJ333")
+        console.log(response._body)
+        expect(response.statusCode).toEqual(200)
+        expect(response._body.organization.name).toEqual("NJ333 - Petfinder Test Account")
     })
 })
