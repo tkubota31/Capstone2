@@ -1,4 +1,6 @@
 const db = require("../db")
+const { BCRYPT_WORK_FACTOR } = require("../config")
+const bcrypt = require("bcrypt");
 
 async function commonBeforeAll() {
 
@@ -46,11 +48,15 @@ async function commonBeforeAll() {
                 last_name,
                 email)
             VALUES ('testUser',
-                'testPassword',
+                $1,
                 'testFirstName',
                 'testLastName',
                 'test@Email.com')
-        `)
+            RETURNING username`,
+            [
+                await bcrypt.hash("testPassword", BCRYPT_WORK_FACTOR)
+            ]
+        );
 }
 
 async function commonBeforeEach() {
