@@ -64,17 +64,16 @@ class User{
 
     static async getUser(username){
         const userRes = await db.query(
-            `SELECT (username,
+            `SELECT username,
                     password,
                     first_name,
                     last_name,
-                    email)
+                    email
             FROM users
             WHERE username = $1`,
             [username]
         );
         const user = userRes.rows[0];
-
         if(!user){
             throw new ExpressError("User not found", 404)
         }
@@ -92,7 +91,7 @@ class User{
         return user;
     }
 
-    //add to favorite
+    //add to favorite, not using
     static async addPetFav(username, petId){
         const petCheck = await db.query(
             `SELECT pet_id

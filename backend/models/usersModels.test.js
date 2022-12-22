@@ -66,3 +66,38 @@ describe("Create a new user", function () {
     }
   })
 })
+
+
+describe("Get User with username", function(){
+  test("succesfully get user", async function(){
+    const user = await User.getUser("testUser")
+    expect(user.username).toEqual("testUser")
+     })
+
+  test("throw error if user not found", async function(){
+    try{
+      await User.getUser("fakeUser")
+    }catch(e){
+      expect(e instanceof ExpressError)
+      expect(e.status).toEqual(404)
+    }
+  })
+})
+
+describe("Delete User", function(){
+  test("delete user using username", async function(){
+    await User.deleteUser("testUser")
+    const userCheck = await db.query(
+      "SELECT username FROM users WHERE username = 'testUser'")
+    expect(userCheck.rows.length).toEqual(0)
+  })
+
+  test("throw error if user not found", async function(){
+    try{
+      await User.deleteUser("fakeUser")
+    }catch(e){
+      expect(e.status).toEqual(404)
+      expect(e instanceof ExpressError).toBeTruthy()
+    }
+  })
+})
