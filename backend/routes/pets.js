@@ -45,11 +45,12 @@ const retry = async (fn) => {
         try {
             return await fn();
         } catch (e) {
+            console.log("RETRY FUNCTION", e.status)
             tryCount++
             if (tryCount === 2) {
-                next(e)
+                return(e)
             }
-            if (e.response.status === 401) {
+            if (e.status === 404) {
                 console.log("no token")
                 await getAccessToken()
             }

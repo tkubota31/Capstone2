@@ -1,7 +1,9 @@
 import React from "react"
-import { render} from '@testing-library/react';
-import App from './App';
+import { render } from '@testing-library/react';
+import App from "./App"
 
-it("renders without crashing", function(){
-  render(<App />)
+describe("Render App component", function(){
+  test("Does App render correctly", function(){
+    render(<App />)
+  })
 })

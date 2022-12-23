@@ -24,7 +24,7 @@ function Navigation({logout}){
                         <Nav className= "me-auto">
                             <Nav.Link href="/"> Homepage </Nav.Link>
                             <Nav.Link href="/favorites"> Favorites </Nav.Link>
-                            <Nav.Link href="/" onClick={() => logout()}> Log Out: {currentUser}</Nav.Link>
+                            <Nav.Link href="/" onClick={logout}> Log Out: {currentUser}</Nav.Link>
                         </Nav>
                     </Container>
                 </Navbar>

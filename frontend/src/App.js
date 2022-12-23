@@ -7,7 +7,6 @@ import LoadingPage from "./general/LoadingPage"
 import Navigation from "./routes-nav/Navigation"
 import jwt_decode from "jwt-decode"
 
-
 function App() {
   const [token, setToken] = useState(null)
   const [currentUser, setCurrentUser] = useState(null);
@@ -54,6 +53,7 @@ function App() {
 
     async function login(data){
       try{
+        setCurrentUser(data.username)
         let token = await PetApi.login(data);
         localStorage.setItem("token",token)
         setToken(token)
@@ -69,6 +69,7 @@ function App() {
       setCurrentUser(null);
       localStorage.removeItem("token")
       setToken(null)
+
     }
 
     function hasFavoritedPet(id){

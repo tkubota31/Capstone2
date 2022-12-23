@@ -37,8 +37,8 @@ function RegisterationForm ({register}){
 
       return(
         <div className="RegisterationForm">
+        <h3 className="mb-3">Register Here</h3>
         <div className="container col-md-6 offset-md-3 col-lg-4 offset-lg-4">
-            <h3 className="mb-3">Register Here</h3>
             <div className="card">
                <div className="card-body">
                 <form onSubmit={handleSubmit}>
