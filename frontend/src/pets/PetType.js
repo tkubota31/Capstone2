@@ -51,6 +51,7 @@ function PetType(){
 
     if(!types) return <LoadingPage />
 
+
     const buttonStyle = (type) => {
         return {
             background: petType === type.name ? "yellow" : "",

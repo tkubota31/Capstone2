@@ -2,16 +2,13 @@
 process.env.NODE_ENV = "test"
 
 import React from "react"
-import {BrowserRouter} from "react-router-dom"
 import { render, waitFor, screen } from '@testing-library/react';
-import PetCard from "./PetCard"
 import PetType from "./PetType"
 import PetApi from "../api";
-import {UserProvider} from "../testUtils"
+import LoadingPage from "../general/LoadingPage"
 
 jest.mock("../api");
 
-let demoUser = "testTaioh"
 
 describe("PetCard component", function(){
     beforeEach(() => jest.clearAllMocks())
@@ -59,43 +56,12 @@ describe("PetCard component", function(){
         })
     })
 
-    // test("should match snapshot", async function (){
-    //    const {asFragment } =  render(<Homepage/>)
-    //    expect(asFragment()).toMatchSnapshot();
-
-// })
-
-// test("testing queries", function(){
-//     const {getByTest} = render(<PetCard />)
-//     getByTest("Pet Type")
-// })
-
-// })
-
-    // test("Matches snapshot", function (){
-    //     let testCard = {
-    //         id: "testId",
-    //         name: "testName",
-    //         type: "testType",
-    //         breed: "testBreed",
-    //         gender: "testGender",
-    //         age: "testAge",
-    //         spayed_neutered: "testSpayed",
-    //         color:"testColor",
-    //         description: "testDescription",
-    //         location: "testLocation",
-    //         image_url: "testUrl",
-    //         organization_id: "testOrg"
-    //     }
-
-    //     const { asFragment } = render(
-    //     <BrowserRouter>
-    //         <UserProvider>
-    //             <PetCard testCard= {testCard}/>
-    //         </UserProvider>
-    //     </BrowserRouter>
-    //     )
-
-    //     expect(asFragment()).toMatchSnapshot();
-    // })
+    test("Error when api fails", async () =>{
+        PetApi.allPetTypes.mockRejectedValue({});
+        render(<LoadingPage />)
+        expect(PetApi.allPetTypes).toHaveBeenCalledTimes(0);
+        await waitFor(()=>{
+            screen.getByText("Loading...")
+        })
+    })
 })

@@ -68,6 +68,7 @@ class PetApi{
             let response = await axios.get(`${BASE_URL}/pets/types`, {params:{_token: localStorage.getItem("token")}})
             return response.data
         }catch(e){
+            console.log("****ERROR****")
             console.log(e)
         }
     }
