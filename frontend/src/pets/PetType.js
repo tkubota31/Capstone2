@@ -45,6 +45,7 @@ function PetType(){
 
     async function getAllPetTypes(){
         let allTypes = await PetApi.allPetTypes()
+        console.log("ALLTYPES", allTypes)
         setTypes(allTypes)
     }
 
