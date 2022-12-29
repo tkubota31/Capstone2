@@ -85,6 +85,7 @@ class PetApi{
 
     //get pet based on filters
     static async petFilter(type,breed,gender,age,color,location){
+        console.log("MADE IT HERE")
         try{
             console.log(type)
             let response = await axios.get(`${BASE_URL}/pets/search`, {params: {type,breed,gender,age,color,location,_token: localStorage.getItem("token")}});
