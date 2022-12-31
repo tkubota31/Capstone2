@@ -6,10 +6,6 @@ import { render,fireEvent, waitFor, screen } from '@testing-library/react';
 import PetType from "./PetType"
 import PetApi from "../api";
 import LoadingPage from "../general/LoadingPage"
-import PetSearch from "./PetSearch"
-import PetCard from "./PetCard"
-import PetCardList from "./PetCardList"
-import {UserProvider} from "../testUtils"
 
 jest.mock("../api");
 
@@ -69,12 +65,6 @@ describe("PetType component", function(){
         })
     })
 
-    test("render PetSearch component", async () =>{
-        render(<PetSearch/>)
-        await waitFor(() =>{
-            screen.getByText("Search")
-        })
-    })
 
     // test("render PetCardList component", async () =>{
     //     let pets = [
@@ -182,3 +172,30 @@ describe("PetType component", function(){
     //             }
     //         }
     //    })
+
+    // describe("PetCard Component", function (){
+    //     beforeEach(() => jest.clearAllMocks())
+    //     test("Load component", async function(){
+    //         let card = {
+    //             id: 123,
+    //             name: "testName",
+    //             type: "Cat",
+    //             breed: " American Shorthair",
+    //             gender: "Female",
+    //             age: "Young",
+    //             spayed_neutered: true,
+    //             color: "Tortoiseshell",
+    //             description: "test description",
+    //             locaion: "MA",
+    //             image_url: "test@url.com",
+    //             organization_id: "testOrgId"
+    //         }
+
+    //         render(<PetCard card={card} />)
+
+    //         await waitFor(() =>{
+    //             screen.getByText("testName")
+    //         })
+
+    //     })
+    // })
