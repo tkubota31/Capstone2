@@ -2,21 +2,24 @@ const express = require("express")
 const router = new express.Router()
 const {ensureLoggedIn,ensureCorrectUser} = require("../middleware/auth")
 const User= require("../models/users");
-
 const jsonschema = require("jsonschema");
 const newUserSchema = require("../schemas/newUser.json");
-
+const {BCRYPT_WORK_FACTOR, SECRET_KEY} = require("../config")
+const jwt = require("jsonwebtoken")
 
 //create a new user
 router.post("/register", async (req,res,next) =>{
     try{
+        const {username} = req.body;
         const validator = jsonschema.validate(req.body, newUserSchema);
         if(!validator.valid){
             const errs = validator.errors.map(e=>e.stack);
             return next(errs)
         }
         const user = await User.register(req.body);
-        return res.status(201).json({user})
+        const token = jwt.sign({username}, SECRET_KEY)
+        console.log(token)
+        return res.status(201).json({user, token})
     }catch(e){
         return next(e);
     }

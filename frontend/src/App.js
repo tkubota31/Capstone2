@@ -14,9 +14,8 @@ function App() {
   const [favoritedPetsId, setFavoritedPetsId] = useState(new Set([]));
 
   useEffect(function loadUserInfo(){
-
     async function getCurrentUser(){
-      console.log(localStorage.getItem("token"))
+
       if(localStorage.getItem("token")){
         try{
           let{username} = jwt_decode(localStorage.getItem("token"));
@@ -36,7 +35,7 @@ function App() {
     //use infoloaded state to determine showing loading page or not
     setInfoLoaded(false);
     getCurrentUser()
-  }, [token]);
+  }, [token,currentUser]);
 
 
     async function register(data){
@@ -82,7 +81,6 @@ function App() {
       setFavoritedPetsId(new Set([...favoritedPetsId,id]))
     }
 
-console.log(`CURRENT USER ${currentUser}`)
     if(!infoLoaded){
       return <LoadingPage />;
     }

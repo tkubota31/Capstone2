@@ -7,7 +7,7 @@ import "../css/Homepage.css"
 function Homepage(){
     const{ currentUser } = useContext(UserContext);
 
-console.log(currentUser)
+
     return (
         <div>
             <Slider/>

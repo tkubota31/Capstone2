@@ -9,10 +9,13 @@ class PetApi{
     //sign up for website
     static async register(user){
         try{
+            console.log("PET API register function")
+            console.log(user)
             let response = await axios.post(`${BASE_URL}/users/register`,user)
             console.log(response)
+            console.log("PETAPI TOKEN",response.data.token)
             PetApi.token = response.data.token;
-            return response.token
+            return response.data.token
         } catch(e){
             console.log(e)
         }
@@ -42,7 +45,7 @@ class PetApi{
         try{
             let response = await axios.post(`${BASE_URL}/auth/login`, data);
             // console.log(`login res: ${JSON.stringify(response)}`);
-            // console.log(`token in login: ${response.data.token}`);
+            console.log(`token in login: ${response.data.token}`);
             PetApi.token = response.data.token;
             localStorage.setItem("token", PetApi.token )
             return response.data.token;

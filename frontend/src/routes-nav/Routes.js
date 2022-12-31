@@ -20,9 +20,7 @@ function AllRoutes({ login, register }) {
                             <Route path="/login"
                                    element={<LoginForm login={login} />} />
                             <Route path="/pets"
-                                   element={<SecuredRoute>
-                                                 <PetType />
-                                          </SecuredRoute>} />
+                                   element={ <PetType />} />
                             <Route path="/favorites"
                                    element={<SecuredRoute>
                                                  <PetFavorites />

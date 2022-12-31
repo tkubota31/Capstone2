@@ -56,7 +56,6 @@ class User{
                 email,
             ],
         );
-
         const user = result.rows[0]
 
         return user;

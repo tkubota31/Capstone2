@@ -33,11 +33,6 @@ async function getAccessToken() {
 
 const apiURL = "https://api.petfinder.com/v2"
 
-// let res.locals.config ={
-//     headers:{
-//         "Authorization": "Bearer " + accessToken
-//     }
-// }
 
 const retry = async (fn) => {
     let tryCount = 0;
@@ -61,11 +56,9 @@ const retry = async (fn) => {
 
 // get accessToken
 router.use("/*", async (req, res, next) => {
-    console.log("STAR PATH***")
     if (!accessToken) {
         await getAccessToken()
     }
-
     res.locals.config = {
         headers: {
             "Authorization": "Bearer " + accessToken
@@ -196,15 +189,6 @@ router.get('/:id', ensureLoggedIn, async (req, res, next) => {
     })
 })
 
-//trying to get pet from fav table to check if already there
-// router.get("/:id/:username", async (req,res,next) =>{
-//     try{
-//         const {id,username} = req.params.id;
-//         Pet.getPet()
-//     }catch(e){
-//         next(e)
-//     }
-// })
 
 
 //route to list all breeds of certain animal type
@@ -221,7 +205,7 @@ router.get("/breeds/:type", async (req, res, next) => {
 
 
 //route to get all pets that are favorited
-router.get("/favorite/:username", async (req, res, next) => {
+router.get("/favorite/:username", ensureLoggedIn, async (req, res, next) => {
     await retry(async () => {
         const username = req.params.username;
         const result = await Pet.getAllFavPet(username);
@@ -243,17 +227,6 @@ router.get("/company/:orgId", async (req, res, next) => {
     })
 })
 
-
-//route to check if pet is already in favorites table
-// router.get("/favorite/:id/:username", async (req,res,next) =>{
-//     try{
-//         const {id,username} = req.params;
-//         await Pet.getPet(id,username)
-//         return res.json({msg: "Pet Found"})
-//     }catch(e){
-//         next(e)
-//     }
-// })
 
 //delete pet based on id and username
 router.delete("/favorite/:id/:username", async (req, res, next) => {
