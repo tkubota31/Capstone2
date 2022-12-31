@@ -13,3 +13,19 @@ c. No. There will be no sensitive information that needs to be secured. The only
 D. Search box, favorites/saved, navbar, recently searched pets(?), shows recommended based on locations?
 E. user flow will be to log in/create account, then they will be brought to a homepage where you can choose to explore pets or type into a search box to filter out the specific pets you would like to see. Once the list is pulled up, users will see different pet cards to scroll through which has the basic information like photos and breed and age. Once they click on it, more information about the pet will come up and possible videos, organization, and attributes. From there they can choose to go back or save the pet to their saved data for later. There will be links to the organization the pet belongs to and contact information so if they are interested they can contact the organization to set something up.
 F. Having a search operation, user authentication. My stretch goals are for the web app to know what the user is interested in based on past search, or showing pets based on the user current location.
+
+Standard Flow:
+1. User will create an account.
+2. User will then be directed to the search page.
+3. User can select the type of pet they are searching for. (Dog, Cat, Horse, etc.)
+4. A filter form will appear allowing user to specify search.
+5. If there are matches, pets will populate and you are able to see general information about them.
+6. User will have option to favorite the pet or look into more details of the organization that has listed them.
+7. Once favorited user will be able to go to favorites page and see list of all pets that have been favorited.
+
+Technology
+-Node.js and React
+
+Testing
+-frontend testing: npm run test
+-backend testing: jest FILE-NAME
