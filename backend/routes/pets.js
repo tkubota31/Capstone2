@@ -205,7 +205,7 @@ router.get("/breeds/:type", async (req, res, next) => {
 
 
 //route to get all pets that are favorited
-router.get("/favorite/:username", ensureLoggedIn, async (req, res, next) => {
+router.get("/favorite/:username",  async (req, res, next) => {
     await retry(async () => {
         const username = req.params.username;
         const result = await Pet.getAllFavPet(username);
