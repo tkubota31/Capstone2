@@ -26,6 +26,7 @@ function FilterForm({filterSearch,type}){
             getBreeds(type)
             getColors(type)
         }
+        setFilterTerm(INITIAL_STATE)
     }, [type]);
 
     async function getColors(petType){

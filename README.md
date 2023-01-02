@@ -3,10 +3,10 @@ Project Proposal
 I will be using React and Node.js for this project
 My weak point has been in the front end so I hope to focus a little bit more on the front-end UI aspect, so it will become an evenly focused full-stack application
 This will be a website
-My project will be designed to provide accessibility and a service to users to help animals in need. Adopting a pet provides a new home for them, however people usually cannot be too picky when selecting pets from adoptions, which is why a lot of people choose not to. I hope this website will help people find what they are looking for so that they look at adoption as a great option when it comes to finding a pet. 
+My project will be designed to provide accessibility and a service to users to help animals in need. Adopting a pet provides a new home for them, however people usually cannot be too picky when selecting pets from adoptions, which is why a lot of people choose not to. I hope this website will help people find what they are looking for so that they look at adoption as a great option when it comes to finding a pet.
 The demographic of my users will be anyone of any age. Most likely from 16+.
 I will be using the petfinder API which allows me to access the database of hundreds of thousands of pets that are ready for adoption from animal welfare organizations. Users should be able to filter out their search through type, species, breeds, gender, age, etc.
-https://www.petfinder.com/developers/v2/docs/#request-structure 
+https://www.petfinder.com/developers/v2/docs/#request-structure
 a. A general look at he database schema looks likes User->Favorites->Pets->Organization
 b. The request structure for this API seems fairly straightforward and I think the only problem I will face is hitting the request limit, which seems to be 1,000/day. So it should still not pose a problem.
 c. No. There will be no sensitive information that needs to be secured. The only personal information we request from the user will be a name and email.
@@ -24,7 +24,7 @@ Standard Flow:
 7. Once favorited user will be able to go to favorites page and see list of all pets that have been favorited.
 
 Technology
--Node.js and React
+-Node.js, React, PostgreSQL, HTML, CSS
 
 Testing
 -frontend testing: npm run test
