@@ -71,7 +71,7 @@ router.use("/*", async (req, res, next) => {
 
 
 //filter out pet output
-router.get("/search", ensureLoggedIn, async (req, res, next) => {
+router.get("/search", async (req, res, next) => {
     await retry(() => {
         const { type, breed, gender, age, color, location } = req.query;
         const filterObj = {

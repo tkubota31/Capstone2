@@ -29,3 +29,6 @@ Technology
 Testing
 -frontend testing: npm run test
 -backend testing: jest FILE-NAME
+
+Deployment
+https://pet-furends-taioh.surge.sh/

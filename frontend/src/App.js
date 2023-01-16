@@ -19,7 +19,6 @@ function App() {
       if(localStorage.getItem("token")){
         try{
           let{username} = jwt_decode(localStorage.getItem("token"));
-
           //put token on pet api class
           // PetApi.token = token;
           // let currentUser = await PetApi.getCurrentUser(username);
